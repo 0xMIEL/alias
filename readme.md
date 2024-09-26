@@ -5,7 +5,7 @@
 1. [Description](#game-description)
 2. [System Requirements](#system-requirements)
 3. [Setup and Installation](#setup-and-installation)
-    - [Running the Application with Docker]()
+    - [Running the Application with Docker](#running-the-application-with-docker)
     - [Running the Application without Docker]()
 
 
@@ -42,7 +42,7 @@ The game concludes after a predetermined number of rounds, with the highest-scor
 
 2. **Configuration:**
 
-- Rename `env.dev.example` to `.env.dev` and adjust the variables as needed. The database configuration variables are already set for the Docker MongoDB database.
+- Rename `env.example` to `.env` and adjust the variables as needed. The database configuration variables are already set for the Docker MongoDB database.
 
 3. **Run script:**
 

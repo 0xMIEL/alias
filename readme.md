@@ -47,7 +47,7 @@ The game concludes after a predetermined number of rounds, with the highest-scor
 3. **Run script:**
 
 ```Bash
-npm start
+npm run docker
 ```
 
 ### Running the Application without Docker

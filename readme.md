@@ -2,26 +2,37 @@
 
 ## Content
 
-1. [Description](#game-description)
-2. [System Requirements](#system-requirements)
-3. [Setup and Installation](#setup-and-installation)
+- [Node.js-Based Game "Alias" with Chat and Word Checking](#nodejs-based-game-alias-with-chat-and-word-checking)
+  - [Content](#content)
+  - [Game Description](#game-description)
+    - [Objective](#objective)
+    - [Turns](#turns)
+    - [Scoring](#scoring)
+    - [End Game](#end-game)
+  - [System Requirements](#system-requirements)
+  - [Setup and Installation](#setup-and-installation)
     - [Running the Application with Docker](#running-the-application-with-docker)
-    - [Running the Application without Docker]()
-
+    - [Docker Setup](#docker-setup)
+    - [Running the Application without Docker](#running-the-application-without-docker)
 
 ## Game Description
+
 Alias is a word-guessing game where players form teams. Each team takes turns where one member describes a word and others guess it. The game includes a chat for players to communicate and a system to check for similar words.
 
 ### Objective
+
 Teams try to guess as many words as possible from their teammates' descriptions.
 
 ### Turns
+
 Each turn is timed. Describers cannot use the word or its derivatives.
 
 ### Scoring
+
 Points are awarded for each correct guess. Similar words are checked for validation.
 
 ### End Game
+
 The game concludes after a predetermined number of rounds, with the highest-scoring team winning.
 
 ## System Requirements
@@ -42,7 +53,7 @@ The game concludes after a predetermined number of rounds, with the highest-scor
 
 2. **Configuration:**
 
-- Rename `env.example` to `.env` and adjust the variables as needed. The database configuration variables are already set for the Docker MongoDB database.
+   - Rename `.env.example` to `.env` and adjust the variables as needed. The database configuration variables are already set for the Docker MongoDB database.
 
 3. **Run script:**
 
@@ -51,3 +62,10 @@ npm run docker
 ```
 
 ### Running the Application without Docker
+
+```Bash
+npm run dev
+
+# run application without watching files
+npm run prod
+```

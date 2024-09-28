@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { app } from './app';
+import { app } from './app.js';
 
 const defaultPort = 3000;
 const port = process.env.PORT || defaultPort;

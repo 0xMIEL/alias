@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { BookController } from './bookController';
+import { BookController } from './BookController';
 import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
-import { BookService } from './bookService';
+import { BookService } from './BookService';
 import { Book } from './Book';
 
 export const bookRouter = Router();

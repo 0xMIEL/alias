@@ -22,7 +22,7 @@ export class BookService {
   async getBookById(id: string): Promise<IBook | null> {
     if (!Types.ObjectId.isValid(id)) {
       throw new AppError(`Invalid id format: ${id}`);
-    }
+    } // można będzie stworzyć middleware function do sprawdzenia id
 
     const book = await this.Book.findById(id);
 

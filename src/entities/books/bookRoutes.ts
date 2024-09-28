@@ -13,6 +13,6 @@ const bookController = new BookController(bookService);
 bookRouter
   .route('/')
   .get(asyncErrorCatch(bookController.getAll.bind(bookController)))
-  .post(asyncErrorCatch(bookController.create.bind(bookController)));
+  .post(asyncErrorCatch(bookController.create.bind(bookController))); // bez bind nie dziła
 
 bookRouter.route('/:id').get(asyncErrorCatch(bookController.getOne.bind(bookController)));

@@ -1,6 +1,6 @@
 import express from 'express';
 import dontenv from 'dotenv';
-import { connect } from './setup/database.js';
+import { connect } from './setup/database';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console

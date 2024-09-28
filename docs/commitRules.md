@@ -1,14 +1,15 @@
-# Commit Message Guidelines
+## Commit Message Guidelines
 
-## Commit Message Format
+### Commit Message Format
 
-```text
+```
 <type>: <subject>
 <BLANK LINE>
 <body>(optional)
 <BLANK LINE>
 <footer>(optional)
 ```
+
 
 The header is mandatory, body and footer is optional. Footer should contain a closing reference to an issue if any.
 

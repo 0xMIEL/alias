@@ -17,9 +17,9 @@ const sendProductionError = (err: AppError, res: Response, statusCode: StatusCod
 export const globalErrorHandler = (err: AppError, _req: Request, res: Response, _next: NextFunction) => {
   const statusCode = err.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500;
 
-  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-    sendDevError(err, res, statusCode);
-  } else {
+  if (process.env.NODE_ENV === 'production') {
     sendProductionError(err, res, statusCode);
+  } else {
+    sendDevError(err, res, statusCode);
   }
 };

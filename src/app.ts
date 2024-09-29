@@ -4,7 +4,7 @@ import { connect } from './setup/database';
 import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
-import { bookRouter } from './entities/books/bookRoutes';
+import { userRouter } from './entities/users/UserRoutes';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -23,7 +23,7 @@ connect();
 app.use(express.json());
 
 // routes
-app.use('/api/v1/books', bookRouter);
+app.use('/api/users', userRouter); 
 
 app.get('/api/v1', (req, res, next) => {
   res.json({

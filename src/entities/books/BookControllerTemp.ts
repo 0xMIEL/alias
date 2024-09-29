@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
-import { BookService } from './BookService';
+import { BookService } from './BookServiceTemp';
 
 export class BookController {
   constructor(private bookService: BookService) {

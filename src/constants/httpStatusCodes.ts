@@ -9,3 +9,5 @@ export const HTTP_STATUS_CODES = {
   TOO_MANY_REQUESTS_429: 429,
   UNAUTHORIZED_401: 401,
 };
+
+export type StatusCode = (typeof HTTP_STATUS_CODES)[keyof typeof HTTP_STATUS_CODES];

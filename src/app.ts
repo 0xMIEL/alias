@@ -1,6 +1,10 @@
-import express from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import dontenv from 'dotenv';
 import { connect } from './setup/database';
+import { AppError } from './core/AppError';
+import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { bookRouter } from './entities/books/bookRoutes';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -18,9 +22,19 @@ connect();
 // body parser
 app.use(express.json());
 
-app.get('/', (req, res, next) => {
+// routes
+app.use('/api/v1/books', bookRouter);
+
+app.get('/api/v1', (req, res, next) => {
   res.json({
     message: 'Hello world',
     status: 'success',
   });
 });
+
+// route not found on server
+app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
+  throw new AppError(`Can't find ${req.originalUrl} on this server!`, HTTP_STATUS_CODES.NOT_FOUND_404);
+});
+
+app.use(globalErrorHandler);

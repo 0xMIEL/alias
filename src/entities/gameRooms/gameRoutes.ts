@@ -1,0 +1,26 @@
+import { Router } from 'express';
+import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
+import { GameRoomService } from './GameRoomService';
+import { GameRoom } from './GameRoom';
+import { GameRoomController } from './GameRoomController';
+import { validateId } from '../../middleware/validateId';
+
+export const gameRoomRouter = Router();
+
+gameRoomRouter.use('/:id', validateId);
+
+const gameRoomService = new GameRoomService(GameRoom);
+const gameRoomeController = new GameRoomController(gameRoomService);
+
+gameRoomRouter
+  .route('/')
+  .post(asyncErrorCatch(gameRoomeController.create.bind(gameRoomeController)))
+  .get(asyncErrorCatch(gameRoomeController.getMany.bind(gameRoomeController)));
+
+gameRoomRouter
+  .route('/:id')
+  .get(asyncErrorCatch(gameRoomeController.getOne.bind(gameRoomeController)))
+  .patch(asyncErrorCatch(gameRoomeController.update.bind(gameRoomeController)))
+  .delete(
+    asyncErrorCatch(gameRoomeController.remove.bind(gameRoomeController)),
+  );

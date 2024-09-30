@@ -16,3 +16,7 @@ export interface IGameRoom {
   status: GameRoomStatus;
   scores: Array<{ team: number; score: number }>;
 }
+
+export type IGameRoomUpdate = Partial<
+  Omit<IGameRoom, 'teamSize' | 'timePerRound' | 'roundsTotal'>
+>;

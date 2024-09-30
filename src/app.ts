@@ -4,6 +4,7 @@ import { connect } from './setup/database';
 import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -20,6 +21,8 @@ connect();
 
 // body parser
 app.use(express.json());
+
+app.use('/api/v1/gameRooms', gameRoomRouter);
 
 app.get('/', (req, res, next) => {
   res.json({

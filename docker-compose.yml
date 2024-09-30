@@ -12,7 +12,7 @@ services:
       - mongo  # Wait for MongoDB to be ready before starting the app
     volumes:
       - ./:/usr/src/app  # Bind mount local directory to /usr/src/app in the container
-    command: npm start  # Use nodemon for hot-reloading (change this if you don't use nodemon)
+    command: npm run watch  # Use nodemon for hot-reloading (change this if you don't use nodemon)
 
   mongo:
     image: mongo:latest  # Use the latest MongoDB image

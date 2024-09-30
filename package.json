@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "test": "jest",
     "test:c": "npx jest --coverage",
-    "start": "nodemon -L --files src/server.ts",
-    "docker": "docker-compose up --build",
+    "watch": "nodemon -L --files src/server.ts",
+    "start": "docker-compose up -d --build",
+    "stop": "docker-compose down",
     "format:other": "prettier --write '**/*.{js,json}'",
     "format:ts": "prettier --write '**/*.ts' --parser typescript",
     "format": "npm run format:other --silent; npm run format:ts --silent"

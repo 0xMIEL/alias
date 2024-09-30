@@ -5,10 +5,10 @@
  * @type {import("prettier").Config}
  */
 const config = {
-  tabWidth: 2,
-  semi: false,
   singleQuote: true,
-  arrowParens: 'avoid',
+  tabWidth: 2,
 }
+
+
 
 export default config

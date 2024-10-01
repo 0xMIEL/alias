@@ -1,4 +1,6 @@
 /* eslint-disable no-console */
+import dotenv from 'dotenv';
+dotenv.config();
 import { app } from './app';
 
 const defaultPort = 3000;

@@ -8,6 +8,7 @@ services:
       - "3000:3000"  # Expose port 3000 for the app
     environment:
       - MONGO_URI=mongodb://mongo:27017/mydatabase  # Set MongoDB URI
+      - JWT_SECRET=aP9kxN7wGzQ6v&rT24UeCjL8nW1sV0Z  # Set JWT secret
     depends_on:
       - mongo  # Wait for MongoDB to be ready before starting the app
     volumes:

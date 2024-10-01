@@ -23,7 +23,7 @@ connect();
 app.use(express.json());
 
 // routes
-app.use('/api/users', userRouter); 
+app.use('/api/v1/users', userRouter); 
 
 app.get('/api/v1', (req, res, next) => {
   res.json({

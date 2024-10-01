@@ -10,13 +10,13 @@ const userSchema: Schema<IUser> = new Schema({
   username: {
     required: [true, 'Username is required'],
     type: String,
-    unique: true, // Ensure usernames are unique
+    unique: true, 
   },
   email: {
     required: [true, 'Email is required'],
     type: String,
-    unique: true, // Ensure emails are unique
-    match: [/.+@.+\..+/, 'Please enter a valid email address'], // Basic email validation
+    unique: true, 
+    match: [/.+@.+\..+/, 'Please enter a valid email address'], 
   },
   password: {
     required: [true, 'Password is required'],

@@ -12,4 +12,9 @@ export class UserService {
   async findUser(email: string): Promise<IUser | null> {
     return await this.User.findOne({ email }); 
   }
+
+  async getManyUsers(): Promise<IUser[]> {
+    return await this.User.find();
+  }
+
 }

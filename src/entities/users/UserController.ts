@@ -1,15 +1,14 @@
-import { NextFunction, Request, Response } from "express";
-import { HTTP_STATUS_CODES } from "../../constants/httpStatusCodes";
-import { UserService } from "./UserService";
-import { hashPassword, comparePasswords } from "./helpers/authHelpers";
-import { generateToken } from "./helpers/jwtHelpers";
-import { AppError } from "../../core/AppError";
+import { NextFunction, Request, Response } from 'express';
+import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
+import { UserService } from './UserService';
+import { hashPassword, comparePasswords } from './helpers/authHelpers';
+import { generateToken } from './helpers/jwtHelpers';
+import { AppError } from '../../core/AppError';
 
 export class UserController {
   constructor(private userService: UserService) {
     this.userService = userService;
   }
-
 
   async register(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
@@ -17,8 +16,8 @@ export class UserController {
     const existingUser = await this.userService.findUser(email);
     if (existingUser) {
       throw new AppError(
-        "Email already registered",
-        HTTP_STATUS_CODES.BAD_REQUEST_400
+        'Email already registered',
+        HTTP_STATUS_CODES.BAD_REQUEST_400,
       );
     }
 
@@ -31,7 +30,7 @@ export class UserController {
 
     res.status(HTTP_STATUS_CODES.CREATED_201).json({
       data: newUser,
-      status: "success",
+      status: 'success',
     });
   }
 
@@ -42,13 +41,13 @@ export class UserController {
     if (user && (await comparePasswords(password, user.password))) {
       const token = generateToken(user.id);
       res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
-        status: "success",
+        status: 'success',
         token,
       });
     } else {
       res
         .status(HTTP_STATUS_CODES.UNAUTHORIZED_401)
-        .json({ status: "fail", message: "Invalid credentials" });
+        .json({ message: 'Invalid credentials', status: 'fail' });
     }
   }
 
@@ -57,7 +56,7 @@ export class UserController {
 
     res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
       data: users,
-      status: "success",
+      status: 'success',
     });
   }
 }

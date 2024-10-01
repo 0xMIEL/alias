@@ -23,7 +23,7 @@ connect();
 app.use(express.json());
 
 // routes
-app.use('/api/v1/users', userRouter); 
+app.use('/api/v1/users', userRouter);
 
 app.get('/api/v1', (req, res, next) => {
   res.json({
@@ -34,7 +34,10 @@ app.get('/api/v1', (req, res, next) => {
 
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
-  throw new AppError(`Can't find ${req.originalUrl} on this server!`, HTTP_STATUS_CODES.NOT_FOUND_404);
+  throw new AppError(
+    `Can't find ${req.originalUrl} on this server!`,
+    HTTP_STATUS_CODES.NOT_FOUND_404,
+  );
 });
 
 app.use(globalErrorHandler);

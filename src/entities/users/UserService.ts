@@ -5,16 +5,15 @@ export class UserService {
 
   async createUser(data: IUser): Promise<IUser> {
     const user = new this.User(data);
-    await user.save(); 
+    await user.save();
     return user;
   }
 
   async findUser(email: string): Promise<IUser | null> {
-    return await this.User.findOne({ email }); 
+    return await this.User.findOne({ email });
   }
 
   async getManyUsers(): Promise<IUser[]> {
     return await this.User.find();
   }
-
 }

@@ -6,8 +6,12 @@
   "scripts": {
     "test": "jest",
     "test:c": "npx jest --coverage",
-    "start": "nodemon -L --files src/server.ts",
-    "docker": "docker-compose up --build"
+    "watch": "nodemon -L --files src/server.ts",
+    "start": "docker-compose up -d --build",
+    "stop": "docker-compose down",
+    "format:other": "prettier --write '**/*.{js,json}'",
+    "format:ts": "prettier --write '**/*.ts' --parser typescript",
+    "format": "npm run format:other --silent; npm run format:ts --silent"
   },
   "keywords": [],
   "author": "Team 1",
@@ -24,6 +28,7 @@
     "globals": "^15.9.0",
     "jest": "^29.7.0",
     "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2",

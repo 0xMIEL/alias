@@ -10,11 +10,17 @@ const MAX_TIME_PER_ROUND_MINUTES = 5;
 
 const gameRoomeSchema = new Schema<IGameRoom>(
   {
-    currentRound: { required: true, type: Number },
-    hostUserId: { required: true, type: String },
+    currentRound: {
+      default: 0,
+      type: Number,
+    },
+    hostUserId: {
+      required: true,
+      type: String,
+      unique: true,
+    },
     players: [
       {
-        ref: 'User',
         team: Number,
         userId: mongoose.Types.ObjectId,
       },
@@ -27,8 +33,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     },
     scores: [
       {
-        default: 0,
-        score: Number,
+        score: { default: 0, type: Number },
         team: Number,
       },
     ],
@@ -53,5 +58,16 @@ const gameRoomeSchema = new Schema<IGameRoom>(
   },
   { timestamps: true },
 );
+
+gameRoomeSchema.pre('save', function (next) {
+  if (this.isNew) {
+    this.players.push({
+      team: 1,
+      userId: this.hostUserId,
+    });
+  }
+
+  next();
+});
 
 export const GameRoom = model<IGameRoom>('GameRoom', gameRoomeSchema);

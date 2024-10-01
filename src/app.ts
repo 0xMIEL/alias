@@ -4,7 +4,7 @@ import { connect } from './setup/database';
 import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
-import { userRouter } from './entities/users/UserRoutes';
+import { userRouter } from './entities/users/userRoutes';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console

@@ -1,1 +1,7 @@
-// jeśli będzie się robiło ciasno w plikach możemy przenieść typy do osobnego pliku
+export interface IUser {
+    email: string;
+    password: string;
+    username: string;
+    roundsTotal: number;
+    scores: Array<{ team: number; score: number }>;
+  }

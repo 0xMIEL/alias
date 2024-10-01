@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { UserController } from './UserController';
+import { UserController } from './userController';
 import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
-import { UserService } from './UserService';
+import { UserService } from './userService';
 import { User } from './User';
 
 export const userRouter = Router();
@@ -11,12 +11,12 @@ const userController = new UserController(userService);
 
 userRouter
   .route('/')
-  .get(asyncErrorCatch(userController.getAll.bind(userController)));
+  .get(asyncErrorCatch(userController.getMany.bind(userController)));
 
 userRouter
   .route('/register')
-  .post(asyncErrorCatch(userController.register.bind(userController)));
+  .post(asyncErrorCatch(userController.create.bind(userController)));
 
 userRouter
   .route('/login')
-  .post(asyncErrorCatch(userController.login.bind(userController)));
+  .post(asyncErrorCatch(userController.getOne.bind(userController)));

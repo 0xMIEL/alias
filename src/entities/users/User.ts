@@ -1,12 +1,7 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import { Schema, model } from 'mongoose';
+import { IUser } from './types/userTypes';
 
-export interface IUser extends Document {
-  username: string;
-  email: string;
-  password: string;
-}
-
-const userSchema: Schema<IUser> = new Schema({
+const userSchema = new Schema<IUser>({
   email: {
     match: [/.+@.+\..+/, 'Please enter a valid email address'],
     required: [true, 'Email is required'],
@@ -17,6 +12,10 @@ const userSchema: Schema<IUser> = new Schema({
     required: [true, 'Password is required'],
     type: String,
   },
+  roundsTotal: {
+    type: Number,
+  },
+  scores: [{ score: Number, team: Number }],
   username: {
     required: [true, 'Username is required'],
     type: String,
@@ -24,5 +23,4 @@ const userSchema: Schema<IUser> = new Schema({
   },
 });
 
-export const User = mongoose.model<IUser>('User', userSchema);
-export type UserModel = typeof User;
+export const User = model<IUser>('User', userSchema);

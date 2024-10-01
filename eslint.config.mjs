@@ -13,7 +13,7 @@ export default [
       'max-lines-per-function': ['warn', { max: 50 }],
       'no-console': 'warn',
       'no-else-return': 'error',
-      'no-magic-numbers': ['error', { ignore: [1], ignoreArrayIndexes: true }],
+      'no-magic-numbers': ['error', { ignore: [0, 1], ignoreArrayIndexes: true }],
       'no-new-func': 'error',
       'no-shadow': 'error',
       'no-use-before-define': ['error', { functions: false }],

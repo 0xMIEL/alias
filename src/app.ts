@@ -5,6 +5,7 @@ import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
+import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -30,6 +31,10 @@ app.get('/', (req, res, next) => {
     status: 'success',
   });
 });
+
+
+// WORD CHECKER ROUTES
+app.use('/api', wordCheckRouter);
 
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {

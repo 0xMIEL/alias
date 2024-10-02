@@ -11,7 +11,9 @@ export class UserController extends BaseController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
+
     const newUser = await this.userService.create(req.body);
+
     this.sendResponse({
       data: newUser,
       res,
@@ -21,21 +23,17 @@ export class UserController extends BaseController {
 
   async getOne(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
+
     const user = await this.userService.getOne(email, password);
 
-    if (user) {
-      res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
-        status: 'success',
-        token: user.token,
-      });
-    } else {
-      res
-        .status(HTTP_STATUS_CODES.UNAUTHORIZED_401)
-        .json({ message: 'Invalid credentials', status: 'fail' });
-    }
+    this.sendResponse({
+      data: user,
+      res,
+    });
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {
+    
     const users = await this.userService.getMany();
 
     this.sendResponse({

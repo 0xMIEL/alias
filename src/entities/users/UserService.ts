@@ -3,7 +3,6 @@ import { IUser } from './types/userTypes';
 import { hashPassword, comparePasswords } from './helpers/authHelpers';
 import { generateToken } from './helpers/jwtHelpers';
 import { AppError } from '../../core/AppError';
-
 export class UserService {
   constructor(private User: Model<IUser>) {
     this.User = User;
@@ -17,11 +16,19 @@ export class UserService {
 
   async getOne(email: string, password: string) {
     const user = await this.User.findOne({ email });
-    if (user && (await comparePasswords(password, user.password))) {
-      const token = generateToken(user.username);
-      return { user, token };
+
+    if (!user) {
+      throw new AppError('User not found');
     }
-    return null;
+
+    const isPasswordValid = await comparePasswords(password, user.password);
+
+    if (!isPasswordValid) {
+      throw new AppError('Invalid password');
+    }
+
+    const token = generateToken(user.username);
+    return {  token, user };
   }
 
   async getMany() {

@@ -6,6 +6,7 @@ import { connect } from './setup/database';
 import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 
@@ -24,15 +25,9 @@ connect();
 // body parser
 app.use(express.json());
 
-// routes
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/gameRooms', gameRoomRouter);
 
-app.get('/api/v1', (req, res, next) => {
-  res.json({
-    message: 'Hello world',
-    status: 'success',
-  });
-});
+app.use('/api/v1/users', userRouter);
 
 // WORD CHECKER ROUTES
 app.use('/api', wordCheckRouter);

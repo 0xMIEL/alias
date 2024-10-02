@@ -7,5 +7,5 @@ export interface IUser {
   }
 
   export type IUserUpdate = Partial<
-  Omit<IUser, 'teamSize' | 'timePerRound' | 'roundsTotal'>
+  Omit<IUser, 'password'>
 >;

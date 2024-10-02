@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { IUser } from './types/userTypes';
+import { IUser, IUserUpdate } from './types/userTypes';
 import { hashPassword, comparePasswords } from './helpers/authHelpers';
 import { generateToken } from './helpers/jwtHelpers';
 import { AppError } from '../../core/AppError';

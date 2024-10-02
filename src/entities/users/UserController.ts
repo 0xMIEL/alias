@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
-import { UserService } from './userService';
-import { hashPassword, comparePasswords } from './helpers/authHelpers';
-import { generateToken } from './helpers/jwtHelpers';
+import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
 
 export class UserController extends BaseController {
@@ -13,15 +11,7 @@ export class UserController extends BaseController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    const { password } = req.body;
-
-    const hashedPassword = await hashPassword(password);
-
-    const newUser = await this.userService.create({
-      ...req.body,
-      password: hashedPassword,
-    });
-
+    const newUser = await this.userService.create(req.body);
     this.sendResponse({
       data: newUser,
       res,
@@ -30,14 +20,13 @@ export class UserController extends BaseController {
   }
 
   async getOne(req: Request, res: Response, next: NextFunction) {
-    const { password } = req.body;
-    const user = await this.userService.getOne(req.body.email);
+    const { email, password } = req.body;
+    const user = await this.userService.getOne(email, password);
 
-    if (user && (await comparePasswords(password, user.password))) {
-      const token = generateToken(user.username);
+    if (user) {
       res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
         status: 'success',
-        token,
+        token: user.token,
       });
     } else {
       res

@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { UserController } from './userController';
+import { UserController } from './UserController';
 import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
-import { UserService } from './userService';
+import { UserService } from './UserService';
 import { User } from './User';
 
 export const userRouter = Router();

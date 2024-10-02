@@ -2,6 +2,7 @@ import { Model } from 'mongoose';
 import { IUser } from './types/userTypes';
 import { hashPassword, comparePasswords } from './helpers/authHelpers';
 import { generateToken } from './helpers/jwtHelpers';
+import { AppError } from '../../core/AppError';
 
 export class UserService {
   constructor(private User: Model<IUser>) {
@@ -25,5 +26,21 @@ export class UserService {
 
   async getMany() {
     return await this.User.find();
+  }
+
+  async update(data: IUserUpdate, password: string) {
+    return await this.User.findOneAndUpdate({ _password: password }, data, {
+      new: true,
+    });
+  }
+
+  async remove(email: string) {
+    const deletedUser = await this.User.findOne({ email });
+
+    if (!deletedUser) {
+      throw new AppError(`Fail to delete user. Email ${email} not found`);
+    }
+
+    return deletedUser;
   }
 }

@@ -20,3 +20,7 @@ userRouter
 userRouter
   .route('/login')
   .post(asyncErrorCatch(userController.getOne.bind(userController)));
+
+userRouter
+  .route('/logout')
+  .delete(asyncErrorCatch(userController.remove.bind(userController)));

@@ -33,10 +33,6 @@ const io = new Server(server, {
   },
 });
 
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-app.set('views', './src/views');
-
 // connect database
 connect();
 
@@ -49,8 +45,17 @@ app.use('/api/v1/users', userRouter);
 
 // WORD CHECKER ROUTES
 app.use('/api', wordCheckRouter);
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './src/views');
+
 app.get('/', (req, res, next) => {
   res.render('home');
+});
+
+app.get('/game-lobby', (req, res, next) => {
+  res.render('gameLobby');
 });
 
 // route not found on server

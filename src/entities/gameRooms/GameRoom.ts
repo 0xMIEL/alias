@@ -17,7 +17,6 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     hostUserId: {
       required: true,
       type: String,
-      unique: true,
     },
     players: [
       {

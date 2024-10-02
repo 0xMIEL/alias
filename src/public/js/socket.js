@@ -28,23 +28,23 @@ function addGameToList(game) {
   <h3 class="game-list__item-title">Game: ${game._id}</h3>
   <div>
     <span class="game-list__item-property">Status:</span>
-    <span class="game-list__item-property-value" id="status">${game.status}</span>
+    <span class="game-list__item-property-value">${game.status}</span>
   </div>
   <div>
     <span class="game-list__item-property">Rounds:</span>
-    <span class="game-list__item-property-value" id="rounds">${game.roundsTotal}</span>
+    <span class="game-list__item-property-value">${game.roundsTotal}</span>
   </div>
   <div>
     <span class="game-list__item-property">Time per Round:</span>
-    <span class="game-list__item-property-value" id="timePerRound">${game.timePerRound} minutes</span>
+    <span class="game-list__item-property-value">${game.timePerRound} minutes</span>
   </div>
   <div>
     <span class="game-list__item-property">Players per Team:</span>
-    <span class="game-list__item-property-value" id="playersPerTeam">${game.teamSize}</span>
+    <span class="game-list__item-property-value">${game.teamSize}</span>
   </div>
   <div>
     <span class="game-list__item-property">Currently Players:</span>
-    <span class="game-list__item-property-value" id="playersCurrently">${game.players.length}</span>
+    <span class="game-list__item-property-value">${game.players.length}</span>
   </div>
   <button class="button button-action button-join">Join the game</button>
 </div>
@@ -69,23 +69,23 @@ function updateGameInList(game) {
   <h3 class="game-list__item-title">Game: ${game._id}</h3>
   <div>
     <span class="game-list__item-property">Status</span>
-    <span class="game-list__item-property-value" id="status">${game.status}</span>
+    <span class="game-list__item-property-value">${game.status}</span>
   </div>
   <div>
     <span class="game-list__item-property">Rounds</span>
-    <span class="game-list__item-property-value" id="rounds">${game.roundsTotal}</span>
+    <span class="game-list__item-property-value">${game.roundsTotal}</span>
   </div>
   <div>
     <span class="game-list__item-property">Time per Round</span>
-    <span class="game-list__item-property-value" id="timePerRound">${game.timePerRound}</span>
+    <span class="game-list__item-property-value">${game.timePerRound}</span>
   </div>
   <div>
     <span class="game-list__item-property">Players per Team</span>
-    <span class="game-list__item-property-value" id="playersPerTeam">${game.teamSize}</span>
+    <span class="game-list__item-property-value">${game.teamSize}</span>
   </div>
   <div>
     <span class="game-list__item-property">Currently Players</span>
-    <span class="game-list__item-property-value" id="playersCurrently">${game.players.length}</span>
+    <span class="game-list__item-property-value">${game.players.length}</span>
   </div>
 </div>
     `;

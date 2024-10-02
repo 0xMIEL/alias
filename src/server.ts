@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { app } from './app';
 
 const defaultPort = 3000;

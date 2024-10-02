@@ -1,5 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import dontenv from 'dotenv';
+dontenv.config({ path: '.env' });
+
 import { connect } from './setup/database';
 import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
@@ -14,7 +16,6 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-dontenv.config({ path: '.env' });
 export const app = express();
 
 // connect database
@@ -32,7 +33,6 @@ app.get('/api/v1', (req, res, next) => {
     status: 'success',
   });
 });
-
 
 // WORD CHECKER ROUTES
 app.use('/api', wordCheckRouter);

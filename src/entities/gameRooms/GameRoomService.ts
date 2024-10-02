@@ -23,8 +23,8 @@ export class GameRoomService {
     return gameRoom;
   }
 
-  async getMany() {
-    return await this.GameRoom.find();
+  async getMany(filters: object = {}) {
+    return await this.GameRoom.find(filters).lean();
   }
 
   async update(data: IGameRoomUpdate, id: string) {

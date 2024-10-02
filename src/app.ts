@@ -13,6 +13,7 @@ import { globalErrorHandler } from './middleware/globalErrorHandler';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
+import { fronEndRouter } from './entities/frontEnd/frontEndRoutes';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -50,13 +51,7 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
-app.get('/', (req, res, next) => {
-  res.render('home');
-});
-
-app.get('/game-lobby', (req, res, next) => {
-  res.render('gameLobby');
-});
+app.use('/', fronEndRouter);
 
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {

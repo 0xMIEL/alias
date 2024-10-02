@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from './GameRoomService';
 import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
 import { BaseController } from '../../core/BaseController';
+import { io } from '../../app';
 
 export class GameRoomController extends BaseController {
   constructor(private gameRoomService: GameRoomService) {
@@ -12,6 +13,8 @@ export class GameRoomController extends BaseController {
 
   async create(req: Request, res: Response, next: NextFunction) {
     const newGameRoom = await this.gameRoomService.create(req.body);
+
+    io.emit('gameListUpdate', { action: 'create', game: newGameRoom });
 
     this.sendResponse({
       data: newGameRoom,
@@ -44,6 +47,8 @@ export class GameRoomController extends BaseController {
       req.params.id,
     );
 
+    io.emit('gameListUpdate', { action: 'update', game: updatedGameRoom });
+
     this.sendResponse({
       data: updatedGameRoom,
       res,
@@ -51,10 +56,12 @@ export class GameRoomController extends BaseController {
   }
 
   async remove(req: Request, res: Response, next: NextFunction) {
-    await this.gameRoomService.remove(req.params.id);
+    const deletedRoom = await this.gameRoomService.remove(req.params.id);
+
+    io.emit('gameListUpdate', { action: 'remove', game: deletedRoom });
 
     this.sendResponse({
-      data: {},
+      data: deletedRoom,
       res,
       statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
     });

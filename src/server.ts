@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
-import { app } from './app';
+
+import { server } from './app';
 
 const defaultPort = 3000;
 const port = process.env.PORT || defaultPort;
 
-const server = app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server listen port: ${port}`);
 });
 

@@ -1,4 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
+import http from 'node:http';
+import { Server } from 'socket.io';
+import { engine } from 'express-handlebars';
+
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
 
@@ -17,7 +21,17 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-export const app = express();
+const app = express();
+const server = http.createServer(app);
+
+app.use(express.static('src/public'));
+app.use('/js', express.static('node_modules/socket.io-client/dist'));
+
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
 // connect database
 connect();
@@ -32,6 +46,18 @@ app.use('/api/v1/users', userRouter);
 // WORD CHECKER ROUTES
 app.use('/api', wordCheckRouter);
 
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', './src/views');
+
+app.get('/', (req, res, next) => {
+  res.render('home');
+});
+
+app.get('/game-lobby', (req, res, next) => {
+  res.render('gameLobby');
+});
+
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
   throw new AppError(
@@ -41,3 +67,5 @@ app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
 });
 
 app.use(globalErrorHandler);
+
+export { server, io };

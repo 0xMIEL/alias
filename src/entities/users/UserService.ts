@@ -18,7 +18,7 @@ export class UserService {
     const user = await this.User.findOne({ email });
 
     if (!user) {
-      throw new AppError('Invalid credantials');
+      throw new AppError('Invalid credentials');
     }
 
     const isPasswordValid = await comparePasswords(password, user.password);

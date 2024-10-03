@@ -66,4 +66,16 @@ export class GameRoomController extends BaseController {
       statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
     });
   }
+
+  async removeAll(req: Request, res: Response, next: NextFunction) {
+    await this.gameRoomService.removeAll();
+
+    io.emit('gameListUpdate', { action: 'removeAll' });
+
+    this.sendResponse({
+      data: {},
+      res,
+      statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+    });
+  }
 }

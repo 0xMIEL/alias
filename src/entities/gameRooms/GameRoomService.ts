@@ -42,4 +42,8 @@ export class GameRoomService {
 
     return deletedRoom;
   }
+
+  async removeAll() {
+    await this.GameRoom.deleteMany();
+  }
 }

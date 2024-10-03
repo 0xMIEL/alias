@@ -15,7 +15,10 @@ const gameRoomeController = new GameRoomController(gameRoomService);
 gameRoomRouter
   .route('/')
   .post(asyncErrorCatch(gameRoomeController.create.bind(gameRoomeController)))
-  .get(asyncErrorCatch(gameRoomeController.getMany.bind(gameRoomeController)));
+  .get(asyncErrorCatch(gameRoomeController.getMany.bind(gameRoomeController)))
+  .delete(
+    asyncErrorCatch(gameRoomeController.removeAll.bind(gameRoomeController)),
+  );
 
 gameRoomRouter
   .route('/:id')

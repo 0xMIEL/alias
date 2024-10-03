@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
 import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
-import { io } from '../../app';
 
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
@@ -52,8 +51,6 @@ export class UserController extends BaseController {
       req.params.password,
     );
 
-    io.emit('userCredantialsUpdate', { action: 'update', user: updatedUser });
-
     this.sendResponse({
       data: updatedUser,
       res,
@@ -62,8 +59,6 @@ export class UserController extends BaseController {
 
   async remove(req: Request, res: Response, next: NextFunction) {
     const deletedUser = await this.userService.remove(req.params.email);
-
-    io.emit('userListUpdate', { action: 'remove', user: deletedUser });
 
     this.sendResponse({
       data: deletedUser,

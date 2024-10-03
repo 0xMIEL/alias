@@ -3,6 +3,8 @@ import { IUser, IUserUpdate } from './types/userTypes';
 import { hashPassword, comparePasswords } from './helpers/authHelpers';
 import { generateToken } from './helpers/jwtHelpers';
 import { AppError } from '../../core/AppError';
+import { verifyToken } from './helpers/jwtHelpers';
+import { Response } from 'express';
 export class UserService {
   constructor(private User: Model<IUser>) {
     this.User = User;
@@ -49,5 +51,19 @@ export class UserService {
     }
 
     return deletedUser;
+  }
+
+  async extractUsernameFromToken(token: string, res: Response) {
+    
+    if (!token) {
+      throw new AppError('No token provided');
+    }
+
+    const decoded = verifyToken(token);
+    const username = decoded.userId;
+
+    res.clearCookie('jwtToken');
+
+    return username;
   }
 }

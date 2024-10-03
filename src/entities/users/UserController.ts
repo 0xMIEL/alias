@@ -12,7 +12,6 @@ export class UserController extends BaseController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-
     const newUser = await this.userService.create(req.body);
 
     this.sendResponse({
@@ -27,6 +26,11 @@ export class UserController extends BaseController {
 
     const user = await this.userService.getOne(email, password);
 
+    res.cookie('jwtToken', user.token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
+
     this.sendResponse({
       data: user,
       res,
@@ -34,7 +38,6 @@ export class UserController extends BaseController {
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {
-    
     const users = await this.userService.getMany();
 
     this.sendResponse({
@@ -53,7 +56,7 @@ export class UserController extends BaseController {
 
     this.sendResponse({
       data: updatedUser,
-      res
+      res,
     });
   }
 
@@ -66,6 +69,20 @@ export class UserController extends BaseController {
       data: deletedUser,
       res,
       statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+    });
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction) {
+    const token = req.cookies.jwtToken;
+    const username = await this.userService.extractUsernameFromToken(
+      token,
+      res,
+    );
+
+    this.sendResponse({
+      data: `User ${username} logged out successfully`,
+      res,
+      statusCode: HTTP_STATUS_CODES.SUCCESS_200,
     });
   }
 }

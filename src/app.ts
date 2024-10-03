@@ -14,6 +14,7 @@ import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 import { fronEndRouter } from './entities/frontEnd/frontEndRoutes';
+import cookieParser from 'cookie-parser';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -27,6 +28,7 @@ const server = http.createServer(app);
 
 app.use(express.static('src/public'));
 app.use('/js', express.static('node_modules/socket.io-client/dist'));
+app.use(cookieParser());
 
 const io = new Server(server, {
   cors: {

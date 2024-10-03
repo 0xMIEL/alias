@@ -1,8 +1,8 @@
-import jwt, {JwtPayload} from 'jsonwebtoken';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { AppError } from '../../../core/AppError';
 import { HTTP_STATUS_CODES } from '../../../constants/httpStatusCodes';
 
-const {JWT_SECRET} = process.env;
+const { JWT_SECRET } = process.env;
 
 if (!JWT_SECRET) {
   throw new AppError(
@@ -15,9 +15,9 @@ export const generateToken = (userId: string): string => {
   return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '1h' });
 };
 
-export const verifyToken = (token: string): JwtPayload | string => {
+export const verifyToken = (token: string): JwtPayload => {
   try {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, JWT_SECRET) as JwtPayload;
   } catch {
     throw new AppError('Invalid token', HTTP_STATUS_CODES.UNAUTHORIZED_401);
   }

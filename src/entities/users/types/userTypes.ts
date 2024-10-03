@@ -5,3 +5,7 @@ export interface IUser {
     roundsTotal: number;
     scores: Array<{ team: number; score: number }>;
   }
+
+  export type IUserUpdate = Partial<
+  Omit<IUser, 'password'>
+>;

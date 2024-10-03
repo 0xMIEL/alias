@@ -30,6 +30,7 @@ export class FrontEndController {
     const openGames = await this.gameRoomService.getMany(filters);
 
     res.render('home', {
+      BASE_URL: process.env.BASE_URL,
       games: openGames,
       title: 'Alias Game',
     });

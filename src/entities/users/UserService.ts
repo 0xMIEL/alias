@@ -18,17 +18,17 @@ export class UserService {
     const user = await this.User.findOne({ email });
 
     if (!user) {
-      throw new AppError('User not found');
+      throw new AppError('Invalid credentials');
     }
 
     const isPasswordValid = await comparePasswords(password, user.password);
 
     if (!isPasswordValid) {
-      throw new AppError('Invalid password');
+      throw new AppError('Invalid credentials');
     }
 
     const token = generateToken(user.username);
-    return {  token, user };
+    return { token, user };
   }
 
   async getMany() {

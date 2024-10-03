@@ -27,3 +27,15 @@ gameRoomRouter
   .delete(
     asyncErrorCatch(gameRoomeController.remove.bind(gameRoomeController)),
   );
+
+gameRoomRouter
+  .route('/:id/player')
+  .patch(
+    asyncErrorCatch(gameRoomeController.addPlayer.bind(gameRoomeController)),
+  );
+
+gameRoomRouter
+  .route('/:id/player/:player')
+  .delete(
+    asyncErrorCatch(gameRoomeController.removePlayer.bind(gameRoomeController)),
+  );

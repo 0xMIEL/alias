@@ -78,4 +78,27 @@ export class GameRoomController extends BaseController {
       statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
     });
   }
+
+  async addPlayer(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const player = req.body;
+
+    const updatedRoom = await this.gameRoomService.addPlayer(id, player);
+
+    this.sendResponse({
+      data: updatedRoom,
+      res,
+    });
+  }
+
+  async removePlayer(req: Request, res: Response, next: NextFunction) {
+    const { id, player } = req.params;
+
+    const updatedRoom = await this.gameRoomService.removePlayer(id, player);
+
+    this.sendResponse({
+      data: updatedRoom,
+      res,
+    });
+  }
 }

@@ -13,5 +13,5 @@ fronEndRouter
   .get(frontEndController.getHome.bind(frontEndController));
 
 fronEndRouter
-  .route('/game-lobby')
+  .route('/game-lobby/:id')
   .get(frontEndController.getGameLobby.bind(frontEndController));

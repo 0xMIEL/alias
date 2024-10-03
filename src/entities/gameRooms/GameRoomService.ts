@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { IGameRoom, IGameRoomUpdate } from './types/gameRoom';
+import { IGameRoom, IGameRoomUpdate, Player } from './types/gameRoom';
 import { AppError } from '../../core/AppError';
 
 export class GameRoomService {
@@ -45,5 +45,32 @@ export class GameRoomService {
 
   async removeAll() {
     await this.GameRoom.deleteMany();
+  }
+
+  async addPlayer(roomId: string, player: Player) {
+    const udpatedRoom = await this.GameRoom.findOneAndUpdate(
+      {
+        _id: roomId,
+        players: { $not: { $elemMatch: { userId: player.userId } } },
+      },
+      { $addToSet: { players: player } },
+      { new: true },
+    );
+
+    if (!udpatedRoom) {
+      throw new AppError('Player already exists in the room');
+    }
+
+    return udpatedRoom;
+  }
+
+  async removePlayer(roomId: string, playerId: string) {
+    const updatedRoom = await this.GameRoom.findOneAndUpdate(
+      { _id: roomId },
+      { $pull: { players: { userId: playerId } } },
+      { new: true },
+    );
+
+    return updatedRoom;
   }
 }

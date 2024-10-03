@@ -1,5 +1,4 @@
 import { createGameRoom } from './api/gameRoomsApi.js';
-import { baseUrl } from './setup/config.js';
 
 const modal = document.getElementById('gameModal');
 const createGameBtn = document.getElementById('createGameBtn');
@@ -35,9 +34,7 @@ async function handleCreateGameRoom(event) {
     timePerRound,
   };
 
-  const url = `${baseUrl}/gameRooms`;
-
-  const { data } = await createGameRoom(gameData, url);
+  const { data } = await createGameRoom({ gameData });
 
   createGameRoomForm.reset();
   modal.style.display = 'none';

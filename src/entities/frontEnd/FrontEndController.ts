@@ -37,6 +37,12 @@ export class FrontEndController {
   }
 
   async getGameLobby(req: Request, res: Response, next: NextFunction) {
+    const userId = req.query.player;
+    const gameId = req.params.id;
+
+    console.log(userId);
+    console.log(gameId);
+
     res.render('gameLobby', { title: 'Game Lobby' });
   }
 }

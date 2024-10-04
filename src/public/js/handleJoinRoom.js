@@ -1,31 +1,23 @@
-import { addPlayer } from './api/gameRoomsApi.js';
+import { joinRoom } from './api/gameRoomsApi.js';
+import { joinGameRoomSocket } from './sockets/socketHandlers.js';
 
-/* eslint-disable no-undef */
-const socket = io();
+const gameList = document.getElementById('gameList');
 
-const joinRoomButtons = document.querySelectorAll('.button-join');
+gameList.addEventListener('click', async function (event) {
+  if (!event.target.classList.contains('button-join')) {
+    return;
+  }
 
-joinRoomButtons.forEach((button) => {
-  button.addEventListener('click', async function () {
-    const roomId = this.getAttribute('data-room-id');
-    const player = { team: 1, userId: '66fe7a402b71f7d792940d60' };
+  const roomId = event.target.getAttribute('data-room-id');
+  const player = { team: 1, userId: '66fe7a402b71f7d792940d60' };
 
-    console.log('click');
+  await joinRoomApiCall(roomId, player);
 
-    await handleJoinGameRoom(roomId, player);
+  joinGameRoomSocket(roomId);
 
-    await joinGameRoom(roomId);
-  });
+  // window.location.replace(`/game-lobby/${roomId}`);
 });
 
-async function handleJoinGameRoom(roomId, player) {
-  const result = await addPlayer({ data: player, id: roomId });
-
-  console.log(result);
-}
-
-async function joinGameRoom(roomId) {
-  socket.emit('joinRoom', roomId);
-
-  //   window.location.replace(`/game-lobby/${roomId}`);
+async function joinRoomApiCall(roomId, player) {
+  await joinRoom({ data: player, id: roomId });
 }

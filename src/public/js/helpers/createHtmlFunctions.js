@@ -22,7 +22,7 @@ export function createGameListItemHTML(game) {
   <span class="game-list__item-property">Currently Players: </span>
   <span class="game-list__item-property-value">${game.players.length}</span>
   </div>
-  <button class="button button-action button-join">Join the game</button>
+  <button class="button button-action button-join" id="button-join" data-room-id="${game._id}">Join the game</button>
   </div>
   `;
 }

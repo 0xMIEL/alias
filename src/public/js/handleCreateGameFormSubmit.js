@@ -1,4 +1,5 @@
 import { createGameRoom } from './api/gameRoomsApi.js';
+import { joinGameRoomSocket } from './sockets/socketHandlers.js';
 
 const modal = document.getElementById('gameModal');
 const createGameBtn = document.getElementById('createGameBtn');
@@ -35,6 +36,8 @@ async function handleCreateGameRoom(event) {
   };
 
   const { data } = await createGameRoom({ gameData });
+
+  joinGameRoomSocket(data._id);
 
   createGameRoomForm.reset();
   modal.style.display = 'none';

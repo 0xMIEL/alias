@@ -1,7 +1,6 @@
 import { createGameListItemHTML } from './helpers/createHtmlFunctions.js';
+import { socket } from './sockets/socket.js';
 
-/* eslint-disable no-undef */
-const socket = io();
 const gameList = document.getElementById('gameList');
 
 socket.on('gameListUpdate', (data) => {

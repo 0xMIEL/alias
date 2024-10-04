@@ -2,7 +2,7 @@
 function apiRequestErrorCatch(apiCall) {
   return async function (...args) {
     try {
-      apiCall(...args);
+      return apiCall(...args);
     } catch (error) {
       console.log(`API call fail: ${error.message}`);
     }
@@ -26,8 +26,11 @@ async function makeApiRequest({ method, url, data = null }) {
   if (!response.ok) {
     throw new Error(`Response status: ${response.status}`);
   }
+  const json = await response.json();
+  console.log('ressponse', response);
+  console.log('json', json);
 
-  return await response.json();
+  return json;
 }
 
 const HTTP_METHODS = {

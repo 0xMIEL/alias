@@ -21,7 +21,14 @@ const updateGameRoom = apiRequestErrorCatch(async ({ data, id }) => {
   });
 });
 
-const addPlayer = apiRequestErrorCatch(async ({ data, id }) => {
+const joinRoom = apiRequestErrorCatch(async ({ userId, id }) => {
+  return await makeApiRequest({
+    method: HTTP_METHODS.PATCH,
+    url: `${baseUrl}/gameRooms/${id}/player/${userId}`,
+  });
+});
+
+const joinTeam = apiRequestErrorCatch(async ({ data, id }) => {
   return await makeApiRequest({
     data: data,
     method: HTTP_METHODS.PATCH,
@@ -36,4 +43,4 @@ const removePlayer = apiRequestErrorCatch(async ({ playerId, id }) => {
   });
 });
 
-export { removePlayer, createGameRoom, addPlayer, updateGameRoom };
+export { removePlayer, createGameRoom, joinRoom, updateGameRoom, joinTeam };

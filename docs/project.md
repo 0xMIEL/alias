@@ -6,7 +6,9 @@
 2. [System Requirements](#system-requirements)
 3. [Setup and Installation](#setup-and-installation)
     - [Running the Application with Docker](#running-the-application-with-docker)
-4. [Database Schema Design]()
+4. [Database Schema Design](#database-schema-design)
+5. [Running Tests](#running-tests)
+6. [Error Handling](#error-handling)
 
 
 ## Game Description
@@ -82,6 +84,18 @@ Alias is a word-guessing game where players form teams. Each team takes turns wh
 
 ## Setup and Installation
 
+### Clone the Project
+
+```bash
+git clone https://github.com/pologora/alias.git
+```
+
+### Install dependencies
+
+```Bash
+npm install
+```
+
 ### Running the Application with Docker
 
 ### Docker Setup
@@ -101,3 +115,18 @@ npm start
 ## Database Schema Design
 
 ![Screenshot](https://github.com/pologora/alias/blob/docs/docs/screenshots/database.png)
+
+## Running Tests
+    - to run unit tests:
+    
+```bash
+npm run test
+```
+
+## Error Handling
+
+1. Custom Error Class: `AppError` class is used to create custom error objects with additional properties for better error management.
+2. Asynchronous Error Wrapper: `asyncErrorCatch` function wraps asynchronous functions to automatically catch errors and pass them to the global error handler.
+3. Global Error Handler: `globalErrorHanler` - The global error handler middleware is used at the end of the app to handle all errors passed down the middleware chain.
+4. Uncaught Exceptions: To handle uncaught exceptions, log the error and exit the process.
+5. Unhandled Rejections: To handle unhandled promise rejections, log the error and close the server gracefully.

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from '../gameRooms/GameRoomService';
-import { gameRoomStatuses } from '../gameRooms/types/gameRoom';
+import { gameRoomStatuses, Player } from '../gameRooms/types/gameRoom';
 
 type GetManyGameRoomsFilters = {
   status?: string;
@@ -37,12 +37,26 @@ export class FrontEndController {
   }
 
   async getGameLobby(req: Request, res: Response, next: NextFunction) {
-    const userId = req.query.player;
     const gameId = req.params.id;
 
-    console.log(userId);
-    console.log(gameId);
+    const gameRoom = await this.gameRoomService.getOne(gameId);
 
-    res.render('gameLobby', { title: 'Game Lobby' });
+    const team1: Player[] = [];
+    const team2: Player[] = [];
+
+    gameRoom.players.forEach((player: Player) => {
+      if (player.team === 1) {
+        team1.push(player);
+      } else {
+        team2.push(player);
+      }
+    });
+
+    res.render('gameLobby', {
+      game: gameRoom,
+      team1,
+      team2,
+      title: 'Game Lobby',
+    });
   }
 }

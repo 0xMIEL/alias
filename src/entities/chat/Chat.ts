@@ -2,17 +2,32 @@ import mongoose, { Schema, model } from 'mongoose';
 import type { IChat } from './types/chatTypes';
 
 const chatSchema = new Schema<IChat>({
-  gameRoomId: mongoose.Types.ObjectId,
+  gameRoomId: {
+    required: true,
+    type: mongoose.Types.ObjectId,
+  },
   messages: [
     {
-      content: String,
-      timeStamp: String,
-      userId: String,
-      username: String,
+      content: {
+        required: true,
+        type: String,
+      },
+      sendAt: {
+        default: Date.now,
+        type: Date,
+      },
+      userId: {
+        required: true,
+        type: mongoose.Types.ObjectId,
+      },
+      username: {
+        required: true,
+        type: String,
+      },
     },
   ],
 });
 
-const ChatModel = model('Chat', chatSchema);
+const Chat = model<IChat>('Chat', chatSchema);
 
-export default ChatModel;
+export default Chat;

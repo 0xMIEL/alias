@@ -1,9 +1,11 @@
+import { ObjectId } from 'mongoose';
+
 export interface IChat {
-  gameRoomId: string;
+  gameRoomId: ObjectId;
   messages: Array<{
-    userId: string;
+    userId: ObjectId;
     username: string;
     content: string;
-    timestamp: string;
+    sendAt: Date;
   }>;
 }

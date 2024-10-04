@@ -4,7 +4,7 @@ import type { IChat } from './types/chatTypes';
 const chatSchema = new Schema<IChat>({
   gameRoomId: {
     required: true,
-    type: mongoose.Types.ObjectId,
+    type: String,
   },
   messages: [
     {

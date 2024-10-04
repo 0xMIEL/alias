@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import {
   gameRoomStatuses,
   IGameRoom,
@@ -53,25 +53,29 @@ export class GameRoomService {
   }
 
   async joinRoom(roomId: string, userId: string) {
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
     const updatedRoom = await this.GameRoom.findByIdAndUpdate(
-      { _id: roomId, playerJoined: { $addToSet: { userId } } },
+      { _id: roomId },
+      { $addToSet: { playerJoined: userObjectId } },
       { new: true },
     );
-
-    console.log(updatedRoom);
 
     return updatedRoom;
   }
 
   async joinTeam(roomId: string, player: Player) {
+    const { userId } = player;
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
     const udpatedRoom = await this.GameRoom.findOneAndUpdate(
       {
         _id: roomId,
-        players: { $not: { $elemMatch: { userId: player.userId } } },
+        players: { $not: { $elemMatch: { userId: userId } } },
       },
       {
         $addToSet: { players: player },
-        $pull: { playerJoined: { userId: player.userId } },
+        $pull: { playerJoined: userObjectId },
       },
       { new: true },
     );

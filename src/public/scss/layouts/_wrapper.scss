@@ -1,0 +1,9 @@
+.wrapper {
+  display: flex;
+  margin: 0 auto;
+  padding-inline: 3.2rem;
+  width: min(100%, 1240px);
+  &--column {
+    flex-direction: column;
+  }
+}

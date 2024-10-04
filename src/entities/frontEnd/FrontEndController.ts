@@ -38,4 +38,8 @@ export class FrontEndController {
   async getGameLobby(req: Request, res: Response, next: NextFunction) {
     res.render('gameLobby', { title: 'Game Lobby' });
   }
+
+  async getSingUpPage(req: Request, res: Response, next: NextFunction) {
+    res.render('singUp', { title: 'Sign Up' });
+  }
 }

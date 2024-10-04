@@ -3,15 +3,15 @@ import { FrontEndController } from './FrontEndController';
 import { GameRoomService } from '../gameRooms/GameRoomService';
 import { GameRoom } from '../gameRooms/GameRoom';
 
-export const fronEndRouter = Router();
+export const frontEndRouter = Router();
 
 const gameRoomService = new GameRoomService(GameRoom);
 const frontEndController = new FrontEndController(gameRoomService);
 
-fronEndRouter
+frontEndRouter
   .route('/')
   .get(frontEndController.getHome.bind(frontEndController));
 
-fronEndRouter
+frontEndRouter
   .route('/game-lobby')
   .get(frontEndController.getGameLobby.bind(frontEndController));

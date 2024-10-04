@@ -37,9 +37,16 @@ const io = new Server(server, {
 });
 
 io.on('connection', (socket) => {
-  socket.on('joinRoom', (room) => {
-    console.log(room);
-    socket.join(room);
+  socket.on('joinRoom', ({ roomId, userId }) => {
+    socket.join(roomId);
+
+    io.to(roomId).emit('updateRoom', { message: 'A new player has joined!' });
+
+    const clients = io.sockets.adapter.rooms.get(roomId);
+
+    console.log(`joining room: ${roomId}, user: ${userId}`);
+    console.log('clints', clients);
+    console.log('__________________________________________');
   });
 });
 

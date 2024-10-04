@@ -26,11 +26,8 @@ async function makeApiRequest({ method, url, data = null }) {
   if (!response.ok) {
     throw new Error(`Response status: ${response.status}`);
   }
-  const json = await response.json();
-  console.log('ressponse', response);
-  console.log('json', json);
 
-  return json;
+  return await response.json();
 }
 
 const HTTP_METHODS = {

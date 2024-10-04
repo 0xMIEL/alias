@@ -1,2 +1,1 @@
-/* eslint-disable no-undef */
-export const baseUrl = BASE_URL;
+export const baseUrl = 'http://localhost:3000/api/v1';

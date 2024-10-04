@@ -1,8 +1,8 @@
-<div class='game-lobby'>
+<div class='game-lobby' data-game-id='{{game._id}}'>
   <h2 class='game-lobby__header'>Choose your team and start the Game!</h2>
   <button id='back'>back</button>
 
-  <h3 class='game-lobby__game-name'>Game id {{game._id}}</h3>
+  <h3 class='game-lobby__game-name'>Game id: {{game._id}}</h3>
 
   <div class='game-lobby__teams'>
 
@@ -47,10 +47,15 @@
     </div>
 
   </div>
-  <button class='button button-danger button-leave-room'>Leave Room</button>
+  <button
+    class='button button-danger button-leave-room'
+    id='button-leave-room'
+  >Leave Room</button>
 </div>
 
 <script>
   document.getElementById('back').onclick = function(){
   window.location.replace('/'); }
 </script>
+<script src='/js/handleJoinTeam.js' type='module'></script>
+<script src='/js/handleLeaveRoom.js' type='module'></script>

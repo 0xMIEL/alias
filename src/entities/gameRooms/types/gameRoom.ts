@@ -16,6 +16,7 @@ export interface IGameRoom {
   currentRound: number;
   status: GameRoomStatus;
   scores: Array<{ team: number; score: number }>;
+  playerJoined: Array<{ userId: string }>;
 }
 
 export type IGameRoomUpdate = Partial<

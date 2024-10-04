@@ -7,30 +7,30 @@ export default class ChatService {
     this.Chat = Chat;
   }
 
-  async createChat(data: IChat) {
+  async create(data: IChat) {
     const chat = new this.Chat(data);
     return await chat.save();
   }
 
-  async sendMessage(gameRoomId: string, data: IMessage) {
+  async getOne(gameRoomId: string) {
     const chat = await this.Chat.findOne({ gameRoomId });
 
     if (!chat) {
       throw new AppError(`Invalid game room id: ${gameRoomId}`);
     }
-    
+
+    return chat;
+  }
+
+  async createMessage(gameRoomId: string, data: IMessage) {
+    const chat = await this.Chat.findOne({ gameRoomId });
+
+    if (!chat) {
+      throw new AppError(`Invalid game room id: ${gameRoomId}`);
+    }
+
     chat.messages.push(data);
 
     return chat.save();
-  }
-
-  async getAllMessages(gameRoomId: string) {
-    const chat = await this.Chat.findOne({ gameRoomId });
-
-    if (!chat) {
-      throw new AppError(`Invalid game room id: ${gameRoomId}`);
-    }
-
-    return chat.messages;
   }
 }

@@ -7,5 +7,6 @@ export class ChatController extends BaseController {
     this.chatService = chatService;
   }
 
-  
+  async get 
+
 }

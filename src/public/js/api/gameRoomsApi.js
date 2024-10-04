@@ -1,90 +1,39 @@
 import { baseUrl } from '../setup/config.js';
+import {
+  apiRequestErrorCatch,
+  HTTP_METHODS,
+  makeApiRequest,
+} from './apiUtils.js';
 
-/* eslint-disable no-console */
+const createGameRoom = apiRequestErrorCatch(async ({ gameData }) => {
+  return await makeApiRequest({
+    data: gameData,
+    method: HTTP_METHODS.POST,
+    url: `${baseUrl}/gameRooms`,
+  });
+});
 
-async function createGameRoom({ gameData }) {
-  try {
-    const response = await fetch(`${baseUrl}/gameRooms`, {
-      body: JSON.stringify(gameData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-    });
+const updateGameRoom = apiRequestErrorCatch(async ({ data, id }) => {
+  return await makeApiRequest({
+    data: data,
+    method: HTTP_METHODS.PATCH,
+    url: `${baseUrl}/gameRooms/${id}`,
+  });
+});
 
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+const addPlayer = apiRequestErrorCatch(async ({ data, id }) => {
+  return await makeApiRequest({
+    data: data,
+    method: HTTP_METHODS.PATCH,
+    url: `${baseUrl}/gameRooms/${id}/player`,
+  });
+});
 
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function updateGameRoom({ data, id }) {
-  try {
-    const response = await fetch(`${baseUrl}/gameRooms/${id}`, {
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'PATCH',
-    });
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function addPlayer({ data, id }) {
-  const url = `${baseUrl}/gameRooms/${id}/player`;
-  console.log(url);
-
-  try {
-    const response = await fetch(url, {
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'PATCH',
-    });
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function removePlayer({ playerId, id }) {
-  try {
-    const response = await fetch(
-      `${baseUrl}/gameRooms/${id}/player/${playerId}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'DELETE',
-      },
-    );
-
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-  }
-}
+const removePlayer = apiRequestErrorCatch(async ({ playerId, id }) => {
+  return await makeApiRequest({
+    method: HTTP_METHODS.DELETE,
+    url: `${baseUrl}/gameRooms/${id}/player/${playerId}`,
+  });
+});
 
 export { removePlayer, createGameRoom, addPlayer, updateGameRoom };

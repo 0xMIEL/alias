@@ -1,0 +1,37 @@
+.game-lobby * {
+  border: 1px solid black;
+}
+
+.game-lobby {
+}
+
+.game-lobby__game-name {
+  text-align: center;
+}
+
+.game-lobby__header {
+  text-align: center;
+}
+
+.game-lobby__teams {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.game-lobby__team1,
+.game-lobby__team2 {
+  width: 15vw;
+}
+
+.game-lobby__team1 {
+}
+
+.game-lobby__team2 {
+}
+
+.team1__list {
+}
+
+.team2__list {
+}

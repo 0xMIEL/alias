@@ -9,6 +9,11 @@
 4. [Database Schema Design](#database-schema-design)
 5. [Running Tests](#running-tests)
 6. [Error Handling](#error-handling)
+7. [Entities](#entities)
+    - [Users](#1-users)
+    - [Game Rooms](#2-gamerooms)
+    - [Front End](#3-frontend)
+    - [Words](#4-words)
 
 
 ## Game Description
@@ -130,3 +135,73 @@ npm run test
 3. Global Error Handler: `globalErrorHanler` - The global error handler middleware is used at the end of the app to handle all errors passed down the middleware chain.
 4. Uncaught Exceptions: To handle uncaught exceptions, log the error and exit the process.
 5. Unhandled Rejections: To handle unhandled promise rejections, log the error and close the server gracefully.
+
+## Entities
+
+### 1. Users
+
+### 2. GameRooms
+
+### 3. FrontEnd
+
+### 4. Words
+
+The Word Checker module is designed for managing words for the game. It allows retrieving random word from the database, and also checks for similarities or potential cheating in chat message.
+
+**Components:**
+- Model: `Word.ts`,
+- Service: `wordCheckerService.ts`,
+- Controller: `wordCheckerController.ts`
+- Routes: `wordCheckerRoutes.ts`
+- Helper functions: `helpers/wordCheckerHelpers.ts`
+
+**4.1. Model**
+`Word` model represents structure of the word documents stored in MongoDB.
+
+Properties:
+- `value`: string
+
+**4.2. Service**
+
+`wordCheckerService` class handles operations such as fetching words from db, checking similarity between words, and validating sentences for potential cheating using Levenshtein algorithm.
+
+Methods:
+- `getAllWords()`: Retrieves all words from database,
+- `getRandomWord()`: Fetches a random word from database, also ensures it wasn't used previously,
+- `checkSimilarity(inputWord: string, targetWord: string)`: Calculates the Levenshtein distance (similarity) between two words,
+- `isSimilarEnough(inputWord: string, targetWord:string, threshold: number)`: Checks if similarity percentage exceeds threshold,
+- `checkSentenceForWord(word: IWord, sentence: string)`: Checks if selected word is in sentence, and returns True if it is.
+
+**4.3. Controller**
+`wordController` class handles incoming requests related to words, utilizing the `wordCheckerService` to perform necessary operations.
+
+Methods:
+- `getWord(res, req, next)`: Handles the request to fetch a random word,
+- `getSimilarity(res, req, next)`: Handles the request to check similarity between word,
+- `checkForWord(res, req, next)`: Handles the request to validate a sentence sent in chat for potential cheating against a currently selected word to guess
+
+**4.4. Routes**
+
+The routes for word-related operations are defined here, linking them to the corresponding controller methods.
+
+`GET /randomWord`: Fetches a random, unique word from MongoDB,
+`POST /similarity`: Checks similarity between words, takes `{ inputWord: PlayerAnswer, targetWord: CurrentlySelectedWordToGuess }` 
+`POST /sentenceCheat`: Validates a sentence sent in chat for potential cheating, takes `{ word: CurrentlySelectedWordToGuess, sentence: SentChatMessage }`
+
+**4.5. Helpers**
+Helpers file provides utility functions for the Word Checker module, including random word selection and similarity checking using Levenshtein algorithm.
+
+**Levenshtein algorithm**
+
+The Levenshtein algorithm is a string metric that quantifies the difference between two sequences by calculating the minimum number of single-character edits required to change one string into the other. The allowed operations include insertion, deletion and substitution.
+
+How It Works
+
+The algorithm uses dynamic programming to build a matrix where each cell represents the cost of transforming a substring of the first string into a substring of the second string. The matrix is filled based on the following rules:
+
+- The first row and first column represent the cost of converting an empty string to the respective substrings.
+- For each character comparison, if the characters are the same, the cost remains the same as the diagonal cell; if not, it considers the costs of insertion, deletion, and substitution, taking the minimum value.
+
+The final cell in the matrix contains the Levenshtein distance, indicating the minimum number of edits required to convert one string into another.
+
+5. 

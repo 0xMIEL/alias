@@ -100,4 +100,4 @@ npm start
 
 ## Database Schema Design
 
-![Screenshot]()
+![Screenshot](https://github.com/pologora/alias/blob/docs/docs/screenshots/database.png)

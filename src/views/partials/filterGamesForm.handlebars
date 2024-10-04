@@ -1,27 +1,32 @@
-<form method="GET" action="/">
+<form method='GET' action='/'>
   <div>
-    <label for="status">Game Status</label>
-    <select name="status">
-      <option value="">All</option>
-      <option value="lobby">Lobby</option>
-      <option value="inProgress">Running</option>
+    <label for='status'>Game Status</label>
+    <select name='status'>
+      <option value=''>All</option>
+      <option value='lobby'>Lobby</option>
+      <option value='inProgress'>Running</option>
     </select>
   </div>
 
   <div>
-    <label for="teamSize">Players per Team</label>
-    <select name="teamSize">
-      <option value="">All</option>
-      <option value="2">2 Players</option>
-      <option value="3">3 Players</option>
-      <option value="4">4 Players</option>
+    <label for='teamSize'>Players per Team</label>
+    <select name='teamSize'>
+      <option value=''>All</option>
+      <option value='2'>2 Players</option>
+      <option value='3'>3 Players</option>
+      <option value='4'>4 Players</option>
     </select>
   </div>
 
   <div>
-    <label for="timePerRound">Time per Round</label>
-    <input type="number" name="timePerRound" min="1" placeholder="Time in minutes" />
+    <label for='timePerRound'>Time per Round</label>
+    <input
+      type='number'
+      name='timePerRound'
+      min='1'
+      placeholder='Time in minutes'
+    />
   </div>
 
-  <button type="submit" class="button">Filter Games</button>
+  <button type='submit' class='button'>Filter Games</button>
 </form>

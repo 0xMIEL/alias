@@ -79,11 +79,22 @@ export class GameRoomController extends BaseController {
     });
   }
 
-  async addPlayer(req: Request, res: Response, next: NextFunction) {
+  async joinRoom(req: Request, res: Response, next: NextFunction) {
+    const { id, player } = req.params;
+
+    const updatedRoom = await this.gameRoomService.joinRoom(id, player);
+
+    this.sendResponse({
+      data: updatedRoom,
+      res,
+    });
+  }
+
+  async joinTeam(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     const player = req.body;
 
-    const updatedRoom = await this.gameRoomService.addPlayer(id, player);
+    const updatedRoom = await this.gameRoomService.joinTeam(id, player);
 
     this.sendResponse({
       data: updatedRoom,

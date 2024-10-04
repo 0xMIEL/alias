@@ -29,13 +29,16 @@ gameRoomRouter
   );
 
 gameRoomRouter
-  .route('/:id/player')
+  .route('/:id/player/:player')
   .patch(
-    asyncErrorCatch(gameRoomeController.addPlayer.bind(gameRoomeController)),
+    asyncErrorCatch(gameRoomeController.joinRoom.bind(gameRoomeController)),
+  )
+  .delete(
+    asyncErrorCatch(gameRoomeController.removePlayer.bind(gameRoomeController)),
   );
 
 gameRoomRouter
-  .route('/:id/player/:player')
-  .delete(
-    asyncErrorCatch(gameRoomeController.removePlayer.bind(gameRoomeController)),
+  .route('/:id/team')
+  .patch(
+    asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
   );

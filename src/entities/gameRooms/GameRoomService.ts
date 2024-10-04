@@ -1,5 +1,10 @@
 import { Model } from 'mongoose';
-import { IGameRoom, IGameRoomUpdate, Player } from './types/gameRoom';
+import {
+  gameRoomStatuses,
+  IGameRoom,
+  IGameRoomUpdate,
+  Player,
+} from './types/gameRoom';
 import { AppError } from '../../core/AppError';
 
 export class GameRoomService {
@@ -14,7 +19,7 @@ export class GameRoomService {
   }
 
   async getOne(id: string) {
-    const gameRoom = await this.GameRoom.findById(id);
+    const gameRoom = await this.GameRoom.findById(id).lean();
 
     if (!gameRoom) {
       throw new AppError(`Invalid game room id: ${id}`);
@@ -47,13 +52,27 @@ export class GameRoomService {
     await this.GameRoom.deleteMany();
   }
 
-  async addPlayer(roomId: string, player: Player) {
+  async joinRoom(roomId: string, userId: string) {
+    const updatedRoom = await this.GameRoom.findByIdAndUpdate(
+      { _id: roomId, playerJoined: { $addToSet: { userId } } },
+      { new: true },
+    );
+
+    console.log(updatedRoom);
+
+    return updatedRoom;
+  }
+
+  async joinTeam(roomId: string, player: Player) {
     const udpatedRoom = await this.GameRoom.findOneAndUpdate(
       {
         _id: roomId,
         players: { $not: { $elemMatch: { userId: player.userId } } },
       },
-      { $addToSet: { players: player } },
+      {
+        $addToSet: { players: player },
+        $pull: { playerJoined: { userId: player.userId } },
+      },
       { new: true },
     );
 
@@ -67,10 +86,22 @@ export class GameRoomService {
   async removePlayer(roomId: string, playerId: string) {
     const updatedRoom = await this.GameRoom.findOneAndUpdate(
       { _id: roomId },
-      { $pull: { players: { userId: playerId } } },
+      {
+        $pull: {
+          playerJoined: { userId: playerId },
+          players: { userId: playerId },
+        },
+      },
       { new: true },
     );
 
     return updatedRoom;
+  }
+
+  async startGame(roomId: string) {
+    return await this.GameRoom.findByIdAndUpdate(
+      { _id: roomId },
+      { status: gameRoomStatuses.inProgress },
+    );
   }
 }

@@ -1,21 +1,22 @@
 import express, { NextFunction, Request, Response } from 'express';
+import { create } from 'express-handlebars';
 import http from 'node:http';
 import { Server } from 'socket.io';
-import { engine } from 'express-handlebars';
 
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
 
-import { connect } from './setup/database';
-import { AppError } from './core/AppError';
 import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
-import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { AppError } from './core/AppError';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { connect } from './setup/database';
 // import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
-import views from './views'
 import cookieParser from 'cookie-parser';
+import views from './views';
+import path from 'node:path'
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -51,13 +52,17 @@ app.use('/api/v1/users', userRouter);
 // WORD CHECKER ROUTES
 app.use('/api', wordCheckRouter);
 
-app.engine('handlebars', engine());
+const hbs = create({
+  partialsDir: path.join(__dirname, 'views', 'components'),
+});
+
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
 // app.use('/', frontEndRouter);
 
-app.use('/', views)
+app.use('/', views);
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
   throw new AppError(
@@ -68,4 +73,4 @@ app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
 
 app.use(globalErrorHandler);
 
-export { server, io };
+export { io, server };

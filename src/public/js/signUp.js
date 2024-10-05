@@ -49,11 +49,13 @@ authForm.addEventListener('submit', async (e) => {
     };
 
     try {
-        const response = await axios.post('/api/v1/users/register', formData);
-        console.log(response.data);
-        authForm.reset();
-      } catch (error) {
-        console.log(error)
-      }
+      const response = await axios.post('/api/v1/users/register', formData);
+      console.log(response.data);
+      authForm.reset();
+      window.history.replaceState(null, null, '/');
+      window.location.href = '/';
+    } catch (error) {
+      console.log(error);
+    }
   }
 });

@@ -1,3 +1,15 @@
 .navbar {
-  padding-block: 2.4rem;
+  padding-block: 1.6rem;
+
+  &__settings {
+    width: 3.8rem;
+    height: 3.8rem;
+    img {
+      width: 100%;
+    }
+  }
+
+  .wrapper {
+    justify-content: space-between;
+  }
 }

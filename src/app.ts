@@ -28,7 +28,7 @@ const server = http.createServer(app);
 
 app.use(express.static('src/public'));
 app.use('/js/socket.io', express.static('node_modules/socket.io-client/dist'));
-app.use('/js/axios', express.static('node_modules/axios/dist/browser'));
+app.use('/js/axios', express.static('node_modules/axios/dist'));
 app.use(cookieParser());
 
 const io = new Server(server, {
@@ -57,7 +57,7 @@ app.set('views', './src/views');
 // app.use('/', frontEndRouter);
 
 app.get('/sign-up', (req, res, next) => {
-  res.render('sign-up', {title: 'Sign up'})
+  res.render('sign-up', {pageTitle: 'Sign up'})
 })
 
 // route not found on server

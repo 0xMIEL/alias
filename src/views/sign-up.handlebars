@@ -6,18 +6,22 @@
     </header>
     <main>
         <section class="wrapper wrapper--column">
-            <form class="auth-form" action="">
+            <form id="signUpForm" class="auth-form" method="post">
                 <div class="auth-input" data-label="username">
                     <input id="username" class="auth-input__input text" name="username" type="text" placeholder="e.g. joe_doe78"/>
+                    <p class="auth-input__info text text--small" style="display: none;"></p>
                 </div>
                 <div class="auth-input" data-label="email">
                     <input id="email" class="auth-input__input text" name="email" type="email" placeholder="e.g. joe.doe@email.com"/>
+                    <p class="auth-input__info text text--small" style="display: none;"></p>
                 </div>
                 <div class="auth-input" data-label="password">
                     <input id="password" class="auth-input__input text" name="password" type="password" autocomplete="new-password" placeholder="e.g. naGEntIcHR"/>
+                    <p class="auth-input__info text text--small" style="display: none;"></p>
                 </div>
                 <div class="auth-input" data-label="repeat password">
                     <input id="repeatPassword" class="auth-input__input text" name="repeat-password" type="password" autocomplete="new-password" placeholder="repeat your password"/>
+                    <p class="auth-input__info text text--small" style="display: none;"></p>
                 </div>
                 <button class="button text" type="submit">Sign up</button>
             </form>
@@ -27,5 +31,5 @@
             </div>
         </section>
     </main>
-    <script src="/js/signUp.js"></script>
+    <script type="module" src="./js/signUp.js"></script>
 <body/>

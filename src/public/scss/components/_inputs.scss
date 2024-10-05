@@ -24,8 +24,19 @@
         border: 0.1rem solid $primary-color;
         border-radius: 0.4rem;
         line-height: inherit;
+
         &:focus {
             outline: none;
         }
+
+        &--error {
+            border-color: $warn-color;
+        }
+    }
+    &__info {
+        padding-top: 0.4rem;
+        padding-inline: 1rem;
+        line-height: inherit;
+        color: $warn-color;
     }
 }

@@ -13,7 +13,7 @@
     "format:ts": "prettier --write '**/*.ts' --parser typescript",
     "format": "npm run format:other --silent; npm run format:ts --silent",
     "lint": "eslint .",
-    "sass": "sass --watch ./src/public/scss:./src/public/css"
+    "sass": "sass --watch ./src/public/scss:./src/public/css --style=compressed"
   },
   "keywords": [],
   "author": "Team 1",

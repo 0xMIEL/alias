@@ -14,6 +14,7 @@ import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 // import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
+import views from './views'
 import cookieParser from 'cookie-parser';
 
 process.on('uncaughtException', (err) => {
@@ -56,10 +57,7 @@ app.set('views', './src/views');
 
 // app.use('/', frontEndRouter);
 
-app.get('/sign-up', (req, res, next) => {
-  res.render('sign-up', {pageTitle: 'Sign up'})
-})
-
+app.use('/', views)
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
   throw new AppError(

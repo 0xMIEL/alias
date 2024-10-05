@@ -5,9 +5,11 @@ export const HTTP_STATUS_CODES = {
   INTERNAL_SERVER_ERROR_500: 500,
   NO_CONTENT_204: 204,
   NOT_FOUND_404: 404,
+  REDIRECT_302: 302,
   SUCCESS_200: 200,
   TOO_MANY_REQUESTS_429: 429,
   UNAUTHORIZED_401: 401,
 };
 
-export type StatusCode = (typeof HTTP_STATUS_CODES)[keyof typeof HTTP_STATUS_CODES];
+export type StatusCode =
+  (typeof HTTP_STATUS_CODES)[keyof typeof HTTP_STATUS_CODES];

@@ -9,19 +9,9 @@ authForm.addEventListener('submit', async (e) => {
 
   let isValid = true;
 
-  const username = authForm.querySelector('#username');
   const email = authForm.querySelector('#email');
   const password = authForm.querySelector('#password');
-  const repeatPassword = authForm.querySelector('#repeatPassword');
 
-  isValid &= AuthFormValidator.validateField(
-    username,
-    AuthFormValidator.regexPatterns.username,
-    {
-      invalid: AuthFormValidator.errorMessages.usernameFormat,
-      required: AuthFormValidator.errorMessages.usernameRequired,
-    },
-  );
   isValid &= AuthFormValidator.validateField(
     email,
     AuthFormValidator.regexPatterns.email,
@@ -39,17 +29,14 @@ authForm.addEventListener('submit', async (e) => {
     },
   );
 
-  isValid &= AuthFormValidator.validateRepeatPassword(password, repeatPassword);
-
   if (isValid) {
     const formData = {
       email: email.value.trim(),
       password: password.value.trim(),
-      username: username.value.trim(),
     };
 
     try {
-        const response = await axios.post('/api/v1/users/register', formData);
+        const response = await axios.post('/api/v1/users/login', formData);
         console.log(response.data);
         authForm.reset();
       } catch (error) {

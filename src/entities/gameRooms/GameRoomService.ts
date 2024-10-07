@@ -35,11 +35,13 @@ export class GameRoomService {
   async update(data: IGameRoomUpdate, id: string) {
     return await this.GameRoom.findOneAndUpdate({ _id: id }, data, {
       new: true,
-    });
+    }).lean();
   }
 
   async remove(id: string) {
-    const deletedRoom = await this.GameRoom.findByIdAndDelete({ _id: id });
+    const deletedRoom = await this.GameRoom.findByIdAndDelete({
+      _id: id,
+    }).lean();
 
     if (!deletedRoom) {
       throw new AppError(`Fail to delete the game room. Id ${id} not found`);
@@ -59,7 +61,7 @@ export class GameRoomService {
       { _id: roomId },
       { $addToSet: { playerJoined: userObjectId } },
       { new: true },
-    );
+    ).lean();
 
     return updatedRoom;
   }
@@ -78,7 +80,7 @@ export class GameRoomService {
         $pull: { playerJoined: userObjectId },
       },
       { new: true },
-    );
+    ).lean();
 
     if (!udpatedRoom) {
       throw new AppError('Player already exists in the room');
@@ -88,16 +90,25 @@ export class GameRoomService {
   }
 
   async removePlayer(roomId: string, playerId: string) {
+    const gameRoom = await this.GameRoom.findById(roomId).lean();
+
+    if (playerId === gameRoom?.hostUserId.toString()) {
+      await this.remove(roomId);
+      return null;
+    }
+
+    const playerObjectId = new mongoose.Types.ObjectId(playerId);
+
     const updatedRoom = await this.GameRoom.findOneAndUpdate(
       { _id: roomId },
       {
         $pull: {
-          playerJoined: { userId: playerId },
-          players: { userId: playerId },
+          playerJoined: playerObjectId,
+          players: { userId: playerObjectId },
         },
       },
       { new: true },
-    );
+    ).lean();
 
     return updatedRoom;
   }
@@ -106,6 +117,6 @@ export class GameRoomService {
     return await this.GameRoom.findByIdAndUpdate(
       { _id: roomId },
       { status: gameRoomStatuses.inProgress },
-    );
+    ).lean();
   }
 }

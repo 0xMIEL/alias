@@ -92,13 +92,13 @@ export class GameRoomController extends BaseController {
   }
 
   async joinRoom(req: Request, res: Response, next: NextFunction) {
-    const { roomId, player } = req.params;
+    const { roomId, playerId } = req.params;
 
-    const updatedRoom = await this.gameRoomService.joinRoom(roomId, player);
+    const updatedRoom = await this.gameRoomService.joinRoom(roomId, playerId);
 
     this.emitSocketEvent({
       data: {
-        message: `Player join ${player} the room`,
+        message: `Player join ${playerId} the room`,
         updatedRoom,
       },
       event: SOCKET_EVENT.JOIN_ROOM,
@@ -129,13 +129,34 @@ export class GameRoomController extends BaseController {
   }
 
   async removePlayer(req: Request, res: Response, next: NextFunction) {
-    const { roomId, player } = req.params;
+    const { roomId, playerId } = req.params;
 
-    const updatedRoom = await this.gameRoomService.removePlayer(roomId, player);
+    const updatedRoom = await this.gameRoomService.removePlayer(
+      roomId,
+      playerId,
+    );
+
+    console.log('Player id', playerId);
+    console.log('Room id', roomId);
+
+    console.log(updatedRoom);
+
+    if (!updatedRoom) {
+      this.updateGameListEvent(updatedRoom, req, 'delete');
+      this.emitSocketEvent({ event: SOCKET_EVENT.KILL_ROOM, req, roomId });
+
+      this.sendResponse({
+        data: updatedRoom,
+        res,
+        statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
+      });
+    }
+
+    this.updateGameListEvent(updatedRoom, req, 'update');
 
     this.emitSocketEvent({
       data: {
-        message: `Player ${player} leave the room`,
+        message: `Player ${playerId} leave the room`,
         updatedRoom,
       },
       event: SOCKET_EVENT.LEAVE_ROOM,
@@ -143,11 +164,34 @@ export class GameRoomController extends BaseController {
       roomId,
     });
 
-    this.updateGameListEvent(updatedRoom, req, 'update');
-
     this.sendResponse({
       data: updatedRoom,
       res,
+    });
+  }
+
+  async removePlayerOnWindowUnload(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const { roomId, playerId } = req.params;
+
+    const updatedRoom = await this.gameRoomService.removePlayer(
+      roomId,
+      playerId,
+    );
+
+    if (!updatedRoom) {
+      this.updateGameListEvent(updatedRoom, req, 'delete');
+    } else {
+      this.updateGameListEvent(updatedRoom, req, 'update');
+    }
+
+    this.sendResponse({
+      data: {},
+      res,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
     });
   }
 }

@@ -29,7 +29,12 @@ gameRoomRouter
   );
 
 gameRoomRouter
-  .route('/:roomId/room/:player')
+  .route('/:roomId/room/:playerId')
+  .post(
+    asyncErrorCatch(
+      gameRoomeController.removePlayerOnWindowUnload.bind(gameRoomeController),
+    ),
+  )
   .patch(
     asyncErrorCatch(gameRoomeController.joinRoom.bind(gameRoomeController)),
   )

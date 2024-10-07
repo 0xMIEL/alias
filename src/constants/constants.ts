@@ -23,3 +23,5 @@ export const SOCKET_EVENT = {
 
 export type StatusCode =
   (typeof HTTP_STATUS_CODE)[keyof typeof HTTP_STATUS_CODE];
+
+export type SocketEvent = (typeof SOCKET_EVENT)[keyof typeof SOCKET_EVENT];

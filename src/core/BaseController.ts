@@ -1,10 +1,21 @@
-import { Response } from 'express';
-import { HTTP_STATUS_CODE, StatusCode } from '../constants/constants';
+import { Response, Request } from 'express';
+import {
+  HTTP_STATUS_CODE,
+  SocketEvent,
+  StatusCode,
+} from '../constants/constants';
 
 type SendResponseProps = {
   res: Response;
   data: unknown;
   statusCode?: StatusCode;
+};
+
+export type EmitSocketEvent = {
+  req: Request;
+  roomId?: string;
+  event: SocketEvent;
+  data: object;
 };
 
 export class BaseController {
@@ -18,4 +29,19 @@ export class BaseController {
       status: 'success',
     });
   }
+
+  protected emitSocketEvent = ({
+    req,
+    roomId,
+    event,
+    data,
+  }: EmitSocketEvent) => {
+    const io = req.app.get('io');
+
+    if (roomId) {
+      io.in(roomId).emit(event, data);
+    } else {
+      io.emit(event, data);
+    }
+  };
 }

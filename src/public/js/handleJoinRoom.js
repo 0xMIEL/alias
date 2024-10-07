@@ -1,4 +1,4 @@
-import { joinRoom } from './api/gameRoomsApi.js';
+import { joinRoom } from './api/gameRoomApi.js';
 
 const gameList = document.getElementById('gameList');
 

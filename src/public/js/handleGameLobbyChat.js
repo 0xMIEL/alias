@@ -1,3 +1,4 @@
+import { SOCKET_EVENT } from './constants/constants.js';
 import { socket } from './sockets/socket.js';
 import { joinGameRoomWithSocket } from './sockets/socketHandlers.js';
 
@@ -22,7 +23,7 @@ function addMessage(message) {
   messageList.appendChild(listElement);
 }
 
-socket.on('room', (message) => {
+socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, (message) => {
   console.log(message);
 
   addMessage(message);

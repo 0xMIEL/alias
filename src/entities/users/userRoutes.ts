@@ -30,4 +30,5 @@ userRouter
   .route('/:id')
   .all(validateId)
   .get(asyncErrorCatch(userController.getOne.bind(userController)))
-  .delete(asyncErrorCatch(userController.remove.bind(userController)));
+  .delete(asyncErrorCatch(userController.remove.bind(userController)))
+  .patch(asyncErrorCatch(userController.update.bind(userController)));

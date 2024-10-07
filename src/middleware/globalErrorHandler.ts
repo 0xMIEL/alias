@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../core/AppError';
 import { HTTP_STATUS_CODE, StatusCode } from '../constants/constants';
@@ -28,6 +29,10 @@ export const globalErrorHandler = (
   res: Response,
   _next: NextFunction,
 ) => {
+  if (err.name === 'ValidationError') {
+    err = new AppError(err.message);
+  }
+
   const statusCode =
     err.statusCode || HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR_500;
 

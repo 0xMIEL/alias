@@ -1,9 +1,10 @@
+import { SOCKET_EVENT } from './constants/constants.js';
 import { createGameListItemHTML } from './helpers/createHtmlFunctions.js';
 import { socket } from './sockets/socket.js';
 
 const gameList = document.getElementById('gameList');
 
-socket.on('gameListUpdate', (data) => {
+socket.on(SOCKET_EVENT.GAME_LIST_UPDATE, (data) => {
   const { action, game } = data;
 
   if (action === 'create') {
@@ -32,12 +33,10 @@ function addGameToList(game) {
 function updateGameInList(game) {
   const gameToUpdate = document.getElementById(game._id);
 
+  gameToUpdate.innerHTML = createGameListItemHTML(game);
+
   if (game.players.length >= game.teamSize) {
     gameToUpdate.classList.add('full');
-  }
-
-  if (game.status === 'inProgress') {
-    return removeGameFromList(game);
   }
 
   gameToUpdate.innerHTML = createGameListItemHTML(game);
@@ -47,5 +46,3 @@ function removeGameFromList(game) {
   const gameToUpdate = document.getElementById(game._id);
   gameToUpdate.remove();
 }
-
-console.log(`{games}`);

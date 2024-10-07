@@ -13,7 +13,7 @@
   background-color: #fff;
   margin: 5% auto;
   padding: 20px;
-  width: 30vw;
+  width: 25vw;
   border-radius: 5px;
 }
 
@@ -46,5 +46,4 @@
 .modal-content input {
   padding: 8px;
   font-size: 14px;
-  margin-bottom: 15px;
 }

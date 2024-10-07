@@ -1,9 +1,10 @@
 /* eslint-disable no-console */
 import mongoose from 'mongoose';
 
-const mongoUri = process.env.MONGO_URI! || 'mongodb://localhost:27017/mydatabase';
+const mongoUri =
+  process.env.MONGO_URI! || 'mongodb://localhost:27017/mydatabase';
 
-export const connect = () => {
+export const connectDatabase = () => {
   mongoose
     .connect(mongoUri)
     .then(() => console.log('MongoDB connected'))

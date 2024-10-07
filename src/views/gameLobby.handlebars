@@ -1,4 +1,4 @@
-<div class='game-lobby' data-game-id='{{game._id}}'>
+<div class='game-lobby' id='game-lobby' data-game-id='{{game._id}}'>
   <h2 class='game-lobby__header'>Choose your team and start the Game!</h2>
   <button id='back'>back</button>
 
@@ -45,8 +45,18 @@
 
       <button class='button button-join-team2' id='button-join-team2'>Join Team2</button>
     </div>
-
   </div>
+
+  <div class='chat'>
+    <div class='chat-window' id='chat-window'>
+      <ul class='chat-window__list' id='chat-window__list'>
+
+      </ul>
+    </div>
+    <input type='text' id='game-lobby-message-input' />
+    <button class='button' id='button-game-lobby-send-message'>Send message</button>
+  </div>
+
   <button
     class='button button-danger button-leave-room'
     id='button-leave-room'
@@ -59,3 +69,4 @@
 </script>
 <script src='/js/handleJoinTeam.js' type='module'></script>
 <script src='/js/handleLeaveRoom.js' type='module'></script>
+<script src='/js/handleGameLobbyChat.js' type='module'></script>

@@ -1,5 +1,5 @@
 import { Response } from 'express';
-import { HTTP_STATUS_CODES, StatusCode } from '../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE, StatusCode } from '../constants/constants';
 
 type SendResponseProps = {
   res: Response;
@@ -11,7 +11,7 @@ export class BaseController {
   protected sendResponse({
     res,
     data,
-    statusCode = HTTP_STATUS_CODES.SUCCESS_200,
+    statusCode = HTTP_STATUS_CODE.SUCCESS_200,
   }: SendResponseProps) {
     res.status(statusCode).json({
       data,

@@ -1,5 +1,4 @@
 import { createGameRoom } from './api/gameRoomsApi.js';
-import { joinGameRoomWithSocket } from './sockets/socketHandlers.js';
 
 const modal = document.getElementById('gameModal');
 const createGameBtn = document.getElementById('createGameBtn');
@@ -35,13 +34,17 @@ async function handleCreateGameRoom(event) {
     timePerRound,
   };
 
-  const { data } = await createGameRoom({ gameData });
+  saveUserToStorage(hostUserId);
 
-  joinGameRoomWithSocket(data._id, hostUserId);
+  const { data } = await createGameRoom({ gameData });
 
   createGameRoomForm.reset();
   modal.style.display = 'none';
   window.location.replace(`/game-lobby/${data._id}`);
+}
+
+function saveUserToStorage(userId) {
+  localStorage.setItem('userId', userId);
 }
 
 createGameRoomForm.addEventListener('submit', handleCreateGameRoom);

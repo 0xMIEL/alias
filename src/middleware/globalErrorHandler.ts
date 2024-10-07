@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppError } from '../core/AppError';
-import { HTTP_STATUS_CODES, StatusCode } from '../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE, StatusCode } from '../constants/constants';
 
 const sendDevError = (err: AppError, res: Response, statusCode: StatusCode) => {
   const { status, message, stack } = err;
@@ -29,7 +29,7 @@ export const globalErrorHandler = (
   _next: NextFunction,
 ) => {
   const statusCode =
-    err.statusCode || HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500;
+    err.statusCode || HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR_500;
 
   if (process.env.NODE_ENV === 'production') {
     sendProductionError(err, res, statusCode);

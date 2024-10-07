@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
 
@@ -16,7 +16,7 @@ export class UserController extends BaseController {
     this.sendResponse({
       data: newUser,
       res,
-      statusCode: HTTP_STATUS_CODES.CREATED_201,
+      statusCode: HTTP_STATUS_CODE.CREATED_201,
     });
   }
 
@@ -63,7 +63,7 @@ export class UserController extends BaseController {
     this.sendResponse({
       data: deletedUser,
       res,
-      statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
     });
   }
 
@@ -77,7 +77,7 @@ export class UserController extends BaseController {
     this.sendResponse({
       data: `User ${username} logged out successfully`,
       res,
-      statusCode: HTTP_STATUS_CODES.SUCCESS_200,
+      statusCode: HTTP_STATUS_CODE.SUCCESS_200,
     });
   }
 }

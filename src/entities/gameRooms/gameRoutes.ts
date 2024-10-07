@@ -4,13 +4,14 @@ import { GameRoomService } from './GameRoomService';
 import { GameRoom } from './GameRoom';
 import { GameRoomController } from './GameRoomController';
 import { validateId } from '../../middleware/validateId';
+import { io } from '../../app';
 
 export const gameRoomRouter = Router();
 
 gameRoomRouter.use('/:id', validateId);
 
 const gameRoomService = new GameRoomService(GameRoom);
-const gameRoomeController = new GameRoomController(gameRoomService);
+const gameRoomeController = new GameRoomController(gameRoomService, io);
 
 gameRoomRouter
   .route('/')
@@ -29,7 +30,7 @@ gameRoomRouter
   );
 
 gameRoomRouter
-  .route('/:id/room/:player')
+  .route('/:roomId/room/:player')
   .patch(
     asyncErrorCatch(gameRoomeController.joinRoom.bind(gameRoomeController)),
   )
@@ -38,7 +39,7 @@ gameRoomRouter
   );
 
 gameRoomRouter
-  .route('/:id/team')
+  .route('/:roomId/team')
   .patch(
     asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
   );

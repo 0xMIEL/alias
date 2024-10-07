@@ -6,15 +6,16 @@ import { engine } from 'express-handlebars';
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
 
-import { connect } from './setup/database';
+import { connectDatabase } from './setup/database';
 import { AppError } from './core/AppError';
-import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
+import { HTTP_STATUS_CODE } from './constants/constants';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 import { fronEndRouter } from './entities/frontEnd/frontEndRoutes';
 import cookieParser from 'cookie-parser';
+import { initializeSocket } from './socket/socket';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -36,22 +37,9 @@ const io = new Server(server, {
   },
 });
 
-io.on('connection', (socket) => {
-  socket.on('joinRoom', ({ roomId, userId }) => {
-    socket.join(roomId);
+initializeSocket(io);
 
-    io.to(roomId).emit('updateRoom', { message: 'A new player has joined!' });
-
-    const clients = io.sockets.adapter.rooms.get(roomId);
-
-    console.log(`joining room: ${roomId}, user: ${userId}`);
-    console.log('clints', clients);
-    console.log('__________________________________________');
-  });
-});
-
-// connect database
-connect();
+connectDatabase();
 
 // body parser
 app.use(express.json());
@@ -73,7 +61,7 @@ app.use('/', fronEndRouter);
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
   throw new AppError(
     `Can't find ${req.originalUrl} on this server!`,
-    HTTP_STATUS_CODES.NOT_FOUND_404,
+    HTTP_STATUS_CODE.NOT_FOUND_404,
   );
 });
 

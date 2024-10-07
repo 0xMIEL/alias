@@ -1,25 +1,32 @@
 import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from './GameRoomService';
-import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
 import { BaseController } from '../../core/BaseController';
-import { io } from '../../app';
+import { Server } from 'socket.io';
 
 export class GameRoomController extends BaseController {
-  constructor(private gameRoomService: GameRoomService) {
+  constructor(
+    private gameRoomService: GameRoomService,
+    private io: Server,
+  ) {
     super();
 
     this.gameRoomService = gameRoomService;
+    this.io = io;
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
     const newGameRoom = await this.gameRoomService.create(req.body);
 
-    io.emit('gameListUpdate', { action: 'create', game: newGameRoom });
+    this.io.emit(SOCKET_EVENT.GAME_LIST_UPDATE, {
+      action: 'create',
+      game: newGameRoom,
+    });
 
     this.sendResponse({
       data: newGameRoom,
       res,
-      statusCode: HTTP_STATUS_CODES.CREATED_201,
+      statusCode: HTTP_STATUS_CODE.CREATED_201,
     });
   }
 
@@ -47,7 +54,10 @@ export class GameRoomController extends BaseController {
       req.params.id,
     );
 
-    io.emit('gameListUpdate', { action: 'update', game: updatedGameRoom });
+    this.io.emit(SOCKET_EVENT.GAME_LIST_UPDATE, {
+      action: 'update',
+      game: updatedGameRoom,
+    });
 
     this.sendResponse({
       data: updatedGameRoom,
@@ -58,31 +68,39 @@ export class GameRoomController extends BaseController {
   async remove(req: Request, res: Response, next: NextFunction) {
     const deletedRoom = await this.gameRoomService.remove(req.params.id);
 
-    io.emit('gameListUpdate', { action: 'remove', game: deletedRoom });
+    this.io.emit(SOCKET_EVENT.GAME_LIST_UPDATE, {
+      action: 'remove',
+      game: deletedRoom,
+    });
 
     this.sendResponse({
       data: deletedRoom,
       res,
-      statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
     });
   }
 
   async removeAll(req: Request, res: Response, next: NextFunction) {
     await this.gameRoomService.removeAll();
 
-    io.emit('gameListUpdate', { action: 'removeAll' });
+    this.io.emit(SOCKET_EVENT.GAME_LIST_UPDATE, { action: 'removeAll' });
 
     this.sendResponse({
       data: {},
       res,
-      statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
     });
   }
 
   async joinRoom(req: Request, res: Response, next: NextFunction) {
-    const { id, player } = req.params;
+    const { roomId, player } = req.params;
 
-    const updatedRoom = await this.gameRoomService.joinRoom(id, player);
+    const updatedRoom = await this.gameRoomService.joinRoom(roomId, player);
+
+    this.io.to(roomId).emit(SOCKET_EVENT.JOIN_ROOM, {
+      message: `Player join ${player} the room`,
+      updatedRoom,
+    });
 
     this.sendResponse({
       data: updatedRoom,
@@ -91,10 +109,10 @@ export class GameRoomController extends BaseController {
   }
 
   async joinTeam(req: Request, res: Response, next: NextFunction) {
-    const { id } = req.params;
+    const { roomId } = req.params;
     const player = req.body;
 
-    const updatedRoom = await this.gameRoomService.joinTeam(id, player);
+    const updatedRoom = await this.gameRoomService.joinTeam(roomId, player);
 
     this.sendResponse({
       data: updatedRoom,
@@ -103,9 +121,14 @@ export class GameRoomController extends BaseController {
   }
 
   async removePlayer(req: Request, res: Response, next: NextFunction) {
-    const { id, player } = req.params;
+    const { roomId, player } = req.params;
 
-    const updatedRoom = await this.gameRoomService.removePlayer(id, player);
+    const updatedRoom = await this.gameRoomService.removePlayer(roomId, player);
+
+    this.io.to(roomId).emit(SOCKET_EVENT.LEAVE_ROOM, {
+      message: `Player ${player} leave the room`,
+      updatedRoom,
+    });
 
     this.sendResponse({
       data: updatedRoom,

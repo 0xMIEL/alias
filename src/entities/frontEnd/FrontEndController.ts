@@ -29,8 +29,12 @@ export class FrontEndController {
 
     const openGames = await this.gameRoomService.getMany(filters);
 
+    res.cookie('jwtToken', 'myToken', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+    });
+
     res.render('home', {
-      BASE_URL: process.env.BASE_URL,
       games: openGames,
       title: 'Alias Game',
     });

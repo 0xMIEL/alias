@@ -47,3 +47,5 @@ function removeGameFromList(game) {
   const gameToUpdate = document.getElementById(game._id);
   gameToUpdate.remove();
 }
+
+console.log(`{games}`);

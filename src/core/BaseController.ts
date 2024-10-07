@@ -15,7 +15,7 @@ export type EmitSocketEvent = {
   req: Request;
   roomId?: string;
   event: SocketEvent;
-  data: object;
+  data?: object;
 };
 
 export class BaseController {
@@ -34,7 +34,7 @@ export class BaseController {
     req,
     roomId,
     event,
-    data,
+    data = {},
   }: EmitSocketEvent) => {
     const io = req.app.get('io');
 

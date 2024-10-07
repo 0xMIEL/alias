@@ -10,17 +10,25 @@ export class GameRoomController extends BaseController {
     this.gameRoomService = gameRoomService;
   }
 
-  async create(req: Request, res: Response, next: NextFunction) {
-    const newGameRoom = await this.gameRoomService.create(req.body);
-
+  private updateGameListEvent(
+    gameRoom: object | null,
+    req: Request,
+    action: 'update' | 'delete' | 'create',
+  ) {
     this.emitSocketEvent({
       data: {
-        action: 'create',
-        game: newGameRoom,
+        action,
+        game: gameRoom,
       },
       event: SOCKET_EVENT.GAME_LIST_UPDATE,
       req,
     });
+  }
+
+  async create(req: Request, res: Response, next: NextFunction) {
+    const newGameRoom = await this.gameRoomService.create(req.body);
+
+    this.updateGameListEvent(newGameRoom, req, 'create');
 
     this.sendResponse({
       data: newGameRoom,
@@ -48,22 +56,15 @@ export class GameRoomController extends BaseController {
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
-    const updatedGameRoom = await this.gameRoomService.update(
+    const updatedRoom = await this.gameRoomService.update(
       req.body,
       req.params.id,
     );
 
-    this.emitSocketEvent({
-      data: {
-        action: 'update',
-        game: updatedGameRoom,
-      },
-      event: SOCKET_EVENT.GAME_LIST_UPDATE,
-      req,
-    });
+    this.updateGameListEvent(updatedRoom, req, 'update');
 
     this.sendResponse({
-      data: updatedGameRoom,
+      data: updatedRoom,
       res,
     });
   }
@@ -71,14 +72,7 @@ export class GameRoomController extends BaseController {
   async remove(req: Request, res: Response, next: NextFunction) {
     const deletedRoom = await this.gameRoomService.remove(req.params.id);
 
-    this.emitSocketEvent({
-      data: {
-        action: 'remove',
-        game: deletedRoom,
-      },
-      event: SOCKET_EVENT.GAME_LIST_UPDATE,
-      req,
-    });
+    this.updateGameListEvent(deletedRoom, req, 'delete');
 
     this.sendResponse({
       data: deletedRoom,
@@ -112,6 +106,8 @@ export class GameRoomController extends BaseController {
       roomId,
     });
 
+    this.updateGameListEvent(updatedRoom, req, 'update');
+
     this.sendResponse({
       data: updatedRoom,
       res,
@@ -123,6 +119,8 @@ export class GameRoomController extends BaseController {
     const player = req.body;
 
     const updatedRoom = await this.gameRoomService.joinTeam(roomId, player);
+
+    this.updateGameListEvent(updatedRoom, req, 'update');
 
     this.sendResponse({
       data: updatedRoom,
@@ -144,6 +142,8 @@ export class GameRoomController extends BaseController {
       req,
       roomId,
     });
+
+    this.updateGameListEvent(updatedRoom, req, 'update');
 
     this.sendResponse({
       data: updatedRoom,

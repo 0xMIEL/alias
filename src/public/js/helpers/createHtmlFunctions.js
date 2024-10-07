@@ -28,3 +28,49 @@ export function createGameListItemHTML(game) {
   </div>
   `;
 }
+
+export function createGameLobbyPlayersLists(game) {
+  const team1 = [];
+  const team2 = [];
+  const waitingPlayers = game.playerJoined;
+
+  game.players.forEach((player) => {
+    if (player.team === 1) {
+      team1.push(player);
+    } else {
+      team2.push(player);
+    }
+  });
+
+  const team1HTML = team1
+    .map(
+      (player) => `
+      <li class='team1__list__item' id='${player.userId}'>
+        ${player.userId}
+      </li>
+    `,
+    )
+    .join('');
+
+  const team2HTML = team2
+    .map(
+      (player) => `
+      <li class='team2__list__item' id='${player.userId}'>
+        ${player.userId}
+      </li>
+    `,
+    )
+    .join('');
+
+  const waitingHTML = waitingPlayers
+    .map(
+      (player) => `
+      <li class='game-lobby__waiting__item' id='${player.userId}'>
+        ${player.userId}
+      </li>
+    `,
+    )
+    .join('');
+
+  return { team1HTML, team2HTML, waitingHTML };
+}

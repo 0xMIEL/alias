@@ -23,6 +23,11 @@ async function makeApiRequest({ method, url, data = null }) {
 
   const response = await fetch(url, options);
 
+  const noContentStatusCode = 204;
+  if (response.status === noContentStatusCode) {
+    return;
+  }
+
   if (!response.ok) {
     throw new Error(`Response status: ${response.status}`);
   }

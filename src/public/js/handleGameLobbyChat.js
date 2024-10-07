@@ -1,4 +1,5 @@
 import { SOCKET_EVENT } from './constants/constants.js';
+import { getUserFromStorage } from './helpers/helpers.js';
 import { socket } from './sockets/socket.js';
 import { joinGameRoomWithSocket } from './sockets/socketHandlers.js';
 
@@ -12,7 +13,8 @@ button.addEventListener('click', () => {
   if (!input.value) return;
 
   const message = input.value;
-  socket.emit('room message', { message, roomId });
+  socket.emit(SOCKET_EVENT.GAME_LOBBY_MESSAGE, { message, roomId });
+  input.value = '';
 });
 
 function addMessage(message) {
@@ -24,30 +26,13 @@ function addMessage(message) {
 }
 
 socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, (message) => {
-  console.log(message);
-
   addMessage(message);
 });
-
-socket.on('joinRoom', (data) => {
-  const { updatedRoom, message } = data;
-  console.log(message);
-
-  updatePlayerLists(updatedRoom);
-
-  addMessage(message);
-});
-
-function updatePlayerLists(data) {
-  console.log(data);
-}
-
-function getUserFromStorage() {
-  return localStorage.getItem('userId');
-}
 
 document.addEventListener('DOMContentLoaded', () => {
   const userId = getUserFromStorage() || 'userid';
 
   joinGameRoomWithSocket(roomId, userId);
 });
+
+export { addMessage };

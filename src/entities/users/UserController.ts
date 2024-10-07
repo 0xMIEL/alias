@@ -31,7 +31,12 @@ export class UserController extends BaseController {
     });
 
     this.sendResponse({
-      data: user,
+      data: {
+        _id: user.user._id,
+        email: user.user.email,
+        scores: user.user.scores,
+        token: user.token,
+      },
       res,
     });
   }

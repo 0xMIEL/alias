@@ -4,46 +4,63 @@
 
   <h3 class='game-lobby__game-name'>Game id: {{game._id}}</h3>
 
-  <div class='game-lobby__teams'>
+  <div class='wrapper' id='game-lobby-lists-wrapper'>
+    <div class='game-lobby__teams'>
+      <div class='game-lobby__team1'>
+        <h4>Team 1</h4>
 
-    <div class='game-lobby__team1'>
-      <h4>Team 1</h4>
+        <ul class='team1__list' id='team1-list'>
 
-      <ul class='team1__list' id='team1-list'>
+          {{#each team1 as |player|}}
 
-        {{#each team1 as |player|}}
+            <li class='team1__list__item' id='{{player.userId}}'>
 
-          <li class='team1__list__item' id='{{player.userId}}'>
+              {{player.userId}}
 
-            {{player.userId}}
+            </li>
 
-          </li>
+          {{/each}}
 
-        {{/each}}
+        </ul>
 
-      </ul>
+        <button class='button button-join-team1' id='button-join-team1'>Join
+          Team1</button>
+      </div>
 
-      <button class='button button-join-team1' id='button-join-team1'>Join Team1</button>
+      <div class='game-lobby__team2'>
+        <h4>Team 2</h4>
+
+        <ul class='team2__list' id='team2-list'>
+
+          {{#each team2 as |player|}}
+
+            <li class='team2__list__item' id='{{player.userId}}'>
+
+              {{player.userId}}
+
+            </li>
+
+          {{/each}}
+
+        </ul>
+
+        <button class='button button-join-team2' id='button-join-team2'>Join
+          Team2</button>
+      </div>
     </div>
+    <div class='game-lobby__waiting__wrapper'>
+      <h4>Waiting players</h4>
+      <ul class='game-lobby__waiting__list' id='waiting-list'>
+        {{#each game.playerJoined as |player|}}
 
-    <div class='game-lobby__team2'>
-      <h4>Team 2</h4>
+          <li class='game-lobby__waiting__item'>
 
-      <ul class='team2__list' id='team2-list'>
-
-        {{#each team2 as |player|}}
-
-          <li class='team2__list__item' id='{{player.userId}}'>
-
-            {{player.userId}}
+            {{player}}
 
           </li>
 
         {{/each}}
-
       </ul>
-
-      <button class='button button-join-team2' id='button-join-team2'>Join Team2</button>
     </div>
   </div>
 
@@ -56,11 +73,14 @@
     <input type='text' id='game-lobby-message-input' />
     <button class='button' id='button-game-lobby-send-message'>Send message</button>
   </div>
+  <div class='action-buttons-container' id='action-buttons-container'>
 
-  <button
-    class='button button-danger button-leave-room'
-    id='button-leave-room'
-  >Leave Room</button>
+    <button
+      class='button button-danger button-leave-room'
+      id='button-leave-room'
+    >Leave Room</button>
+
+  </div>
 </div>
 
 <script>
@@ -70,3 +90,4 @@
 <script src='/js/handleJoinTeam.js' type='module'></script>
 <script src='/js/handleLeaveRoom.js' type='module'></script>
 <script src='/js/handleGameLobbyChat.js' type='module'></script>
+<script src='/js/handleGameLobbyUpdate.js' type='module'></script>

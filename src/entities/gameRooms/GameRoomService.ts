@@ -39,15 +39,7 @@ export class GameRoomService {
   }
 
   async remove(id: string) {
-    const deletedRoom = await this.GameRoom.findByIdAndDelete({
-      _id: id,
-    }).lean();
-
-    if (!deletedRoom) {
-      throw new AppError(`Fail to delete the game room. Id ${id} not found`);
-    }
-
-    return deletedRoom;
+    await this.GameRoom.findByIdAndDelete(id).lean();
   }
 
   async removeAll() {
@@ -93,8 +85,7 @@ export class GameRoomService {
     const gameRoom = await this.GameRoom.findById(roomId).lean();
 
     if (playerId === gameRoom?.hostUserId.toString()) {
-      await this.remove(roomId);
-      return null;
+      return await this.remove(roomId);
     }
 
     const playerObjectId = new mongoose.Types.ObjectId(playerId);

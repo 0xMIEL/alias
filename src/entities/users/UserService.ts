@@ -34,7 +34,7 @@ export class UserService {
   }
 
   async getMany() {
-    return await this.User.find();
+    return await this.User.find().select(['-password']);
   }
 
   async update(data: IUserUpdate, password: string) {
@@ -54,7 +54,6 @@ export class UserService {
   }
 
   async extractUsernameFromToken(token: string, res: Response) {
-    
     if (!token) {
       throw new AppError('No token provided');
     }

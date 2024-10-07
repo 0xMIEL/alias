@@ -39,7 +39,7 @@ gameRoomRouter
     asyncErrorCatch(gameRoomeController.joinRoom.bind(gameRoomeController)),
   )
   .delete(
-    asyncErrorCatch(gameRoomeController.removePlayer.bind(gameRoomeController)),
+    asyncErrorCatch(gameRoomeController.leaveRoom.bind(gameRoomeController)),
   );
 
 gameRoomRouter

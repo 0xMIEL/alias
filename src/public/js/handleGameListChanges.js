@@ -44,5 +44,8 @@ function updateGameInList(game) {
 
 function removeGameFromList(game) {
   const gameToUpdate = document.getElementById(game._id);
-  gameToUpdate.remove();
+
+  if (gameToUpdate) {
+    gameToUpdate.remove();
+  }
 }

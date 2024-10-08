@@ -119,13 +119,8 @@ npm start
 
 ## Database Schema Design
 
-GameRoom Schema:
 
 ![Screenshot](https://github.com/pologora/alias/blob/docs/docs/screenshots/database.png)
-
-Word Schema:
-
-![Screenshot](https://github.com/pologora/alias/blob/docs/docs/screenshots/wordSchema.png)
 
 ## Running Tests
     - to run unit tests:

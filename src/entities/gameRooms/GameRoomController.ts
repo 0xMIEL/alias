@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from './GameRoomService';
 import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
 import { BaseController } from '../../core/BaseController';
+import getManyGameRoomsSchema from './gameRoomValidaton';
+import { AppError } from '../../core/AppError';
 
 export class GameRoomController extends BaseController {
   constructor(private gameRoomService: GameRoomService) {
@@ -47,7 +49,13 @@ export class GameRoomController extends BaseController {
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {
-    const gameRooms = await this.gameRoomService.getMany();
+    const { error, value } = getManyGameRoomsSchema.validate(req.query);
+
+    if (error) {
+      throw new AppError(error.message);
+    }
+
+    const gameRooms = await this.gameRoomService.getMany(value);
 
     this.sendResponse({
       data: gameRooms,

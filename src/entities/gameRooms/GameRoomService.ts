@@ -1,11 +1,19 @@
 import mongoose, { Model } from 'mongoose';
 import {
+  GameRoomQueryOptions,
+  GameRoomStatus,
   gameRoomStatuses,
   IGameRoom,
   IGameRoomUpdate,
   Player,
 } from './types/gameRoom';
 import { AppError } from '../../core/AppError';
+
+interface GameRoomQuery {
+  status: GameRoomStatus;
+  teamSize?: number;
+  timePerRound?: number;
+}
 
 export class GameRoomService {
   constructor(private GameRoom: Model<IGameRoom>) {
@@ -28,8 +36,21 @@ export class GameRoomService {
     return gameRoom;
   }
 
-  async getMany(filters: object = {}) {
-    return await this.GameRoom.find(filters).lean();
+  async getMany(filters: GameRoomQueryOptions) {
+    const { limit, page, status, teamSize, timePerRound } = filters;
+    const skip = (page - 1) * limit;
+
+    const query: GameRoomQuery = { status };
+
+    if (teamSize) {
+      query.teamSize = teamSize;
+    }
+
+    if (timePerRound) {
+      query.timePerRound = timePerRound;
+    }
+
+    return await this.GameRoom.find(query).limit(limit).skip(skip).lean();
   }
 
   async update(data: IGameRoomUpdate, id: string) {

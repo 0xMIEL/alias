@@ -1,3 +1,6 @@
+import { apiRequestErrorCatch } from './api/apiUtils';
+import { logoutUser } from './api/userProfileApi';
+
 document.addEventListener('DOMContentLoaded', function () {
     const optionsModal = document.getElementById('optionsModal');
     const openOptionsButton = document.getElementById('openOptionsBtn');
@@ -18,24 +21,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
   
-  if (logoutButton) {
-    logoutButton.addEventListener('click', function () {
-        fetch('/api/v1/users/logout', {
-            method: 'DELETE',
-            credentials: 'include' 
-        })
-        .then(response => {
-            if (response.ok) {
-                window.location.href = '/'; 
-            } else {
+    if (logoutButton) {
+        logoutButton.addEventListener('click', apiRequestErrorCatch(async function () {
+            try {
+                await logoutUser();
+                window.location.href = '/';
+            } catch (error) {
+                console.error('Logout failed:', error);
                 alert('Logout failed. Please try again.');
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again.');
-        });
-    });
-}
+        }));
+    }
 });
-

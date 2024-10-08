@@ -17,7 +17,7 @@ import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
 import cookieParser from 'cookie-parser';
 import { initializeSocket } from './socket/socket';
 import mongoSanitize from 'express-mongo-sanitize';
-import path from 'node:path'
+import path from 'node:path';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -67,7 +67,6 @@ app.set('view engine', 'handlebars');
 app.set('views', './src/views');
 
 app.use('/', frontEndRouter);
-
 
 // route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {

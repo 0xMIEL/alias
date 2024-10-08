@@ -3,11 +3,16 @@ import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
 import { GameRoom } from '../gameRooms/GameRoom';
 import { GameRoomService } from '../gameRooms/GameRoomService';
 import { FrontEndController } from './FrontEndController';
+import { UserController } from '../users/UserController';
+import { UserService } from '../users/UserService';
+import { User } from '../users/User';
 
 export const frontEndRouter = Router();
 
 const gameRoomService = new GameRoomService(GameRoom);
+const userService = new UserService(User);
 const frontEndController = new FrontEndController(gameRoomService);
+const userController = new UserController(userService);
 
 frontEndRouter
   .route('/')
@@ -15,11 +20,13 @@ frontEndRouter
 
 frontEndRouter
   .route('/sign-up')
-  .get(frontEndController.getSingUpPage.bind(frontEndController));
+  .get(frontEndController.getSingUpPage.bind(frontEndController))
+  .post(asyncErrorCatch(userController.create.bind(userController)));
 
 frontEndRouter
   .route('/log-in')
-  .get(frontEndController.getLogInPage.bind(frontEndController));
+  .get(frontEndController.getLogInPage.bind(frontEndController))
+  .post(asyncErrorCatch(userController.getOne.bind(userController)));
 
 frontEndRouter
   .route('/game-lobby')

@@ -38,9 +38,13 @@ export class UserService {
   }
 
   async update(data: IUserUpdate, password: string) {
-    return await this.User.findOneAndUpdate({ _password: password }, data, {
-      new: true,
-    });
+    const hashedPassword = await hashPassword(password);
+
+    return await this.User.findOneAndUpdate(
+      { email: data.email },
+      { ...data, password: hashedPassword },
+      { new: true },
+    );
   }
 
   async remove(email: string) {

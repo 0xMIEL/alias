@@ -11,10 +11,16 @@ export class UserController extends BaseController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    const newUser = await this.userService.create(req.body);
+    const user = await this.userService.create(req.body);
 
     this.sendResponse({
-      data: newUser,
+      data: {
+        _id: user._id,
+        email: user.email,
+        roundsTotal: user.roundsTotal,
+        scores: user.scores,
+        username: user.username,
+      },
       res,
       statusCode: HTTP_STATUS_CODE.CREATED_201,
     });
@@ -23,19 +29,22 @@ export class UserController extends BaseController {
   async getOne(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
 
-    const user = await this.userService.getOne(email, password);
+    const result = await this.userService.getOne(email, password);
+    const { token, user } = result;
 
-    res.cookie('jwtToken', user.token, {
+    res.cookie('jwtToken', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
     });
 
     this.sendResponse({
       data: {
-        _id: user.user._id,
-        email: user.user.email,
-        scores: user.user.scores,
-        token: user.token,
+        _id: user._id,
+        email: user.email,
+        roundsTotal: user.roundsTotal,
+        scores: user.scores,
+        token,
+        username: user.username,
       },
       res,
     });
@@ -52,8 +61,8 @@ export class UserController extends BaseController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     const updatedUser = await this.userService.update(
-      req.body,
-      req.params.password,
+      { email: req.body.email },
+      req.body.password,
     );
 
     this.sendResponse({

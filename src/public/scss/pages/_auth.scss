@@ -1,0 +1,45 @@
+.auth-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100vh;
+  header {
+    padding-bottom: 4.8rem;
+  }
+  
+  header {
+    .wrapper {
+        justify-content: center;
+      }
+  }
+
+  .wrapper {
+    align-items: center;
+  }
+
+  .auth-form, .more {
+    width: 100%;
+    max-width: 30rem;
+  }
+
+  .auth-input {
+    margin-bottom: 1.6rem;
+
+    &:last-of-type {
+      margin-bottom: 3.2rem;
+    }
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .more {
+    padding-bottom: 3rem;
+    p {
+      padding-block: 0.8rem;
+      text-align: center;
+      line-height: 1;
+    }
+  }
+}

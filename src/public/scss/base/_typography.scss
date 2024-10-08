@@ -1,0 +1,11 @@
+.text {
+  font-family: "Manrope", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 1.6rem;
+  &--small {
+    font-size: 1.2rem;
+    font-weight: 400;
+  }
+}
+

@@ -1,0 +1,42 @@
+@use '../variables' as *;
+
+.game-list {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1.6rem;
+  width: 100%;
+}
+
+.game-tile {
+  padding: 0.8rem;
+  border: 0.1rem solid $primary-color;
+  border-radius: 0.4rem;
+  &__id {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 0.4rem;
+    color: $secondary-color;
+    background-color: $primary-color;
+  }
+}
+
+@media (width >= 550px) {
+  .game-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (width >= 800px) {
+  .game-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (width >= 1050px) {
+  .game-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

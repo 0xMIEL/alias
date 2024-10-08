@@ -16,6 +16,7 @@ import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 import { fronEndRouter } from './entities/frontEnd/frontEndRoutes';
 import cookieParser from 'cookie-parser';
 import { initializeSocket } from './socket/socket';
+import mongoSanitize from 'express-mongo-sanitize';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -45,6 +46,8 @@ connectDatabase();
 
 // body parser
 app.use(express.json());
+// sanitize user input
+app.use(mongoSanitize());
 
 app.use('/api/v1/gameRooms', gameRoomRouter);
 

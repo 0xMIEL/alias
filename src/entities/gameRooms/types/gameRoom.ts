@@ -5,6 +5,15 @@ export const gameRoomStatuses = {
 } as const;
 
 export type GameRoomStatus = keyof typeof gameRoomStatuses;
+
+export type GameRoomQueryOptions = {
+  limit: number;
+  page: number;
+  status: GameRoomStatus;
+  teamSize?: number;
+  timePerRound?: number;
+};
+
 export type Player = { userId: string; team: number };
 
 export interface IGameRoom {

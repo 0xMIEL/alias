@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from './GameRoomService';
-import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
 import { BaseController } from '../../core/BaseController';
-import { io } from '../../app';
+import getManyGameRoomsSchema from './gameRoomValidaton';
+import { AppError } from '../../core/AppError';
 
 export class GameRoomController extends BaseController {
   constructor(private gameRoomService: GameRoomService) {
@@ -11,15 +12,30 @@ export class GameRoomController extends BaseController {
     this.gameRoomService = gameRoomService;
   }
 
+  private updateGameListEvent(
+    gameRoom: object,
+    req: Request,
+    action: 'update' | 'remove' | 'create',
+  ) {
+    this.emitSocketEvent({
+      data: {
+        action,
+        game: gameRoom,
+      },
+      event: SOCKET_EVENT.GAME_LIST_UPDATE,
+      req,
+    });
+  }
+
   async create(req: Request, res: Response, next: NextFunction) {
     const newGameRoom = await this.gameRoomService.create(req.body);
 
-    io.emit('gameListUpdate', { action: 'create', game: newGameRoom });
+    this.updateGameListEvent(newGameRoom, req, 'create');
 
     this.sendResponse({
       data: newGameRoom,
       res,
-      statusCode: HTTP_STATUS_CODES.CREATED_201,
+      statusCode: HTTP_STATUS_CODE.CREATED_201,
     });
   }
 
@@ -33,7 +49,13 @@ export class GameRoomController extends BaseController {
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {
-    const gameRooms = await this.gameRoomService.getMany();
+    const { error, value } = getManyGameRoomsSchema.validate(req.query);
+
+    if (error) {
+      throw new AppError(error.message);
+    }
+
+    const gameRooms = await this.gameRoomService.getMany(value);
 
     this.sendResponse({
       data: gameRooms,
@@ -42,28 +64,149 @@ export class GameRoomController extends BaseController {
   }
 
   async update(req: Request, res: Response, next: NextFunction) {
-    const updatedGameRoom = await this.gameRoomService.update(
+    const updatedRoom = await this.gameRoomService.update(
       req.body,
       req.params.id,
     );
 
-    io.emit('gameListUpdate', { action: 'update', game: updatedGameRoom });
+    this.updateGameListEvent(updatedRoom!, req, 'update');
 
     this.sendResponse({
-      data: updatedGameRoom,
+      data: updatedRoom,
       res,
     });
   }
 
   async remove(req: Request, res: Response, next: NextFunction) {
-    const deletedRoom = await this.gameRoomService.remove(req.params.id);
+    await this.gameRoomService.remove(req.params.id);
 
-    io.emit('gameListUpdate', { action: 'remove', game: deletedRoom });
+    this.updateGameListEvent({ _id: req.params.id }, req, 'remove');
 
     this.sendResponse({
-      data: deletedRoom,
+      data: {},
       res,
-      statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
+    });
+  }
+
+  async removeAll(req: Request, res: Response, next: NextFunction) {
+    await this.gameRoomService.removeAll();
+
+    this.sendResponse({
+      data: {},
+      res,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
+    });
+  }
+
+  async joinRoom(req: Request, res: Response, next: NextFunction) {
+    const { roomId, playerId } = req.params;
+
+    const updatedRoom = await this.gameRoomService.joinRoom(roomId, playerId);
+
+    this.emitSocketEvent({
+      data: {
+        message: `Player join ${playerId} the room`,
+        updatedRoom,
+      },
+      event: SOCKET_EVENT.JOIN_ROOM,
+      req,
+      roomId,
+    });
+
+    this.updateGameListEvent(updatedRoom!, req, 'update');
+
+    this.sendResponse({
+      data: updatedRoom,
+      res,
+    });
+  }
+
+  async joinTeam(req: Request, res: Response, next: NextFunction) {
+    const { roomId } = req.params;
+    const { team, userId } = req.body;
+
+    const updatedRoom = await this.gameRoomService.joinTeam(roomId, {
+      team,
+      userId,
+    });
+
+    this.updateGameListEvent(updatedRoom, req, 'update');
+    this.emitSocketEvent({
+      data: {
+        message: `New player ${userId} joined team: ${team}`,
+        updatedRoom,
+      },
+      event: SOCKET_EVENT.JOIN_TEAM,
+      req,
+      roomId,
+    });
+
+    this.sendResponse({
+      data: updatedRoom,
+      res,
+    });
+  }
+
+  async leaveRoom(req: Request, res: Response, next: NextFunction) {
+    const { roomId, playerId } = req.params;
+
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
+
+    if (!updatedRoom) {
+      this.emitSocketEvent({
+        data: { roomId },
+        event: SOCKET_EVENT.KILL_ROOM,
+        req,
+        roomId,
+      });
+
+      this.updateGameListEvent({ _id: roomId }, req, 'remove');
+
+      return this.sendResponse({
+        data: {},
+        res,
+        statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
+      });
+    }
+
+    this.updateGameListEvent(updatedRoom!, req, 'update');
+
+    this.emitSocketEvent({
+      data: {
+        message: `Player ${playerId} leave the room`,
+        updatedRoom,
+      },
+      event: SOCKET_EVENT.LEAVE_ROOM,
+      req,
+      roomId,
+    });
+
+    this.sendResponse({
+      data: updatedRoom,
+      res,
+    });
+  }
+
+  async removePlayerOnWindowUnload(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const { roomId, playerId } = req.params;
+
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
+
+    if (!updatedRoom) {
+      this.updateGameListEvent({ _id: roomId }, req, 'remove');
+    } else {
+      this.updateGameListEvent(updatedRoom, req, 'update');
+    }
+
+    this.sendResponse({
+      data: {},
+      res,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
     });
   }
 }

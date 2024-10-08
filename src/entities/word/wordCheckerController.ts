@@ -1,16 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
 import { WordCheckerService } from './wordCheckerService';
-import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 
 export class WordCheckerController {
   constructor(private wordCheckerService: WordCheckerService) {
     this.wordCheckerService = wordCheckerService;
   }
 
-  async getWord(req: Request, res: Response, next: NextFunction){
+  async getWord(req: Request, res: Response, next: NextFunction) {
     const word = await this.wordCheckerService.getRandomWord();
 
-    res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
+    res.status(HTTP_STATUS_CODE.SUCCESS_200).json({
       data: word,
       status: 'success',
     });
@@ -19,9 +19,12 @@ export class WordCheckerController {
   async getSimilarity(req: Request, res: Response, next: NextFunction) {
     const { inputWord, targetWord } = req.body;
 
-    const similarity = await this.wordCheckerService.checkSimilarity(inputWord, targetWord);
+    const similarity = await this.wordCheckerService.checkSimilarity(
+      inputWord,
+      targetWord,
+    );
 
-    res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
+    res.status(HTTP_STATUS_CODE.SUCCESS_200).json({
       data: similarity,
       status: 'success',
     });
@@ -30,9 +33,12 @@ export class WordCheckerController {
   async checkForWord(req: Request, res: Response, next: NextFunction) {
     const { word, sentence } = req.body;
 
-    const isWordInSentence = await this.wordCheckerService.checkSentenceForWord(word, sentence);
+    const isWordInSentence = await this.wordCheckerService.checkSentenceForWord(
+      word,
+      sentence,
+    );
 
-    res.status(HTTP_STATUS_CODES.SUCCESS_200).json({
+    res.status(HTTP_STATUS_CODE.SUCCESS_200).json({
       data: isWordInSentence,
       status: 'success',
     });

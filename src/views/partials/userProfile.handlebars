@@ -1,0 +1,25 @@
+<div class='user-profile'>
+  <button
+    class='user-profile__button'
+    id='openOptionsBtn'
+    aria-label='User Profile'
+  >
+    <img
+      src='/images/icons/profile.svg'
+      alt='User Profile'
+      class='user-profile__icon'
+    />
+  </button>
+  <h4>Hi, {{username}}!</h4>
+</div>
+
+<div id='optionsModal' class='modal'>
+  <div class='modal-content'>
+    <span class='close'>&times;</span>
+    <button class='user-profile__button' id='logoutButton'>Logout</button>
+    <div>
+      <h5>Rounds played:</h5>
+      <h5>Total score:</h5>
+    </div>
+  </div>
+</div>

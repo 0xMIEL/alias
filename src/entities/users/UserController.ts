@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { HTTP_STATUS_CODES } from '../../constants/httpStatusCodes';
-import { BaseController } from '../../core/BaseController';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { UserService } from './UserService';
+import { BaseController } from '../../core/BaseController';
+
 
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
@@ -11,28 +12,42 @@ export class UserController extends BaseController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
-    const newUser = await this.userService.create(req.body);
+    const user = await this.userService.create(req.body);
 
     this.sendResponse({
-      data: newUser,
+      data: {
+        _id: user._id,
+        email: user.email,
+        roundsTotal: user.roundsTotal,
+        scores: user.scores,
+        username: user.username,
+      },
       res,
-      statusCode: HTTP_STATUS_CODES.CREATED_201,
+      statusCode: HTTP_STATUS_CODE.CREATED_201,
     });
   }
 
   async getOne(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
 
-    const user = await this.userService.getOne(email, password);
+    const result = await this.userService.getOne(email, password);
+    const { token, user } = result;
 
-    res.cookie('jwtToken', user.token, {
+    res.cookie('jwtToken', token, {
       httpOnly: true,
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     });
 
     this.sendResponse({
-      data: user,
+      data: {
+        _id: user._id,
+        email: user.email,
+        roundsTotal: user.roundsTotal,
+        scores: user.scores,
+        token,
+        username: user.username,
+      },
       res,
     });
   }
@@ -48,8 +63,8 @@ export class UserController extends BaseController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     const updatedUser = await this.userService.update(
-      req.body,
-      req.params.password,
+      { email: req.body.email },
+      req.body.password,
     );
 
     this.sendResponse({
@@ -64,7 +79,7 @@ export class UserController extends BaseController {
     this.sendResponse({
       data: deletedUser,
       res,
-      statusCode: HTTP_STATUS_CODES.NO_CONTENT_204,
+      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
     });
   }
 
@@ -78,7 +93,7 @@ export class UserController extends BaseController {
     this.sendResponse({
       data: `User ${username} logged out successfully`,
       res,
-      statusCode: HTTP_STATUS_CODES.SUCCESS_200,
+      statusCode: HTTP_STATUS_CODE.SUCCESS_200,
     });
   }
 }

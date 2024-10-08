@@ -1,10 +1,10 @@
 /* eslint-disable no-magic-numbers */
 /* eslint-disable max-lines-per-function */
 import { NextFunction, Request, Response } from 'express';
+import { GameRoomController } from '../GameRoomController';
+import { GameRoomService } from '../GameRoomService';
 import { Server } from 'socket.io';
-import { GameRoomController } from '../gameRooms/GameRoomController';
-import { GameRoomService } from '../gameRooms/GameRoomService';
-import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
+import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../../constants/constants';
 
 describe('GameRoomController', () => {
   let gameRoomController: GameRoomController;

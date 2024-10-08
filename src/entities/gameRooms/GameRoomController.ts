@@ -116,14 +116,17 @@ export class GameRoomController extends BaseController {
 
   async joinTeam(req: Request, res: Response, next: NextFunction) {
     const { roomId } = req.params;
-    const player = req.body;
+    const { team, userId } = req.body;
 
-    const updatedRoom = await this.gameRoomService.joinTeam(roomId, player);
+    const updatedRoom = await this.gameRoomService.joinTeam(roomId, {
+      team,
+      userId,
+    });
 
     this.updateGameListEvent(updatedRoom, req, 'update');
     this.emitSocketEvent({
       data: {
-        message: `New player ${player.userId} joined team: ${player.team}`,
+        message: `New player ${userId} joined team: ${team}`,
         updatedRoom,
       },
       event: SOCKET_EVENT.JOIN_TEAM,
@@ -140,10 +143,7 @@ export class GameRoomController extends BaseController {
   async leaveRoom(req: Request, res: Response, next: NextFunction) {
     const { roomId, playerId } = req.params;
 
-    const updatedRoom = await this.gameRoomService.removePlayer(
-      roomId,
-      playerId,
-    );
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
 
     if (!updatedRoom) {
       this.emitSocketEvent({
@@ -187,10 +187,7 @@ export class GameRoomController extends BaseController {
   ) {
     const { roomId, playerId } = req.params;
 
-    const updatedRoom = await this.gameRoomService.removePlayer(
-      roomId,
-      playerId,
-    );
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
 
     if (!updatedRoom) {
       this.updateGameListEvent({ _id: roomId }, req, 'remove');

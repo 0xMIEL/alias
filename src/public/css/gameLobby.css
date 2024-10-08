@@ -1,3 +1,6 @@
+.gameLobbyContainer {
+padding: 3px;
+}
 
 .game-lobby__game-name {
   text-align: center;
@@ -35,17 +38,17 @@
 
 .filter_Container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-around;
-  align-items:start;
-  background-color: rgb(139, 133, 133);
-  color: white;
+  align-items:center;
+  background-color:white;
+  color: black;
   padding: 10px;
   border-radius: 5px;
-  width: 50vw;
-  height: 15vh;
+  width: 90vw;
+  border: 1px solid black;
 }
 
 .label {
-  padding-right: 30px;
+  padding-right: 3px;
 }

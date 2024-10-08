@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { GameRoomService } from '../gameRooms/GameRoomService';
-import { Player } from '../gameRooms/types/gameRoom';
 import getManyGameRoomsSchema, {
   frontEndHomeSchemaDefault,
 } from '../gameRooms/gameRoomValidaton';
+import { Player } from '../gameRooms/types/gameRoom';
 
 export class FrontEndController {
   constructor(private gameRoomService: GameRoomService) {
@@ -55,5 +56,27 @@ export class FrontEndController {
     } catch (error) {
       return res.redirect('/');
     }
+  }
+
+  async getSingUpPage(req: Request, res: Response, next: NextFunction) {
+    // if (req.cookies.jwtToken) {
+    //   res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
+    //   return;
+    // }
+
+    res
+      .status(HTTP_STATUS_CODE.SUCCESS_200)
+      .render('sign-up', { layout: 'main2', pageTitle: 'Sign up' });
+  }
+
+  async getLogInPage(req: Request, res: Response, next: NextFunction) {
+    // if (req.cookies.jwtToken) {
+    //   res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
+    //   return;
+    // }
+
+    res
+      .status(HTTP_STATUS_CODE.SUCCESS_200)
+      .render('log-in', { layout: 'main2', pageTitle: 'Log in' });
   }
 }

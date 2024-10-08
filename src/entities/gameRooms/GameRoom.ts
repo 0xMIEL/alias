@@ -18,6 +18,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
       required: true,
       type: String,
     },
+    playerJoined: [mongoose.Types.ObjectId],
     players: [
       {
         team: Number,

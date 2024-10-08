@@ -30,7 +30,18 @@
   border-color: #1e7e34;
 }
 
+.button-danger {
+  background-color: rgb(255, 67, 67);
+}
+
+.button-danger:hover {
+  background-color: rgb(182, 39, 39);
+}
+
 .game-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
   list-style-type: none;
   padding: 0;
   margin: 20px;

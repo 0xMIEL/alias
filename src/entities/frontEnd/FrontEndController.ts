@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from '../gameRooms/GameRoomService';
-import { gameRoomStatuses } from '../gameRooms/types/gameRoom';
+import { gameRoomStatuses, Player } from '../gameRooms/types/gameRoom';
 
 type GetManyGameRoomsFilters = {
   status?: string;
@@ -27,15 +27,45 @@ export class FrontEndController {
       filters.timePerRound = timePerRound as string;
     }
 
-    const openGames = await this.gameRoomService.getMany(filters);
+    const games = await this.gameRoomService.getMany(filters);
+
+    const gamesWithTotalPlayers = games.map((game) => ({
+      ...game,
+      totalPlayers: game.playerJoined.length + game.players.length,
+    }));
 
     res.render('home', {
-      games: openGames,
+      games: gamesWithTotalPlayers,
       title: 'Alias Game',
     });
   }
 
   async getGameLobby(req: Request, res: Response, next: NextFunction) {
-    res.render('gameLobby', { title: 'Game Lobby' });
+    const gameId = req.params.id;
+
+    try {
+      const gameRoom = await this.gameRoomService.getOne(gameId);
+
+      const team1: Player[] = [];
+      const team2: Player[] = [];
+
+      gameRoom.players.forEach((player: Player) => {
+        if (player.team === 1) {
+          team1.push(player);
+        } else {
+          team2.push(player);
+        }
+      });
+
+      return res.render('gameLobby', {
+        game: gameRoom,
+        team1,
+        team2,
+        title: 'Game Lobby',
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      return res.redirect('/');
+    }
   }
 }

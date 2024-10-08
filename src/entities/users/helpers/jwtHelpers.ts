@@ -1,13 +1,13 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { AppError } from '../../../core/AppError';
-import { HTTP_STATUS_CODES } from '../../../constants/httpStatusCodes';
+import { HTTP_STATUS_CODE } from '../../../constants/constants';
 
 const { JWT_SECRET } = process.env;
 
 if (!JWT_SECRET) {
   throw new AppError(
     'JWT_SECRET is not defined in the environment variables',
-    HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR_500,
+    HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR_500,
   );
 }
 
@@ -19,6 +19,6 @@ export const verifyToken = (token: string): JwtPayload => {
   try {
     return jwt.verify(token, JWT_SECRET) as JwtPayload;
   } catch {
-    throw new AppError('Invalid token', HTTP_STATUS_CODES.UNAUTHORIZED_401);
+    throw new AppError('Invalid token', HTTP_STATUS_CODE.UNAUTHORIZED_401);
   }
 };

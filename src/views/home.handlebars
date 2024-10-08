@@ -4,63 +4,30 @@
     </header>
     <main>
         <button class="button" id="createGameBtn">Create Game</button>
-
+        
         <p>Join or create a game to start playing!</p>
-        <ul id="gameList" class="game-list">
-           {{#each games as |game key|}}
 
-        <li>       
-            <div class="game-list__item-info">
-                <h3 class="game-list__item-title">Game: {{game._id}}</h3>
-                <div>
-                    <span class="game-list__item-property">Status:</span>
-                    <span class="game-list__item-property-value">{{game.status}}</span>
-                </div>
-                <div>
-                    <span class="game-list__item-property">Rounds:</span>
-                    <span class="game-list__item-property-value">{{game.roundsTotal}}</span>
-                </div>
-                <div>
-                    <span class="game-list__item-property">Time per Round:</span>
-                    <span class="game-list__item-property-value">{{game.timePerRound}} minutes</span>
-                </div>
-                <div>
-                    <span class="game-list__item-property">Players per Team:</span>
-                    <span class="game-list__item-property-value">{{game.teamSize}}</span>
-                </div>
-                <div>
-                    <span class="game-list__item-property">Currently Players:</span>
-                    <span class="game-list__item-property-value">{{game.players.length}}</span>
-                </div>
-                <button class="button button-action button-join">Join the game</button>
-            </div>
-</li>
+        {{> filterGamesForm }}
+     
+
+        <ul id="gameList" class="game-list">
+           {{#each games as |game|}}
+
+                <li class="game-list__item" id="{{game._id}}">       
+
+                     {{> gameListItem }}
+
+                </li>
 
            {{/each}}
         </ul>
 
-        <div id="gameModal" class="modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Game Properties</h2>
-                <form id="createGameForm">
-                <label for="playersPerTeam">Players per Team (2 - 4): </label>
-                <input type="number" id="playersPerTeam" name="playersPerTeam" min="2" max="4" required><br>
-
-                <label for="timePerRound">Time per Round (minutes, 1 - 5):</label>
-                <input type="number" id="timePerRound" name="timePerRound" min="1" max="5" required><br>
-
-                <label for="totalRounds">Total Rounds (1 - 5):</label>
-                <input type="number" id="totalRounds" name="totalRounds" min="1" max="5" required><br>
-
-                <button type="submit" class="button">Create Game</button>
-                </form>
-            </div>
-        </div>
+      {{> createNewGameModal }}
 
     </main>
 
-<script src="/js/socket.io.js"></script>
-<script src="/js/socket.js"></script>
-<script src="/js/modal.js"></script>
+
+<script src="/js/handleGameListChanges.js" type="module"></script>
+<script src="/js/handleJoinRoom.js" type="module"></script>
+<script src="/js/handleCreateGameFormSubmit.js" type="module"></script>
 

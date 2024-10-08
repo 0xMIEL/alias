@@ -15,7 +15,10 @@ const gameRoomeController = new GameRoomController(gameRoomService);
 gameRoomRouter
   .route('/')
   .post(asyncErrorCatch(gameRoomeController.create.bind(gameRoomeController)))
-  .get(asyncErrorCatch(gameRoomeController.getMany.bind(gameRoomeController)));
+  .get(asyncErrorCatch(gameRoomeController.getMany.bind(gameRoomeController)))
+  .delete(
+    asyncErrorCatch(gameRoomeController.removeAll.bind(gameRoomeController)),
+  );
 
 gameRoomRouter
   .route('/:id')
@@ -23,4 +26,24 @@ gameRoomRouter
   .patch(asyncErrorCatch(gameRoomeController.update.bind(gameRoomeController)))
   .delete(
     asyncErrorCatch(gameRoomeController.remove.bind(gameRoomeController)),
+  );
+
+gameRoomRouter
+  .route('/:roomId/room/:playerId')
+  .post(
+    asyncErrorCatch(
+      gameRoomeController.removePlayerOnWindowUnload.bind(gameRoomeController),
+    ),
+  )
+  .patch(
+    asyncErrorCatch(gameRoomeController.joinRoom.bind(gameRoomeController)),
+  )
+  .delete(
+    asyncErrorCatch(gameRoomeController.leaveRoom.bind(gameRoomeController)),
+  );
+
+gameRoomRouter
+  .route('/:roomId/team')
+  .patch(
+    asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
   );

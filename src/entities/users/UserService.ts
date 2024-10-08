@@ -34,13 +34,17 @@ export class UserService {
   }
 
   async getMany() {
-    return await this.User.find();
+    return await this.User.find().select(['-password']);
   }
 
   async update(data: IUserUpdate, password: string) {
-    return await this.User.findOneAndUpdate({ _password: password }, data, {
-      new: true,
-    });
+    const hashedPassword = await hashPassword(password);
+
+    return await this.User.findOneAndUpdate(
+      { email: data.email },
+      { ...data, password: hashedPassword },
+      { new: true },
+    );
   }
 
   async remove(email: string) {
@@ -54,7 +58,6 @@ export class UserService {
   }
 
   async extractUsernameFromToken(token: string, res: Response) {
-    
     if (!token) {
       throw new AppError('No token provided');
     }

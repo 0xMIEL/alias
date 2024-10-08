@@ -6,15 +6,16 @@ import { engine } from 'express-handlebars';
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
 
-import { connect } from './setup/database';
+import { connectDatabase } from './setup/database';
 import { AppError } from './core/AppError';
-import { HTTP_STATUS_CODES } from './constants/httpStatusCodes';
+import { HTTP_STATUS_CODE } from './constants/constants';
 import { globalErrorHandler } from './middleware/globalErrorHandler';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
 import { fronEndRouter } from './entities/frontEnd/frontEndRoutes';
 import cookieParser from 'cookie-parser';
+import { initializeSocket } from './socket/socket';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -36,8 +37,11 @@ const io = new Server(server, {
   },
 });
 
-// connect database
-connect();
+app.set('io', io);
+
+initializeSocket(io);
+
+connectDatabase();
 
 // body parser
 app.use(express.json());
@@ -59,7 +63,7 @@ app.use('/', fronEndRouter);
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
   throw new AppError(
     `Can't find ${req.originalUrl} on this server!`,
-    HTTP_STATUS_CODES.NOT_FOUND_404,
+    HTTP_STATUS_CODE.NOT_FOUND_404,
   );
 });
 

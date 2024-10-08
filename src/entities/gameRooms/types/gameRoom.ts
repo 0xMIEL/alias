@@ -5,16 +5,18 @@ export const gameRoomStatuses = {
 } as const;
 
 export type GameRoomStatus = keyof typeof gameRoomStatuses;
+export type Player = { userId: string; team: number };
 
 export interface IGameRoom {
   hostUserId: string;
   teamSize: number;
   timePerRound: number;
   roundsTotal: number;
-  players: Array<{ userId: string; team: number }>;
+  players: Player[];
   currentRound: number;
   status: GameRoomStatus;
   scores: Array<{ team: number; score: number }>;
+  playerJoined: Array<{ userId: string }>;
 }
 
 export type IGameRoomUpdate = Partial<

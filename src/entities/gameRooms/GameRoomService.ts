@@ -81,7 +81,7 @@ export class GameRoomService {
     return udpatedRoom;
   }
 
-  async removePlayer(roomId: string, playerId: string) {
+  async leaveRoom(roomId: string, playerId: string) {
     const gameRoom = await this.GameRoom.findById(roomId).lean();
 
     if (playerId === gameRoom?.hostUserId.toString()) {

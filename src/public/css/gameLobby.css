@@ -1,9 +1,3 @@
-.game-lobby * {
-  /* border: 1px solid black; */
-}
-
-.game-lobby {
-}
 
 .game-lobby__game-name {
   text-align: center;
@@ -24,18 +18,6 @@
   width: 15vw;
 }
 
-.game-lobby__team1 {
-}
-
-.game-lobby__team2 {
-}
-
-.team1__list {
-}
-
-.team2__list {
-}
-
 .chat-window {
   background-color: bisque;
   height: 20vh;
@@ -45,4 +27,25 @@
 
 .chat-window__list {
   list-style: none;
+}
+
+.logo__icon {
+  margin-bottom: 30px;
+}
+
+.filter_Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items:start;
+  background-color: rgb(139, 133, 133);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  width: 50vw;
+  height: 15vh;
+}
+
+.label {
+  padding-right: 30px;
 }

@@ -2,6 +2,7 @@ import { User } from '../User';
 import { server } from '../../../app';
 import request from 'supertest';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 jest.mock('../User');
 
@@ -24,6 +25,11 @@ beforeAll(async () => {
     username: 'user2',
   };
 });
+
+afterAll(() => {
+  mongoose.connection.close();
+});
+
 describe('GET /api/v1/users', () => {
   it('should return all users with status 200', async () => {
     (User.find as jest.Mock).mockReturnValue({

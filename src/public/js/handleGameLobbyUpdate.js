@@ -35,9 +35,12 @@ socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
 function updatePlayerLists(room) {
   const userId = getUserFromStorage() || 'userid';
 
-  const totalTeamsInGame = 2;
+  const totalTeamsInGame = 1;
 
-  if (userId === room.hostUserId && room.players.length >= room.teamSize) {
+  if (
+    userId === room.hostUserId &&
+    room.players.length >= room.teamSize * totalTeamsInGame
+  ) {
     const button = document.createElement('button');
     button.textContent = 'Start Game';
     button.id = 'button-start-game';

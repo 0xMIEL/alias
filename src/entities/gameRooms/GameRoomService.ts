@@ -131,4 +131,12 @@ export class GameRoomService {
       { status: gameRoomStatuses.inProgress },
     ).lean();
   }
+
+  async updateScoreByOne(roomId: string, team: number) {
+    return await this.GameRoom.findByIdAndUpdate(
+      { _id: roomId, 'scores.team': team },
+      { $inc: { 'scores.$.score': 1 } },
+      { new: true },
+    ).lean();
+  }
 }

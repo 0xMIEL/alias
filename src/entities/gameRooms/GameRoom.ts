@@ -4,10 +4,13 @@ import { GAME_OPTIONS } from '../../constants/constants';
 
 const gameRoomeSchema = new Schema<IGameRoom>(
   {
+    currentExplanaitor: mongoose.Types.ObjectId,
     currentRound: {
       default: 0,
       type: Number,
     },
+    currentTeam: { type: Number },
+    currentWord: { type: String },
     hostUserId: {
       required: true,
       type: String,

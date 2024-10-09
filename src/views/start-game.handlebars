@@ -1,35 +1,50 @@
 {{> navbar}}
 <div class='new-game' id='start-game'>
-  
-  <h1>Start Game</h1>
-  <section>
-    <h2>Team A</h2>
-    <h3>Players: 2</h3>
-    <ol>
+  <div class="team-nav">
+
+    <section class="team-container">
+    <h2 class='team-name'>A</h2>
+    <h1>Players: 2/2</h1>
+    <div class="team-info">
+     <ol>
       <li>user</li>
       <li>user</li>
-    </ol>
+      <li>user</li>
+      <li>user</li>
+    </ol></div>
   </section>
-  <section>
-    <h2>Team B</h2>
-    <h3>Players: 2</h3>
-    <ol>
-      <li>user</li>
-      <li>user</li>
-    </ol>
-  </section>
-  <section>
+
+  <section class='score'>
     <h3>Score 0 : 1</h3>
     <h3>Round 1 </h3>
-    <h3>Time left: 00:45</h3>
+    <h3 class="time">Time left: 00:45</h3>
   </section>
-  <section>secret</section>
-  <div>
-{{!-- {expalin chat} --}}
+
+ <section class="team-container">
+    <h2 class='team-name'>B</h2>
+    <h1>Players: 2/2</h1>
+    <div class="team-info">
+    <ol>
+      <li>user</li>
+      <li>user</li>
+      <li>user</li>
+      <li>user</li>
+    </ol></div>
+  </section>
+    
+  </section>
   </div>
-  <div>
-{{!-- {guess chat} --}}
-<button class='button'>Send</button>
+  
+  
+  <section class='chat secret'>Your word: table
+  </section>
+ <section class='chat explanation'>it has 4 legs
+  </section>
+<button class='button chatSend'>Send</button>
+  <section class='chat guess'>horse cat human!
+  </section>
+
+<button class='button chatSend'>Send</button>
   </div>
   
 </div>

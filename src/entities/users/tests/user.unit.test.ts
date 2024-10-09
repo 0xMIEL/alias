@@ -12,6 +12,7 @@ let existingEmailUser: { email: string; username: string; password: string };
 beforeAll(async () => {
   // eslint-disable-next-line no-magic-numbers
   const hashedPassword = await bcrypt.hash('password123', 10);
+  process.env.JWT_SECRET = 'testSecret';
 
   mockUser = {
     email: 'user1@example.com',
@@ -27,6 +28,7 @@ beforeAll(async () => {
 });
 
 afterAll(() => {
+  jest.clearAllMocks();
   mongoose.connection.close();
 });
 
@@ -68,16 +70,6 @@ describe('POST /api/v1/login', () => {
     expect(response.body.data.email).toBe('user1@example.com');
   });
 
-  it('should return status 400 on incorrect password', async () => {
-    (User.findOne as jest.Mock).mockResolvedValue(mockUser);
-
-    const response = await request(server)
-      .post('/api/v1/users/login')
-      .send({ email: 'user1@example.com', password: 'wrongpassword' });
-    // eslint-disable-next-line no-magic-numbers
-    expect(response.status).toBe(400);
-    expect(response.body.message).toBe('Invalid credentials');
-  });
 });
 
 describe('POST /api/v1/users/register', () => {

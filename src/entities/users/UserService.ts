@@ -66,6 +66,7 @@ export class UserService {
     const username = decoded.userId;
 
     res.clearCookie('jwtToken');
+    res.clearCookie('username'); 
 
     return username;
   }

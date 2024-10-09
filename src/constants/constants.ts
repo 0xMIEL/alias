@@ -25,6 +25,7 @@ export const SOCKET_EVENT = {
   KILL_ROOM: 'killRoom',
   // player leave game room lobby
   LEAVE_ROOM: 'leaveRoom',
+  JOIN_GAME: 'joinGame',
   START_GAME: 'startGame',
   END_GAME: 'endGame',
   START_ROUND: 'startRound',
@@ -34,6 +35,7 @@ export const SOCKET_EVENT = {
   CHEATING_EXPLANATION: 'cheatingExplanation',
   WORD_GUESS: 'wordGuess',
   INCORRECT_GUESS: 'incorrectGuess',
+  CORRECT_GUESS: 'correctGuess',
 };
 
 export const GAME_OPTIONS = {

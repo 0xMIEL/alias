@@ -55,7 +55,6 @@ app.use('/api/v1/gameRooms', gameRoomRouter);
 
 app.use('/api/v1/users', userRouter);
 
-// WORD CHECKER ROUTES
 app.use('/api', wordCheckRouter);
 
 const hbs = create({
@@ -68,7 +67,6 @@ app.set('views', './src/views');
 
 app.use('/', frontEndRouter);
 
-// route not found on server
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
   throw new AppError(
     `Can't find ${req.originalUrl} on this server!`,

@@ -3,6 +3,7 @@ import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
 import { generateToken } from './helpers/jwtHelpers';
+import { IUser } from './types/userTypes';
 
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
@@ -11,7 +12,7 @@ export class UserController extends BaseController {
     this.userService = userService;
   }
 
-  private handleAuthSuccess(res: Response, user: any, token: string) {
+  private handleAuthSuccess(res: Response, user: IUser, token: string) {
     res.cookie('jwtToken', token, {
       httpOnly: true,
       sameSite: 'strict',

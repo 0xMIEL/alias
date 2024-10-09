@@ -5,7 +5,6 @@ import {
   makeApiRequest,
 } from './apiUtils.js';
 
-// Logout user
 const logoutUser = apiRequestErrorCatch(async () => {
   return await makeApiRequest({
     credentials: 'include',
@@ -14,4 +13,4 @@ const logoutUser = apiRequestErrorCatch(async () => {
   });
 });
 
-export { getUserProfile, updateUserProfile, deleteUserAccount, logoutUser };
+export { logoutUser };

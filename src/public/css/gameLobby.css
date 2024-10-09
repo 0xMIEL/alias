@@ -22,7 +22,6 @@ padding: 3px;
 }
 
 .chat-window {
-  background-color: bisque;
   height: 20vh;
   border: 1px solid black;
   overflow-y: scroll;

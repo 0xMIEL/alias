@@ -38,3 +38,7 @@ frontEndRouter
 frontEndRouter
   .route('/game-lobby/:id')
   .get(frontEndController.getGameLobby.bind(frontEndController));
+
+  frontEndRouter
+  .route('/start-game')
+  .get(frontEndController.getStartGame.bind(frontEndController));

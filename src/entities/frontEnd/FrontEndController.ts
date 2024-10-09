@@ -82,4 +82,12 @@ export class FrontEndController {
       .status(HTTP_STATUS_CODE.SUCCESS_200)
       .render('log-in', { layout: 'main', pageTitle: 'Log in' });
   }
+
+  async getStartGame(req: Request, res: Response, next: NextFunction) {
+  
+    res.render('start-game', {
+      title: 'Start Game',
+    })
+      
+  }
 }

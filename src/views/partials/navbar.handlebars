@@ -1,6 +1,12 @@
 <header class="navbar">
     <nav class="wrapper">
-        <img src="./assets/alias.svg" alt="">
-        <button class="navbar__settings"><img src="./assets/settings.svg" alt=""></button>
+        <img id='back' src="/assets/alias.svg" alt="Logo">
+         {{> userProfile }}
     </nav>
 </header>
+
+<script>
+  document.getElementById('back').onclick = function(){
+  window.location.replace('/'); }
+</script>
+<script src="/js/handleOptionsUserProfile.js" type="module"></script>

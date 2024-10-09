@@ -26,15 +26,25 @@ const userController = new UserController(userService);
  *               items:
  *                 type: object
  *                 properties:
- *                   id:
+ *                   _id:
  *                     type: string
+ *                     description: User's unique ID
  *                   username:
  *                     type: string
+ *                     description: Username of the user
  *                   email:
  *                     type: string
+ *                     description: User's email address
+ *                   roundsTotal:
+ *                     type: number
+ *                     description: Total number of rounds played by the user
+ *                   scores:
+ *                     type: number
+ *                     description: User's total score
  *       404:
  *         description: No users found
  */
+
 userRouter
   .route('/')
   .get(asyncErrorCatch(userController.getMany.bind(userController)));
@@ -85,13 +95,38 @@ userRouter
  *             properties:
  *               email:
  *                 type: string
+ *                 description: User's email address
  *               password:
  *                 type: string
+ *                 description: User's password
  *     responses:
  *       200:
  *         description: User logged in successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                   description: User's unique ID
+ *                 email:
+ *                   type: string
+ *                   description: User's email address
+ *                 username:
+ *                   type: string
+ *                   description: Username of the user
+ *                 roundsTotal:
+ *                   type: number
+ *                   description: Total number of rounds played by the user
+ *                 scores:
+ *                   type: number
+ *                   description: User's total score
+ *                 token:
+ *                   type: string
+ *                   description: Authentication token (JWT) for the user
  *       401:
- *         description: Unauthorized
+ *         description: Unauthorized, invalid email or password
  */
 userRouter
   .route('/login')
@@ -104,8 +139,18 @@ userRouter
  *     summary: Logout a user
  *     tags: [User]
  *     responses:
- *       204:
+ *       200:
  *         description: User logged out successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: string
+ *                   description: Message indicating successful logout
+ *       401:
+ *         description: Unauthorized, invalid or missing token
  */
 userRouter
   .route('/logout')
@@ -138,6 +183,8 @@ userRouter
  *                   type: string
  *                 email:
  *                   type: string
+ *       400:
+ *         description: Invalid user ID
  *       404:
  *         description: User not found
  *   delete:
@@ -153,6 +200,8 @@ userRouter
  *     responses:
  *       204:
  *         description: User removed successfully
+ *       400:
+ *         description: Invalid user ID
  *       404:
  *         description: User not found
  *   patch:
@@ -182,7 +231,7 @@ userRouter
  *       200:
  *         description: User updated successfully
  *       400:
- *         description: Bad request
+ *         description: Bad request or invalid user ID
  *       404:
  *         description: User not found
  */
@@ -192,3 +241,6 @@ userRouter
   .get(asyncErrorCatch(userController.getOne.bind(userController)))
   .delete(asyncErrorCatch(userController.remove.bind(userController)))
   .patch(asyncErrorCatch(userController.update.bind(userController)));
+
+  // Have an error here, need to fix it
+  // On swagger 400 on get and delete with id

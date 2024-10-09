@@ -1,6 +1,6 @@
 const PERCENTAGE_FACTOR = 100;
 
-import { IWord } from '../Word';
+import { IWord } from '../types/word';
 
 // Levenshtein distance algorithm - finds the minimum number of operations needed to transform one word into another
 export async function levenshtein(s1: string, s2: string): Promise<number> {

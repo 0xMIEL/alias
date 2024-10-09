@@ -1,13 +1,13 @@
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export interface IMessage {
+export interface IMessage extends Document<Types.ObjectId> {
   gameId: Types.ObjectId;
   senderId: Types.ObjectId;
   team: 'A' | 'B';
   text: string;
 }
 
-export interface IDescription {
+export interface IDescription extends Document<Types.ObjectId> {
   describerId: Types.ObjectId;
   description: string;
   gameId: Types.ObjectId;
@@ -16,7 +16,7 @@ export interface IDescription {
   word: string;
 }
 
-export interface IResponse {
+export interface IResponse extends Document<Types.ObjectId> {
   gameId: Types.ObjectId;
   playerId: Types.ObjectId;
   response: string;

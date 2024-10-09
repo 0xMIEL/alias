@@ -17,9 +17,13 @@ export type GameRoomQueryOptions = {
 export type Player = { userId: string; team: number };
 
 export interface IGameRoom {
+  _id: string;
   hostUserId: string;
   teamSize: number;
   timePerRound: number;
+  currentTeam: number;
+  currentExplanaitor: string;
+  currentWord: string;
   roundsTotal: number;
   players: Player[];
   currentRound: number;

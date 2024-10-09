@@ -2,9 +2,7 @@ import { Server, Socket } from 'socket.io';
 import { SOCKET_EVENT } from '../constants/constants';
 
 const mountGameLobbyMessageEvent = (socket: Socket, io: Server) => {
-  socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, (data) => {
-    const { roomId, message } = data;
-
+  socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, ({ roomId, message }) => {
     io.to(roomId).emit(SOCKET_EVENT.GAME_LOBBY_MESSAGE, message);
   });
 };

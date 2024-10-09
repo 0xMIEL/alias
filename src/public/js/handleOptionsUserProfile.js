@@ -15,20 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
     optionsModal.style.display = 'none';
   });
 
-    window.addEventListener('click', function (event) {
-        if (event.target === optionsModal) {
-            optionsModal.style.display = 'none';
-        }
-    });
-  
-    if (logoutButton) {
-        logoutButton.addEventListener('click', apiRequestErrorCatch(async function () {
-            try {
-                await logoutUser();
-                window.location.href = '/';
-            } catch {
-                alert('Logout failed. Please try again.');
-            }
-        }));
+  window.addEventListener('click', function (event) {
+    if (event.target === optionsModal) {
+      optionsModal.style.display = 'none';
     }
+  });
+
+  if (logoutButton) {
+    logoutButton.addEventListener(
+      'click',
+      apiRequestErrorCatch(async function () {
+        try {
+          await logoutUser();
+          window.location.href = '/log-in';
+        } catch {
+          alert('Logout failed. Please try again.');
+        }
+      }),
+    );
+  }
 });

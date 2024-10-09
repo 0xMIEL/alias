@@ -6,6 +6,7 @@ import { FrontEndController } from './FrontEndController';
 import { UserController } from '../users/UserController';
 import { UserService } from '../users/UserService';
 import { User } from '../users/User';
+import { isAuthenticated } from '../../middleware/isAuthenticated';
 
 export const frontEndRouter = Router();
 
@@ -14,9 +15,6 @@ const userService = new UserService(User);
 const frontEndController = new FrontEndController(gameRoomService);
 const userController = new UserController(userService);
 
-frontEndRouter
-  .route('/')
-  .get(asyncErrorCatch(frontEndController.getHome.bind(frontEndController)));
 
 frontEndRouter
   .route('/sign-up')
@@ -27,6 +25,12 @@ frontEndRouter
   .route('/log-in')
   .get(frontEndController.getLogInPage.bind(frontEndController))
   .post(asyncErrorCatch(userController.getOne.bind(userController)));
+
+frontEndRouter.use(isAuthenticated);
+
+frontEndRouter
+  .route('/')
+  .get(asyncErrorCatch(frontEndController.getHome.bind(frontEndController)));
 
 frontEndRouter
   .route('/game-lobby')

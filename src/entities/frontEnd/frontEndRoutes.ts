@@ -1,18 +1,30 @@
 import { Router } from 'express';
-import { FrontEndController } from './FrontEndController';
-import { GameRoomService } from '../gameRooms/GameRoomService';
-import { GameRoom } from '../gameRooms/GameRoom';
 import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
+import { GameRoom } from '../gameRooms/GameRoom';
+import { GameRoomService } from '../gameRooms/GameRoomService';
+import { FrontEndController } from './FrontEndController';
 
-export const fronEndRouter = Router();
+export const frontEndRouter = Router();
 
 const gameRoomService = new GameRoomService(GameRoom);
 const frontEndController = new FrontEndController(gameRoomService);
 
-fronEndRouter
+frontEndRouter
   .route('/')
   .get(asyncErrorCatch(frontEndController.getHome.bind(frontEndController)));
 
-fronEndRouter
+frontEndRouter
+  .route('/sign-up')
+  .get(frontEndController.getSingUpPage.bind(frontEndController));
+
+frontEndRouter
+  .route('/log-in')
+  .get(frontEndController.getLogInPage.bind(frontEndController));
+
+frontEndRouter
+  .route('/game-lobby')
+  .get(frontEndController.getGameLobby.bind(frontEndController));
+
+frontEndRouter
   .route('/game-lobby/:id')
   .get(frontEndController.getGameLobby.bind(frontEndController));

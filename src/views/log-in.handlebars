@@ -1,0 +1,27 @@
+<body class="auth-page">
+    <header>
+        <div class="wrapper">
+            <img src='./assets/alias.svg' alt='' />
+        </div>
+    </header>
+    <main>
+        <section class="wrapper wrapper--column">
+            <form class="auth-form" method="post">
+                <div class="auth-input" data-label="email">
+                    <input id="email" class="auth-input__input text" name="email" type="email" placeholder="e.g. joe.doe@email.com"/>
+                    <p class="auth-input__info text text--small" style="display: none;"></p>
+                </div>
+                <div class="auth-input" data-label="password">
+                    <input id="password" class="auth-input__input text" name="password" type="password" autocomplete="new-password" placeholder="e.g. naGEntIcHR"/>
+                    <p class="auth-input__info text text--small" style="display: none;"></p>
+                </div>
+                <button class="button text" type="submit">Log in</button>
+            </form>
+            <div class="more">
+                <p class="text">or</p>
+                <a href="/sign-up" class="button button--outline text">Sign up</a>
+            </div>
+        </section>
+    </main>
+    <script type="module" src="./js/logIn.js"></script>
+<body/>

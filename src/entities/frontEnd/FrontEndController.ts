@@ -1,12 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { GameRoomService } from '../gameRooms/GameRoomService';
-import { gameRoomStatuses, Player } from '../gameRooms/types/gameRoom';
-
-type GetManyGameRoomsFilters = {
-  status?: string;
-  teamSize?: string;
-  timePerRound?: string;
-};
+import getManyGameRoomsSchema, {
+  frontEndHomeSchemaDefault,
+} from '../gameRooms/gameRoomValidaton';
+import { Player } from '../gameRooms/types/gameRoom';
 
 export class FrontEndController {
   constructor(private gameRoomService: GameRoomService) {
@@ -14,20 +12,11 @@ export class FrontEndController {
   }
 
   async getHome(req: Request, res: Response, next: NextFunction) {
-    const { status, teamSize, timePerRound } = req.query;
+    const { error, value } = getManyGameRoomsSchema.validate(req.query);
 
-    const filters: GetManyGameRoomsFilters = {
-      status: (status as string) || gameRoomStatuses.lobby,
-    };
-
-    if (teamSize) {
-      filters.teamSize = teamSize as string;
-    }
-    if (timePerRound) {
-      filters.timePerRound = timePerRound as string;
-    }
-
-    const games = await this.gameRoomService.getMany(filters);
+    const games = await this.gameRoomService.getMany(
+      error ? frontEndHomeSchemaDefault : value,
+    );
 
     const gamesWithTotalPlayers = games.map((game) => ({
       ...game,
@@ -67,5 +56,27 @@ export class FrontEndController {
     } catch (error) {
       return res.redirect('/');
     }
+  }
+
+  async getSingUpPage(req: Request, res: Response, next: NextFunction) {
+    // if (req.cookies.jwtToken) {
+    //   res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
+    //   return;
+    // }
+
+    res
+      .status(HTTP_STATUS_CODE.SUCCESS_200)
+      .render('sign-up', { layout: 'main2', pageTitle: 'Sign up' });
+  }
+
+  async getLogInPage(req: Request, res: Response, next: NextFunction) {
+    // if (req.cookies.jwtToken) {
+    //   res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
+    //   return;
+    // }
+
+    res
+      .status(HTTP_STATUS_CODE.SUCCESS_200)
+      .render('log-in', { layout: 'main2', pageTitle: 'Log in' });
   }
 }

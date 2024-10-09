@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { GameRoomService } from './GameRoomService';
 import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
 import { BaseController } from '../../core/BaseController';
+import getManyGameRoomsSchema from './gameRoomValidaton';
+import { AppError } from '../../core/AppError';
 
 export class GameRoomController extends BaseController {
   constructor(private gameRoomService: GameRoomService) {
@@ -47,7 +49,13 @@ export class GameRoomController extends BaseController {
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {
-    const gameRooms = await this.gameRoomService.getMany();
+    const { error, value } = getManyGameRoomsSchema.validate(req.query);
+
+    if (error) {
+      throw new AppError(error.message);
+    }
+
+    const gameRooms = await this.gameRoomService.getMany(value);
 
     this.sendResponse({
       data: gameRooms,
@@ -116,14 +124,17 @@ export class GameRoomController extends BaseController {
 
   async joinTeam(req: Request, res: Response, next: NextFunction) {
     const { roomId } = req.params;
-    const player = req.body;
+    const { team, userId } = req.body;
 
-    const updatedRoom = await this.gameRoomService.joinTeam(roomId, player);
+    const updatedRoom = await this.gameRoomService.joinTeam(roomId, {
+      team,
+      userId,
+    });
 
     this.updateGameListEvent(updatedRoom, req, 'update');
     this.emitSocketEvent({
       data: {
-        message: `New player ${player.userId} joined team: ${player.team}`,
+        message: `New player ${userId} joined team: ${team}`,
         updatedRoom,
       },
       event: SOCKET_EVENT.JOIN_TEAM,
@@ -140,10 +151,7 @@ export class GameRoomController extends BaseController {
   async leaveRoom(req: Request, res: Response, next: NextFunction) {
     const { roomId, playerId } = req.params;
 
-    const updatedRoom = await this.gameRoomService.removePlayer(
-      roomId,
-      playerId,
-    );
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
 
     if (!updatedRoom) {
       this.emitSocketEvent({
@@ -187,10 +195,7 @@ export class GameRoomController extends BaseController {
   ) {
     const { roomId, playerId } = req.params;
 
-    const updatedRoom = await this.gameRoomService.removePlayer(
-      roomId,
-      playerId,
-    );
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
 
     if (!updatedRoom) {
       this.updateGameListEvent({ _id: roomId }, req, 'remove');

@@ -1,0 +1,42 @@
+@use '../variables' as *;
+
+.auth-input {
+    position: relative;
+    line-height: 1;
+    &::placeholder {
+        color: $muted-color;
+    }
+    &::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 3.5%;
+        padding-inline: 0.4rem;
+        transform: translateY(-50%);
+        font-size: 1.2rem;
+        font-weight: 400;
+        line-height: inherit;
+        color: $primary-color;
+        background-color: $background-color;
+    }
+    &__input {
+        padding: 1rem 1rem;
+        width: 100%;
+        border: 0.1rem solid $primary-color;
+        border-radius: 0.4rem;
+        line-height: inherit;
+
+        &:focus {
+            outline: none;
+        }
+
+        &--error {
+            border-color: $warn-color;
+        }
+    }
+    &__info {
+        padding-top: 0.4rem;
+        padding-inline: 1rem;
+        line-height: inherit;
+        color: $warn-color;
+    }
+}

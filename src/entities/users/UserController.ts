@@ -3,6 +3,7 @@ import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
 
+
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
     super();
@@ -34,6 +35,7 @@ export class UserController extends BaseController {
 
     res.cookie('jwtToken', token, {
       httpOnly: true,
+      sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     });
 

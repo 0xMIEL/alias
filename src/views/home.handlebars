@@ -1,11 +1,17 @@
-
+<div class='gameLobbyContainer'>
     <header>
-        <h1>Welcome to the Alias Game !</h1>
+        <img
+      src='/images/icons/logo.svg'
+      alt='Logo'
+      class='logo__icon'
+    />
+         {{> userProfile }}
     </header>
     <main>
-        <button class="button" id="createGameBtn">Create Game</button>
+     <h2>Your game</h2>
+        <button class="button" id="createGameBtn">+ create Game</button>
         
-        <p>Join or create a game to start playing!</p>
+        <h3>Other games</h3>
 
         {{> filterGamesForm }}
      
@@ -25,9 +31,10 @@
       {{> createNewGameModal }}
 
     </main>
+    </div>
 
 
 <script src="/js/handleGameListChanges.js" type="module"></script>
 <script src="/js/handleJoinRoom.js" type="module"></script>
 <script src="/js/handleCreateGameFormSubmit.js" type="module"></script>
-
+<script src="/js/handleOptionsUserProfile.js" type="module"></script>

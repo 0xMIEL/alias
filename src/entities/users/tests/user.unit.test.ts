@@ -81,7 +81,7 @@ describe('POST /api/v1/login', () => {
 });
 
 describe('POST /api/v1/users/register', () => {
-  it('should create a new user and return status 201', async () => {
+  it('should create a new user and return status 200', async () => {
     (User.findOne as jest.Mock).mockResolvedValue(null);
     (User.prototype.save as jest.Mock).mockResolvedValue(existingEmailUser);
 
@@ -95,7 +95,7 @@ describe('POST /api/v1/users/register', () => {
       .post('/api/v1/users/register')
       .send(newUser);
     // eslint-disable-next-line no-magic-numbers
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body.data).toBeDefined();
     expect(response.body.data.email).toBe(newUser.email);
     expect(response.body.data.username).toBe(newUser.username);

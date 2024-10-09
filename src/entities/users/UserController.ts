@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
-
+import { generateToken } from './helpers/jwtHelpers';
+import { IUser } from './types/userTypes';
 
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
@@ -11,33 +12,14 @@ export class UserController extends BaseController {
     this.userService = userService;
   }
 
-  async create(req: Request, res: Response, next: NextFunction) {
-    const user = await this.userService.create(req.body);
-
-    this.sendResponse({
-      data: {
-        _id: user._id,
-        email: user.email,
-        roundsTotal: user.roundsTotal,
-        scores: user.scores,
-        username: user.username,
-      },
-      res,
-      statusCode: HTTP_STATUS_CODE.CREATED_201,
-    });
-  }
-
-  async getOne(req: Request, res: Response, next: NextFunction) {
-    const { email, password } = req.body;
-
-    const result = await this.userService.getOne(email, password);
-    const { token, user } = result;
-
+  private handleAuthSuccess(res: Response, user: IUser, token: string) {
     res.cookie('jwtToken', token, {
       httpOnly: true,
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     });
+
+    res.cookie('username', user.username, { httpOnly: true });
 
     this.sendResponse({
       data: {
@@ -50,6 +32,20 @@ export class UserController extends BaseController {
       },
       res,
     });
+  }
+
+  async create(req: Request, res: Response, next: NextFunction) {
+    const user = await this.userService.create(req.body);
+    const token = generateToken(user.username);
+    this.handleAuthSuccess(res, user, token);
+  }
+
+  async getOne(req: Request, res: Response, next: NextFunction) {
+    const { email, password } = req.body;
+
+    const result = await this.userService.getOne(email, password);
+    const { token, user } = result;
+    this.handleAuthSuccess(res, user, token);
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {

@@ -1,3 +1,6 @@
+import { apiRequestErrorCatch } from './api/apiUtils.js';
+import { logoutUser } from './api/userProfileApi.js';
+
 document.addEventListener('DOMContentLoaded', function () {
   const optionsModal = document.getElementById('optionsModal');
   const openOptionsButton = document.getElementById('openOptionsBtn');
@@ -12,30 +15,20 @@ document.addEventListener('DOMContentLoaded', function () {
     optionsModal.style.display = 'none';
   });
 
-  window.addEventListener('click', function (event) {
-    if (event.target === optionsModal) {
-      optionsModal.style.display = 'none';
-    }
-  });
-
-  if (logoutButton) {
-    logoutButton.addEventListener('click', function () {
-      fetch('/api/v1/users/logout', {
-        credentials: 'include',
-        method: 'DELETE',
-      })
-        .then((response) => {
-          if (response.ok) {
-            window.location.href = '/';
-          } else {
-            alert('Logout failed. Please try again.');
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.error('Error:', error);
-          alert('An error occurred. Please try again.');
-        });
+    window.addEventListener('click', function (event) {
+        if (event.target === optionsModal) {
+            optionsModal.style.display = 'none';
+        }
     });
-  }
+  
+    if (logoutButton) {
+        logoutButton.addEventListener('click', apiRequestErrorCatch(async function () {
+            try {
+                await logoutUser();
+                window.location.href = '/';
+            } catch {
+                alert('Logout failed. Please try again.');
+            }
+        }));
+    }
 });

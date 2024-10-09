@@ -23,9 +23,12 @@ export class FrontEndController {
       totalPlayers: game.playerJoined.length + game.players.length,
     }));
 
+    const username = req.cookies?.username || 'Guest';
+
     res.render('home', {
       games: gamesWithTotalPlayers,
       title: 'Alias Game',
+      username,
     });
   }
 
@@ -59,24 +62,24 @@ export class FrontEndController {
   }
 
   async getSingUpPage(req: Request, res: Response, next: NextFunction) {
-    // if (req.cookies.jwtToken) {
-    //   res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
-    //   return;
-    // }
+    if (req.cookies.jwtToken) {
+      res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
+      return;
+    }
 
     res
       .status(HTTP_STATUS_CODE.SUCCESS_200)
-      .render('sign-up', { layout: 'main2', pageTitle: 'Sign up' });
+      .render('sign-up', { layout: 'main', pageTitle: 'Sign up' });
   }
 
   async getLogInPage(req: Request, res: Response, next: NextFunction) {
-    // if (req.cookies.jwtToken) {
-    //   res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
-    //   return;
-    // }
+    if (req.cookies.jwtToken) {
+      res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
+      return;
+    }
 
     res
       .status(HTTP_STATUS_CODE.SUCCESS_200)
-      .render('log-in', { layout: 'main2', pageTitle: 'Log in' });
+      .render('log-in', { layout: 'main', pageTitle: 'Log in' });
   }
 }

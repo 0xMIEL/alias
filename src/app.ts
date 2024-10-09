@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import { create } from 'express-handlebars';
 import http from 'node:http';
 import { Server } from 'socket.io';
+import setupSwagger from './swaggerConfig';
 
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
@@ -29,6 +30,8 @@ process.on('uncaughtException', (err) => {
 const app = express();
 const server = http.createServer(app);
 
+setupSwagger(app);
+
 app.use(express.static('src/public'));
 app.use('/js/socket.io', express.static('node_modules/socket.io-client/dist'));
 app.use('/js/axios', express.static('node_modules/axios/dist'));
@@ -55,7 +58,7 @@ app.use('/api/v1/gameRooms', gameRoomRouter);
 
 app.use('/api/v1/users', userRouter);
 
-app.use('/api', wordCheckRouter);
+app.use('/api/v1/word', wordCheckRouter);
 
 const hbs = create({
   partialsDir: path.join(__dirname, 'views', 'partials'),

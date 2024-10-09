@@ -15,7 +15,6 @@ const userService = new UserService(User);
 const frontEndController = new FrontEndController(gameRoomService);
 const userController = new UserController(userService);
 
-
 frontEndRouter
   .route('/sign-up')
   .get(frontEndController.getSingUpPage.bind(frontEndController))

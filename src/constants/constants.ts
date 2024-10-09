@@ -9,7 +9,7 @@ export const HTTP_STATUS_CODE = {
   SUCCESS_200: 200,
   TOO_MANY_REQUESTS_429: 429,
   UNAUTHORIZED_401: 401,
-  REDIRECT_302: 302
+  REDIRECT_302: 302,
 };
 
 export const SOCKET_EVENT = {
@@ -25,6 +25,17 @@ export const SOCKET_EVENT = {
   KILL_ROOM: 'killRoom',
   // player leave game room lobby
   LEAVE_ROOM: 'leaveRoom',
+  JOIN_GAME: 'joinGame',
+  START_GAME: 'startGame',
+  END_GAME: 'endGame',
+  START_ROUND: 'startRound',
+  END_ROUND: 'endRound',
+  ERROR: 'error',
+  WORD_EXPLANATION: 'wordExplanation',
+  CHEATING_EXPLANATION: 'cheatingExplanation',
+  WORD_GUESS: 'wordGuess',
+  INCORRECT_GUESS: 'incorrectGuess',
+  CORRECT_GUESS: 'correctGuess',
 };
 
 export const GAME_OPTIONS = {

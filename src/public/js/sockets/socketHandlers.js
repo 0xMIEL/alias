@@ -6,7 +6,5 @@ export function joinGameRoomWithSocket(roomId, userId) {
 }
 
 export function leaveGameRoomWithSocket(roomId, userId) {
-  console.log('room');
-
   socket.emit(SOCKET_EVENT.LEAVE_ROOM, { roomId, userId });
 }

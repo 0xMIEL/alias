@@ -13,11 +13,13 @@ import { endGame } from './endGame';
 import { GameRoomService } from '../entities/gameRooms/GameRoomService';
 import { getRandomWord } from './game';
 import { endRound } from './endRound';
+import { WordCheckerService } from '../entities/word/wordCheckerService';
 
 async function startRound(
   gameRoom: IGameRoom,
   io: Server,
   gameRoomService: GameRoomService,
+  wordCheckerService: WordCheckerService
 ) {
   const turnsPerRound = 2;
   const pauseBetweenRoundsInMilliseconds = 3000;
@@ -32,7 +34,7 @@ async function startRound(
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
 
-  const currentWord = await getRandomWord(); // todo word api integration
+  const currentWord = await getRandomWord(wordCheckerService); // todo word api integration
 
   const data: IGameRoomUpdate = {
     currentExplanaitor,
@@ -58,7 +60,7 @@ async function startRound(
     endRound(io, roomId);
 
     setTimeout(() => {
-      startRound(updatedGameRoom, io, gameRoomService);
+      startRound(updatedGameRoom, io, gameRoomService, wordCheckerService);
     }, pauseBetweenRoundsInMilliseconds);
   }, timePerRoundInMilliseconds);
 }

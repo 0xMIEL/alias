@@ -7,14 +7,15 @@ import {
   IGameRoomUpdate,
 } from '../entities/gameRooms/types/gameRoom';
 import { SOCKET_EVENT } from '../constants/constants';
-import { emitGameNotFoundError } from './helpers/helpers';
+import { emitGameNotFoundError, toIWord, fromIWord } from './helpers/helpers';
 import { startRound } from './startRound';
-import { isCheating, similarityCheck, getWord } from './helpers/gameWordCheckerAdapter';
+import { WordCheckerService } from '../entities/word/wordCheckerService';
 
 const gameDifficultyWordThreshold = 90;
 
 export function mountGameEvents(socket: Socket, io: Server) {
   const gameRoomService = new GameRoomService(GameRoom);
+  const wordCheckerService = new WordCheckerService();
 
   socket.on(SOCKET_EVENT.JOIN_GAME, ({ roomId }) => {
     socket.join(roomId);
@@ -32,7 +33,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
 
     io.in(roomId).emit(SOCKET_EVENT.START_GAME, gameRoom);
 
-    startRound(gameRoom, io, gameRoomService);
+    startRound(gameRoom, io, gameRoomService, wordCheckerService);
   });
 
   socket.on(SOCKET_EVENT.WORD_GUESS, async ({ roomId, guess }) => {
@@ -41,7 +42,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     io.to(roomId).emit(SOCKET_EVENT.WORD_GUESS, { guess });
 
     // todo wordapi integration
-    if (await isTheSame(currentWord, guess) < gameDifficultyWordThreshold) {
+    if (await isTheSame(wordCheckerService, currentWord, guess) < gameDifficultyWordThreshold) {
       io.to(roomId).emit(SOCKET_EVENT.INCORRECT_GUESS, {
         message: `Incorrect guess: ${guess}, try again!`,
       });
@@ -52,7 +53,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     //update score, change ui, fetch new word
     await gameRoomService.updateScoreByOne(roomId, currentTeam);
 
-    const newWord = await getRandomWord(); // todo integration
+    const newWord = await getRandomWord(wordCheckerService); // todo integration
     const updatedGameRoom = await gameRoomService.update(
       { currentWord: newWord },
       roomId,
@@ -68,7 +69,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     const { currentWord } = await gameRoomService.getOne(roomId);
 
     // todo wordapi integration
-    if (await isCheatinExplanation(currentWord, explanation)) {
+    if (await isCheatinExplanation(wordCheckerService, currentWord, explanation)) {
       io.to(roomId).emit(SOCKET_EVENT.CHEATING_EXPLANATION, {
         message: 'Cheating detected!',
       });
@@ -78,14 +79,32 @@ export function mountGameEvents(socket: Socket, io: Server) {
   });
 }
 
-export async function isCheatinExplanation(word: string, explanation: string) {
-  return await isCheating(word, explanation);
+export async function isCheatinExplanation(
+  wordCheckerService: WordCheckerService,
+  wordToCheck: string, 
+  explanation: string
+) {
+  const word = toIWord(wordToCheck);
+  const sentence = explanation;
+  const cheatingResponse = await wordCheckerService.checkSentenceForWord(word, sentence);
+  return cheatingResponse;
 }
 
-export async function isTheSame(word: string, guess: string) {
-  return await similarityCheck(word, guess);
+export async function isTheSame(
+  wordCheckerService: WordCheckerService,
+  word: string, 
+  guess: string
+) {
+  const inputWord = toIWord(guess);
+  const targetWord = toIWord(word);
+
+  const similarityResponse = await wordCheckerService.checkSimilarity(inputWord, targetWord);
+  return similarityResponse;
 }
 
-export async function getRandomWord() {
-  return await getWord();
+export async function getRandomWord(
+  wordCheckerService: WordCheckerService
+) {
+  const generatedWord = await wordCheckerService.getRandomWord();
+  return fromIWord(generatedWord);
 }

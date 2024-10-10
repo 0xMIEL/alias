@@ -13,5 +13,5 @@ gameList.addEventListener('click', async function (event) {
 
   await joinRoom({ data: player, id: roomId });
 
-  window.location.replace(`/game-lobby/${roomId}`);
+  window.location.href = `/game-lobby/${roomId}`;
 });

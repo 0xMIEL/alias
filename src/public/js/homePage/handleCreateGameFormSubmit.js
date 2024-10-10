@@ -40,7 +40,7 @@ async function handleCreateGameRoom(event) {
 
   createGameRoomForm.reset();
   modal.style.display = 'none';
-  window.location.replace(`/game-lobby/${data._id}`);
+  window.location.href = `/game-lobby/${data._id}`;
 }
 
 function saveUserToStorage(userId) {

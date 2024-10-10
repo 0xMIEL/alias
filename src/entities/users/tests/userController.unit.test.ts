@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 /* eslint-disable max-lines-per-function */
 process.env.JWT_SECRET = 'testSecret';
 import { NextFunction, Request, Response } from 'express';
@@ -25,23 +24,33 @@ describe('UserController', () => {
   beforeEach(() => {
     mockReq = {
       body: mockUserData,
+      cookies: {},
       params: {
         id: mockUserId,
       },
     };
+
     mockRes = {
+      clearCookie: jest.fn(),
       cookie: jest.fn(),
       json: jest.fn(),
       status: jest.fn().mockReturnThis(),
     };
+
     mockNext = jest.fn();
 
-    mockUserService = {} as unknown as UserService;
+    mockUserService = {
+      create: jest.fn(),
+      extractUsernameFromToken: jest.fn(),
+      getOne: jest.fn(),
+      remove: jest.fn(),
+      update: jest.fn(),
+    } as unknown as UserService;
+
     userController = new UserController(mockUserService);
 
     jest.clearAllMocks();
   });
-
   describe('register', () => {
     it('should register a user and return status 200', async () => {
       const mockServiceReturnValue = {
@@ -121,26 +130,25 @@ describe('UserController', () => {
 
   describe('update', () => {
     it('should update a user and return status 200', async () => {
-      const mockServiceReturnValue = { ...mockUserData, _id: mockUserId };
-  
-      // Mock the update function
+      const mockServiceReturnValue = {
+        _id: mockUserId,
+        email: mockUserData.email,
+      };
       mockUserService.update = jest
         .fn()
         .mockResolvedValue(mockServiceReturnValue);
-  
-      // Call the update method with the correct parameters
+
       await userController.update(
         mockReq as Request,
         mockRes as Response,
         mockNext,
       );
-  
-      // Adjust the expected parameters for the update method
+
       expect(mockUserService.update).toHaveBeenCalledWith(
-        { username: mockUserData.username, email: mockUserData.email, roundsTotal: mockUserData.roundsTotal, scores: mockUserData.scores },
-        mockUserData.password // Pass the password separately
+        { email: mockUserData.email },
+        mockUserData.password,
       );
-  
+
       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS_CODE.SUCCESS_200);
       expect(mockRes.json).toHaveBeenCalledWith({
         data: mockServiceReturnValue,
@@ -148,7 +156,6 @@ describe('UserController', () => {
       });
     });
   });
-  
 
   describe('remove', () => {
     it('should remove a user and return status 204', async () => {
@@ -164,6 +171,39 @@ describe('UserController', () => {
       expect(mockRes.status).toHaveBeenCalledWith(
         HTTP_STATUS_CODE.NO_CONTENT_204,
       );
+    });
+  });
+
+  describe('logout', () => {
+    it('should log out a user and return success message', async () => {
+      const mockToken = 'validToken';
+      const mockUsername = 'testUser';
+
+      mockUserService.extractUsernameFromToken = jest
+        .fn()
+        .mockResolvedValue(mockUsername);
+
+      mockReq = {
+        cookies: {
+          jwtToken: mockToken,
+        },
+      };
+
+      await userController.logout(
+        mockReq as Request,
+        mockRes as Response,
+        mockNext,
+      );
+
+      expect(mockUserService.extractUsernameFromToken).toHaveBeenCalledWith(
+        mockToken,
+        mockRes,
+      );
+      expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS_CODE.SUCCESS_200);
+      expect(mockRes.json).toHaveBeenCalledWith({
+        data: `User ${mockUsername} logged out successfully`,
+        status: 'success',
+      });
     });
   });
 });

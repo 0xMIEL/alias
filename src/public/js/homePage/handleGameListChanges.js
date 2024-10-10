@@ -1,6 +1,6 @@
-import { SOCKET_EVENT } from './constants/constants.js';
-import { createGameListItemHTML } from './helpers/createHtmlFunctions.js';
-import { socket } from './sockets/socket.js';
+import { SOCKET_EVENT } from '../constants/constants.js';
+import { createGameListItemHTML } from '../helpers/createHtmlFunctions.js';
+import { socket } from '../sockets/socket.js';
 
 const gameList = document.getElementById('gameList');
 

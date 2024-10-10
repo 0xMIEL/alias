@@ -1,5 +1,5 @@
-import { leaveRoom } from './api/gameRoomApi.js';
-import { baseUrl } from './setup/config.js';
+import { leaveRoom } from '../api/gameRoomApi.js';
+import { baseUrl } from '../setup/config.js';
 
 const gameId = document
   .querySelector('.game-lobby')

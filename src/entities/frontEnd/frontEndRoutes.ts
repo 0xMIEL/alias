@@ -29,5 +29,9 @@ frontEndRouter
   .get(frontEndController.getGameLobby.bind(frontEndController));
 
 frontEndRouter
+  .route('/game-lobby/:id')
+  .get(frontEndController.getGameLobby.bind(frontEndController));
+
+frontEndRouter
   .route('/in-game')
   .get(frontEndController.getStartGame.bind(frontEndController));

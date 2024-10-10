@@ -1,5 +1,5 @@
-import { apiRequestErrorCatch } from './api/apiUtils.js';
-import { logoutUser } from './api/userProfileApi.js';
+import { apiRequestErrorCatch } from '../api/apiUtils.js';
+import { logoutUser } from '../api/userProfileApi.js';
 
 document.addEventListener('DOMContentLoaded', function () {
   const optionsModal = document.getElementById('optionsModal');

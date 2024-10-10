@@ -1,4 +1,4 @@
-import { createGameRoom } from './api/gameRoomApi.js';
+import { createGameRoom } from '../api/gameRoomApi.js';
 
 const modal = document.getElementById('gameModal');
 const createGameBtn = document.getElementById('createGameBtn');

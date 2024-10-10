@@ -1,7 +1,7 @@
-import { SOCKET_EVENT } from './constants/constants.js';
-import { getUserFromStorage } from './helpers/helpers.js';
-import { socket } from './sockets/socket.js';
-import { joinGameRoomWithSocket } from './sockets/socketHandlers.js';
+import { SOCKET_EVENT } from '../constants/constants.js';
+import { getUserFromStorage } from '../helpers/helpers.js';
+import { socket } from '../sockets/socket.js';
+import { joinGameRoomWithSocket } from '../sockets/socketHandlers.js';
 
 const button = document.getElementById('button-game-lobby-send-message');
 const roomId = document

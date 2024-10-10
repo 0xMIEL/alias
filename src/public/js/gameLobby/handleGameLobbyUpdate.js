@@ -47,7 +47,7 @@ function updatePlayerLists(room) {
     button.className = 'button button-action button-start-game';
 
     button.addEventListener('click', () => {
-      window.location.href = '/start-game';
+      window.location.href = '/in-game';
     });
     const buttonsContainer = document.getElementById(
       'action-buttons-container',

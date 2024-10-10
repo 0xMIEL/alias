@@ -8,12 +8,11 @@ export const redirectIfAuthenticated = async (
   next: NextFunction,
 ) => {
   try {
-    const user = await getAuthenticatedUser(req);
-    if (user) {
-      throw new Error('User already loged in');
-    }
+    await getAuthenticatedUser(req);
+
+    res.status(HTTP_STATUS_CODE.REDIRECT_302).redirect('/');
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
-    res.status(HTTP_STATUS_CODE.REDIRECT_302).redirect('/');
+    next();
   }
 };

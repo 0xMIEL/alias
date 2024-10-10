@@ -12,6 +12,7 @@ export class FrontEndController {
 
   async getHome(req: Request, res: Response, next: NextFunction) {
     const { error, value } = getManyGameRoomsSchema.validate(req.query);
+    const user = req.user!;
 
     const games = await this.gameRoomService.getMany(
       error ? frontEndHomeSchemaDefault : value,
@@ -25,12 +26,10 @@ export class FrontEndController {
         game.team2.players.length,
     }));
 
-    const username = req.cookies?.username || 'Guest';
-
     res.render('home', {
       games: gamesWithTotalPlayers,
       title: 'Alias Game',
-      username,
+      username: user.username,
     });
   }
 

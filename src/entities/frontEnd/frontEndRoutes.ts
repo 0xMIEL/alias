@@ -25,11 +25,12 @@ frontEndRouter
     frontEndController.getLogInPage.bind(frontEndController),
   );
 
-frontEndRouter.use(redirectIfNotAuthenticated);
-
 frontEndRouter
   .route('/')
-  .get(asyncErrorCatch(frontEndController.getHome.bind(frontEndController)));
+  .get(
+    redirectIfNotAuthenticated,
+    asyncErrorCatch(frontEndController.getHome.bind(frontEndController)),
+  );
 
 frontEndRouter
   .route('/game-lobby')

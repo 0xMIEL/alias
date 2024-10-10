@@ -29,11 +29,11 @@ export class UserService {
       throw new AppError('Invalid credentials');
     }
 
-    const token = generateToken(user.username);
+    const token = generateToken(user._id);
     return { token, user };
   }
 
-  async getOneById(id: string) {  
+  async getOneById(id: string) {
     const user = await this.User.findOne({ _id: id });
 
     if (!user) {
@@ -60,14 +60,12 @@ export class UserService {
     const updateData: Partial<IUser> = { ...data };
 
     if (password) {
-        updateData.password = await hashPassword(password);
+      updateData.password = await hashPassword(password);
     }
 
-    return await this.User.findOneAndUpdate(
-        { _id: id }, 
-        updateData,
-        { new: true }
-    );
+    return await this.User.findOneAndUpdate({ _id: id }, updateData, {
+      new: true,
+    });
   }
 
   async remove(id: string) {
@@ -89,7 +87,7 @@ export class UserService {
     const username = decoded.userId;
 
     res.clearCookie('jwtToken');
-    res.clearCookie('username'); 
+    res.clearCookie('username');
 
     return username;
   }

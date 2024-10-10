@@ -6,7 +6,7 @@ import { UserService } from '../entities/users/UserService';
 import { User } from '../entities/users/User';
 
 export const getAuthenticatedUser = async (req: Request) => {
-  const token = req.cookies.jwt;
+  const token = req.cookies.jwtToken;
 
   if (!token) {
     throw new AppError(

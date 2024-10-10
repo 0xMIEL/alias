@@ -126,18 +126,18 @@ export class GameRoomController extends BaseController {
     const { roomId } = req.params;
     const { team } = req.body;
 
-    const userId = '67079b70d705050ecf4cf5eb'; // todo, get from req
+    const user = req.user!;
 
     const updatedRoom = await this.gameRoomService.joinTeam({
       roomId,
       team,
-      userId,
+      userId: user._id,
     });
 
     this.updateGameListEvent(updatedRoom, req, 'update');
     this.emitSocketEvent({
       data: {
-        message: `New player ${userId} joined team: ${team}`,
+        message: `New player ${user.username} joined team: ${team}`,
         updatedRoom,
       },
       event: SOCKET_EVENT.JOIN_TEAM,

@@ -3,7 +3,7 @@ import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
 import { GameRoom } from '../gameRooms/GameRoom';
 import { GameRoomService } from '../gameRooms/GameRoomService';
 import { FrontEndController } from './FrontEndController';
-import { isAuthenticated } from '../../middleware/isAuthenticated';
+import { redirectIfNotAuthenticated } from '../../middleware/redirectIfNotAuthenticated';
 
 export const frontEndRouter = Router();
 
@@ -18,7 +18,7 @@ frontEndRouter
   .route('/log-in')
   .get(frontEndController.getLogInPage.bind(frontEndController));
 
-frontEndRouter.use(isAuthenticated);
+frontEndRouter.use(redirectIfNotAuthenticated);
 
 frontEndRouter
   .route('/')

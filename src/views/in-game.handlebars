@@ -1,9 +1,9 @@
 {{> navbar}}
-<div class='new-game' id='in-game'>
+<div class='new-game' id='in-game' data-game-id='{{gameRoom._id}}'>
   <div class="team-nav">
 
     <section class="team-container">
-    <h2 class='team-name'>A</h2>
+    <h2 class='team-name'>1</h2>
     <h1>Players: 2/2</h1>
     <div class="team-info">
      <ol>
@@ -15,13 +15,20 @@
   </section>
 
   <section class='score'>
-    <h3>Score 0 : 1</h3>
-    <h3>Round 1 </h3>
-    <h3 class="time">Time left: 00:45</h3>
+    <h3 id="score">Score 
+      <span id="score-team1">0</span>
+      <span>:</span>
+      <span id="score-team2">0</span>
+    </h3>
+    <h3 id="round">Round 1 </h3>
+    <h3 id="active-team">Team 1 </h3>
+    <h3 id="explanaitor">Player {username} explaining </h3>
+
+    <h3 class="time" id="timer">Time left: 00:45</h3>
   </section>
 
  <section class="team-container">
-    <h2 class='team-name'>B</h2>
+    <h2 class='team-name'>2</h2>
     <h1>Players: 2/2</h1>
     <div class="team-info">
     <ol>
@@ -36,19 +43,28 @@
   </div>
   
   
-  <section class='chat secret'>Your word: table
+  <section class='chat secret' id="secret-word">
+    <p id="secret"></p>
   </section>
- <section class='chat explanation'>it has 4 legs
+ <section class='chat explanation' id="chat-explanation">
+    <ul class="chat-explanation__message-list" id="chat-explanation__message-list">
+      {{!-- <li class="chat-explanation__message"> dodawany dynamicznie </li> --}}
+    </ul>
   </section>
-<button class='button chatSend'>Send</button>
-  <section class='chat guess'>horse cat human!
+  <section class='chat guess' id="chat-guess">
+    <ul class="chat-guess__message-list" id="chat-guess__message-list">
+      {{!-- <li class="chat-guess__message"> dodawany dynamicznie </li> --}}
+    </ul>
   </section>
-
-<button class='button chatSend'>Send</button>
+<form class="chat-form">
+  <textarea id="chat-input-field" class="chat-input-field" rows="5" placeholder="Type your message here..."></textarea><br>
+  <button type="submit" class='button chatSend' id="chat-send-button">Send</button>
+</form>
   </div>
   
 </div>
+<script src='/js/inGame/handleGameFlow.js' type='module'></script>
 
-{{> footer}}
+{{!-- {{> footer}} --}}
 
 

@@ -14,8 +14,6 @@ export type GameRoomQueryOptions = {
   timePerRound?: number;
 };
 
-export type Player = { userId: string; team: number };
-
 export interface IGameRoom {
   _id: string;
   hostUserId: string;
@@ -25,10 +23,10 @@ export interface IGameRoom {
   currentExplanaitor: string;
   currentWord: string;
   roundsTotal: number;
-  players: Player[];
   currentRound: number;
   status: GameRoomStatus;
-  scores: Array<{ team: number; score: number }>;
+  team1: { players: Array<string>; score: number };
+  team2: { players: Array<string>; score: number };
   playerJoined: Array<{ userId: string }>;
 }
 

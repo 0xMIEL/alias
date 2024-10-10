@@ -20,6 +20,7 @@ async function startRound(
   gameRoomService: GameRoomService,
 ) {
   const turnsPerRound = 2;
+  const pauseBetweenRoundsInMilliseconds = 3000;
   const { roundsTotal, currentRound, _id: roomId, timePerRound } = gameRoom;
 
   if (currentRound >= roundsTotal * turnsPerRound) {
@@ -51,13 +52,14 @@ async function startRound(
   io.in(roomId).emit(SOCKET_EVENT.START_ROUND, {
     timePerRoundMiliseconds: timePerRoundInMilliseconds,
     updatedGameRoom,
-    word: currentWord,
   });
 
   setTimeout(async () => {
     endRound(io, roomId);
 
-    startRound(updatedGameRoom, io, gameRoomService);
+    setTimeout(() => {
+      startRound(updatedGameRoom, io, gameRoomService);
+    }, pauseBetweenRoundsInMilliseconds);
   }, timePerRoundInMilliseconds);
 }
 

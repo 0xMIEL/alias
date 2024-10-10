@@ -5,15 +5,21 @@ import {
   gameRoomStatuses,
   IGameRoom,
   IGameRoomUpdate,
-  Player,
 } from './types/gameRoom';
 import { AppError } from '../../core/AppError';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 
 interface GameRoomQuery {
   status: GameRoomStatus;
   teamSize?: number;
   timePerRound?: number;
 }
+
+type JoinTeamProps = {
+  roomId: string;
+  team: number;
+  userId: string;
+};
 
 export class GameRoomService {
   constructor(private GameRoom: Model<IGameRoom>) {
@@ -79,48 +85,60 @@ export class GameRoomService {
     return updatedRoom;
   }
 
-  async joinTeam(roomId: string, player: Player) {
-    const { userId } = player;
+  async joinTeam({ roomId, team, userId }: JoinTeamProps) {
     const userObjectId = new mongoose.Types.ObjectId(userId);
+    const teamField = `team${team}.players`;
 
-    const udpatedRoom = await this.GameRoom.findOneAndUpdate(
+    const updatedRoom = await this.GameRoom.findOneAndUpdate(
       {
         _id: roomId,
-        players: { $not: { $elemMatch: { userId: userId } } },
+        [`${teamField}`]: { $ne: userObjectId },
       },
       {
-        $addToSet: { players: player },
+        $addToSet: { [teamField]: userObjectId },
         $pull: { playerJoined: userObjectId },
       },
       { new: true },
     ).lean();
 
-    if (!udpatedRoom) {
+    if (!updatedRoom) {
       throw new AppError('Player already exists in the room');
     }
 
-    return udpatedRoom;
+    return updatedRoom;
   }
 
   async leaveRoom(roomId: string, playerId: string) {
     const gameRoom = await this.GameRoom.findById(roomId).lean();
 
-    if (playerId === gameRoom?.hostUserId.toString()) {
-      return await this.remove(roomId);
+    if (!gameRoom) {
+      throw new AppError('Room not found', HTTP_STATUS_CODE.NOT_FOUND_404);
     }
 
     const playerObjectId = new mongoose.Types.ObjectId(playerId);
+
+    if (playerId === gameRoom.hostUserId.toString()) {
+      return await this.remove(roomId);
+    }
 
     const updatedRoom = await this.GameRoom.findOneAndUpdate(
       { _id: roomId },
       {
         $pull: {
           playerJoined: playerObjectId,
-          players: { userId: playerObjectId },
+          'team1.players': playerObjectId,
+          'team2.players': playerObjectId,
         },
       },
       { new: true },
     ).lean();
+
+    if (!updatedRoom) {
+      throw new AppError(
+        'Failed to update room',
+        HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR_500,
+      );
+    }
 
     return updatedRoom;
   }
@@ -133,9 +151,11 @@ export class GameRoomService {
   }
 
   async updateScoreByOne(roomId: string, team: number) {
+    const scoreField = `team${team}.score`;
+
     return await this.GameRoom.findByIdAndUpdate(
-      { _id: roomId, 'scores.team': team },
-      { $inc: { 'scores.$.score': 1 } },
+      roomId,
+      { $inc: { [scoreField]: 1 } },
       { new: true },
     ).lean();
   }

@@ -10,11 +10,11 @@ async function handleJoinTeam(event) {
   const { id } = event.target;
 
   if (id === 'button-join-team1') {
-    const player = { team: 1, userId: '66fe7a402b71f7d792940d60' };
+    const player = { team: 1 };
 
     await joinTeam({ data: player, id: gameId });
   } else if (id === 'button-join-team2') {
-    const player = { team: 2, userId: '66fe7a402b71f7d792940d60' };
+    const player = { team: 2 };
 
     await joinTeam({ data: player, id: gameId });
   }

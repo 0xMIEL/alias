@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { SOCKET_EVENT } from '../constants/constants';
 import { mountGameEvents } from '../gameLogic/game';
+import { socketAuth } from './socketAuth';
 
 const mountGameLobbyMessageEvent = (socket: Socket, io: Server) => {
   socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, ({ roomId, message }) => {
@@ -21,6 +22,7 @@ const mountJoinGameEvent = (socket: Socket) => {
 };
 
 const initializeSocket = (io: Server) => {
+  io.use(socketAuth);
   io.on('connection', (socket) => {
     mountGameLobbyMessageEvent(socket, io);
     mountJoinGameLobbyEvent(socket);

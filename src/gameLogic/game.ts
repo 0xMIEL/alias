@@ -13,6 +13,10 @@ import { startRound } from './startRound';
 export function mountGameEvents(socket: Socket, io: Server) {
   const gameRoomService = new GameRoomService(GameRoom);
 
+  socket.on(SOCKET_EVENT.JOIN_GAME, ({ roomId }) => {
+    socket.join(roomId);
+  });
+
   socket.on(SOCKET_EVENT.START_GAME, async ({ roomId }) => {
     const data: IGameRoomUpdate = {
       status: gameRoomStatuses.inProgress,
@@ -30,6 +34,8 @@ export function mountGameEvents(socket: Socket, io: Server) {
 
   socket.on(SOCKET_EVENT.WORD_GUESS, async ({ roomId, guess }) => {
     const { currentWord, currentTeam } = await gameRoomService.getOne(roomId);
+
+    io.to(roomId).emit(SOCKET_EVENT.WORD_GUESS, { guess });
 
     // todo wordapi integration
     if (!isTheSame(currentWord, guess)) {
@@ -49,7 +55,10 @@ export function mountGameEvents(socket: Socket, io: Server) {
       roomId,
     );
 
-    io.to(roomId).emit(SOCKET_EVENT.CORRECT_GUESS, updatedGameRoom);
+    io.to(roomId).emit(SOCKET_EVENT.CORRECT_GUESS, {
+      message: `Correct guess: ${guess}!`,
+      updatedGameRoom,
+    });
   });
 
   socket.on(SOCKET_EVENT.WORD_EXPLANATION, async ({ roomId, explanation }) => {

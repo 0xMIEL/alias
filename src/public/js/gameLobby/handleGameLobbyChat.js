@@ -1,5 +1,4 @@
 import { SOCKET_EVENT } from '../constants/constants.js';
-import { getUserFromStorage } from '../helpers/helpers.js';
 import { socket } from '../sockets/socket.js';
 import { joinGameRoomWithSocket } from '../sockets/socketHandlers.js';
 
@@ -30,9 +29,7 @@ socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, (message) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const userId = getUserFromStorage() || 'userid';
-
-  joinGameRoomWithSocket(roomId, userId);
+  joinGameRoomWithSocket(roomId);
 });
 
 export { addMessage };

@@ -32,7 +32,7 @@ async function startRound(
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
 
-  const currentWord = getRandomWord(); // todo word api integration
+  const currentWord = await getRandomWord(); // todo word api integration
 
   const data: IGameRoomUpdate = {
     currentExplanaitor,

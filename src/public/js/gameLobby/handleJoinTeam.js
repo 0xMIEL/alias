@@ -1,4 +1,4 @@
-import { joinTeam } from './api/gameRoomApi.js';
+import { joinTeam } from '../api/gameRoomApi.js';
 
 const gameId = document
   .querySelector('.game-lobby')

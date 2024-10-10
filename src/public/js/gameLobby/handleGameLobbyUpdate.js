@@ -1,8 +1,8 @@
-import { SOCKET_EVENT } from './constants/constants.js';
+import { SOCKET_EVENT } from '../constants/constants.js';
 import { addMessage } from './handleGameLobbyChat.js';
-import { createGameLobbyPlayersLists } from './helpers/createHtmlFunctions.js';
-import { getUserFromStorage } from './helpers/helpers.js';
-import { socket } from './sockets/socket.js';
+import { createGameLobbyPlayersLists } from '../helpers/createHtmlFunctions.js';
+import { getUserFromStorage } from '../helpers/helpers.js';
+import { socket } from '../sockets/socket.js';
 
 socket.on(SOCKET_EVENT.KILL_ROOM, () => {
   window.location.replace(`/`);
@@ -45,9 +45,9 @@ function updatePlayerLists(room) {
     button.textContent = 'Start Game';
     button.id = 'button-start-game';
     button.className = 'button button-action button-start-game';
-    
+
     button.addEventListener('click', () => {
-      window.location.href = '/start-game'; 
+      window.location.href = '/start-game';
     });
     const buttonsContainer = document.getElementById(
       'action-buttons-container',

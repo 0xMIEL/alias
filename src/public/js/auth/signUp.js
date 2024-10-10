@@ -1,5 +1,5 @@
 /* eslint-disable */
-import AuthFormValidator from './helpers/AuthFormValidator.js';
+import AuthFormValidator from '../helpers/AuthFormValidator.js';
 
 const authForm = document.querySelector('.auth-form');
 authForm.addEventListener('submit', async (e) => {

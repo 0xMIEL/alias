@@ -70,7 +70,7 @@ export class UserController extends BaseController {
   }
 
   async remove(req: Request, res: Response, next: NextFunction) {
-    const deletedUser = await this.userService.remove(req.params.email);
+    const deletedUser = await this.userService.remove(req.params.id);
 
     this.sendResponse({
       data: deletedUser,

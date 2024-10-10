@@ -15,7 +15,8 @@
 
 .user-profile h4 {
     margin: 0;          
-    font-size: 1rem;    
+    font-size: 1.2rem;  
+    color: darkcyan; 
 }
 
 .user-profile__button {

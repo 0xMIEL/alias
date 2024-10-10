@@ -6,12 +6,16 @@
     <h2 class='team-name'>1</h2>
     <h1>Players: 2/2</h1>
     <div class="team-info">
-     <ol>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-    </ol></div>
+
+     <ul>
+      {{#each team1Usernames}}
+        <li>Player: {{this}}</li>
+      {{else}}
+        <li>No players available</li> 
+      {{/each}}
+    </ul>
+
+</div>
   </section>
 
   <section class='score'>
@@ -31,12 +35,13 @@
     <h2 class='team-name'>2</h2>
     <h1>Players: 2/2</h1>
     <div class="team-info">
-    <ol>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-    </ol></div>
+    <ul>
+      {{#each team2Usernames}}
+        <li>Player: {{this}}</li>
+      {{else}}
+        <li>No players available</li> 
+      {{/each}}
+    </ul></div>
   </section>
     
   </section>
@@ -48,16 +53,16 @@
   </section>
  <section class='chat explanation' id="chat-explanation">
     <ul class="chat-explanation__message-list" id="chat-explanation__message-list">
-      {{!-- <li class="chat-explanation__message"> dodawany dynamicznie </li> --}}
+  
     </ul>
   </section>
   <section class='chat guess' id="chat-guess">
     <ul class="chat-guess__message-list" id="chat-guess__message-list">
-      {{!-- <li class="chat-guess__message"> dodawany dynamicznie </li> --}}
+    
     </ul>
   </section>
 <form class="chat-form">
-  <textarea id="chat-input-field" class="chat-input-field" rows="5" placeholder="Type your message here..."></textarea><br>
+  <textarea id="chat-input-field" class="chat inputfield" rows="5" placeholder="Type your message here..."></textarea><br>
   <button type="submit" class='button chatSend' id="chat-send-button">Send</button>
 </form>
   </div>
@@ -65,6 +70,6 @@
 </div>
 <script src='/js/inGame/handleGameFlow.js' type='module'></script>
 
-{{!-- {{> footer}} --}}
+{{> footer}}
 
 

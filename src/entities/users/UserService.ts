@@ -43,6 +43,10 @@ export class UserService {
     return user;
   }
 
+async getUsersByIds(userIds: string[]) {
+  return await this.User.find({ _id: { $in: userIds } });
+}
+
   async getMany() {
     return await this.User.find().select(['-password']);
   }

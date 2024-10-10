@@ -56,7 +56,7 @@ const gameRoomeController = new GameRoomController(gameRoomService);
  *                 type: string
  *                 example: "user123"
  *                 description: The ID of the user hosting the game room.
-*     responses:
+ *     responses:
  *       201:
  *         description: Successfully created a new game room
  *         content:

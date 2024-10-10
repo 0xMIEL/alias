@@ -22,26 +22,11 @@ body {
     transform 0.2s;
 }
 
-.button:hover {
-  background-color: rgb(70, 70, 253);
-}
-
-.button-action {
-  margin-top: 10px;
-  background-color: #28a745;
-}
-
-.button-action:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
-}
-
-.button-danger {
-  background-color: rgb(255, 67, 67);
-}
-
-.button-danger:hover {
-  background-color: rgb(182, 39, 39);
+.navbar {
+  display: flex;
+  padding: 30px;
+  height: 10vh;
+  align-items: center;
 }
 
 .game-list {

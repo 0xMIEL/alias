@@ -46,4 +46,12 @@ const leaveRoom = apiRequestErrorCatch(async ({ playerId, gameId }) => {
   });
 });
 
-export { leaveRoom, createGameRoom, joinRoom, updateGameRoom, joinTeam };
+const startGame = apiRequestErrorCatch(async ( {gameData}) => {
+  return await makeApiRequest({
+    data: gameData,
+    method: HTTP_METHODS.POST,
+    url: `${baseUrl}/startGame`,
+  });
+});
+
+export { leaveRoom, createGameRoom, joinRoom, updateGameRoom, joinTeam, startGame };

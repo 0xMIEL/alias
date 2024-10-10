@@ -1,0 +1,82 @@
+.new-game {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.team-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 60vw;
+}
+
+.team-info {
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.team-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.team-name {
+  display: flex;
+  width: 10vw;
+  height: 10vw;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-size: 4vw;
+}
+
+.chat {
+  width: 60vw;
+  text-align: center;
+  font-size: large;
+  border-radius: 5px;
+}
+
+.explanation {
+  height: 10vh;
+  background-color: darkcyan;
+  color: white;
+}
+
+.guess {
+  height: 30vh;
+  color: black;
+  border: 1px solid black;
+}
+
+.secret {
+    height: 5vh;
+  border: 1px solid black;
+  margin: 15px 0
+}
+
+.chatSend {
+  width: 60vw;
+  margin: 5px 0 15px 0;
+}
+
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    font-size: large;
+}
+
+.time {
+    font-weight: bold;
+    color: darkcyan;
+}

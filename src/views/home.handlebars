@@ -1,12 +1,5 @@
 <div class='gameLobbyContainer'>
-    <header>
-        <img
-      src='/assets/alias.svg'
-      alt='Logo'
-      class='logo__icon'
-    />
-         {{> userProfile }}
-    </header>
+    {{> navbar}}
     <main>
      <h2>Your game</h2>
         <button class="button" id="createGameBtn">+ create Game</button>
@@ -32,6 +25,7 @@
 
     </main>
     </div>
+    {{> footer}}
 
 
 <script src="/js/handleGameListChanges.js" type="module"></script>

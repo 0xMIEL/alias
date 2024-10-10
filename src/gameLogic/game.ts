@@ -9,6 +9,9 @@ import {
 import { SOCKET_EVENT } from '../constants/constants';
 import { emitGameNotFoundError } from './helpers/helpers';
 import { startRound } from './startRound';
+import { isCheating, similarityCheck, getWord } from './helpers/gameWordCheckerAdapter';
+
+const gameDifficultyWordThreshold = 90;
 
 export function mountGameEvents(socket: Socket, io: Server) {
   const gameRoomService = new GameRoomService(GameRoom);
@@ -32,7 +35,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     const { currentWord, currentTeam } = await gameRoomService.getOne(roomId);
 
     // todo wordapi integration
-    if (!isTheSame(currentWord, guess)) {
+    if (await isTheSame(currentWord, guess) < gameDifficultyWordThreshold) {
       io.to(roomId).emit(SOCKET_EVENT.INCORRECT_GUESS, {
         message: `Incorrect guess: ${guess}, try again!`,
       });
@@ -43,7 +46,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     //update score, change ui, fetch new word
     await gameRoomService.updateScoreByOne(roomId, currentTeam);
 
-    const newWord = getRandomWord(); // todo integration
+    const newWord = await getRandomWord(); // todo integration
     const updatedGameRoom = await gameRoomService.update(
       { currentWord: newWord },
       roomId,
@@ -56,7 +59,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     const { currentWord } = await gameRoomService.getOne(roomId);
 
     // todo wordapi integration
-    if (isCheatinExplanation(currentWord, explanation)) {
+    if (await isCheatinExplanation(currentWord, explanation)) {
       io.to(roomId).emit(SOCKET_EVENT.CHEATING_EXPLANATION, {
         message: 'Cheating detected!',
       });
@@ -66,14 +69,14 @@ export function mountGameEvents(socket: Socket, io: Server) {
   });
 }
 
-export function isCheatinExplanation(word: string, explanation: string) {
-  return word === explanation;
+export async function isCheatinExplanation(word: string, explanation: string) {
+  return await isCheating(word, explanation);
 }
 
-export function isTheSame(word: string, guess: string) {
-  return word === guess;
+export async function isTheSame(word: string, guess: string) {
+  return await similarityCheck(word, guess);
 }
 
-export function getRandomWord() {
-  return 'word';
+export async function getRandomWord() {
+  return await getWord();
 }

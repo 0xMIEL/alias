@@ -48,6 +48,15 @@ export class UserController extends BaseController {
     this.handleAuthSuccess(res, user, token);
   }
 
+  async getOneById(req: Request, res: Response, next: NextFunction) {
+    const user = await this.userService.getOneById(req.params.id);
+
+    this.sendResponse({
+      data: user,
+      res,
+    });
+  }
+
   async getMany(req: Request, res: Response, next: NextFunction) {
     const users = await this.userService.getMany();
 
@@ -60,6 +69,19 @@ export class UserController extends BaseController {
   async update(req: Request, res: Response, next: NextFunction) {
     const updatedUser = await this.userService.update(
       { email: req.body.email },
+      req.body.password,
+    );
+
+    this.sendResponse({
+      data: updatedUser,
+      res,
+    });
+  }
+
+  async updateById(req: Request, res: Response, next: NextFunction) {
+    const updatedUser = await this.userService.updateById(
+      req.params.id,
+      req.body,
       req.body.password,
     );
 

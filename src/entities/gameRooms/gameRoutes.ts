@@ -4,6 +4,7 @@ import { GameRoomService } from './GameRoomService';
 import { GameRoom } from './GameRoom';
 import { GameRoomController } from './GameRoomController';
 import { validateId } from '../../middleware/validateId';
+import { throwAuthErrorIfNotAuthenticated } from '../../middleware/throwAuthErrorIfNotAuthenticated';
 
 export const gameRoomRouter = Router();
 
@@ -212,7 +213,10 @@ const gameRoomeController = new GameRoomController(gameRoomService);
  */
 gameRoomRouter
   .route('/')
-  .post(asyncErrorCatch(gameRoomeController.create.bind(gameRoomeController)))
+  .post(
+    throwAuthErrorIfNotAuthenticated,
+    asyncErrorCatch(gameRoomeController.create.bind(gameRoomeController)),
+  )
   .get(asyncErrorCatch(gameRoomeController.getMany.bind(gameRoomeController)))
   .delete(
     asyncErrorCatch(gameRoomeController.removeAll.bind(gameRoomeController)),
@@ -333,8 +337,12 @@ gameRoomRouter
 gameRoomRouter
   .route('/:id')
   .get(asyncErrorCatch(gameRoomeController.getOne.bind(gameRoomeController)))
-  .patch(asyncErrorCatch(gameRoomeController.update.bind(gameRoomeController)))
+  .patch(
+    throwAuthErrorIfNotAuthenticated,
+    asyncErrorCatch(gameRoomeController.update.bind(gameRoomeController)),
+  )
   .delete(
+    throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(gameRoomeController.remove.bind(gameRoomeController)),
   );
 
@@ -473,14 +481,17 @@ gameRoomRouter
 gameRoomRouter
   .route('/:roomId/room/:playerId')
   .post(
+    throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(
       gameRoomeController.removePlayerOnWindowUnload.bind(gameRoomeController),
     ),
   )
   .patch(
+    throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(gameRoomeController.joinRoom.bind(gameRoomeController)),
   )
   .delete(
+    throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(gameRoomeController.leaveRoom.bind(gameRoomeController)),
   );
 
@@ -545,5 +556,6 @@ gameRoomRouter
 gameRoomRouter
   .route('/:roomId/team')
   .patch(
+    throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
   );

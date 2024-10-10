@@ -1,0 +1,21 @@
+[
+    {"value": "apple"}, {"value": "banana"}, {"value": "cherry"}, {"value": "date"}, {"value": "elderberry"},
+
+    {"value": "fig"}, {"value": "grape"}, {"value": "honeydew"}, {"value": "kiwi"}, {"value": "lemon"},
+
+    {"value": "mango"}, {"value": "nectarine"}, {"value": "orange"}, {"value": "papaya"}, {"value": "quince"},
+
+    {"value": "raspberry"}, {"value": "strawberry"}, {"value": "tangerine"}, {"value": "ugli"}, {"value": "vanilla"},
+
+    {"value": "watermelon"}, {"value": "xigua"}, {"value": "yam"}, {"value": "zucchini"}, {"value": "apricot"},
+
+    {"value": "blueberry"}, {"value": "cantaloupe"}, {"value": "dragonfruit"}, {"value": "elderflower"}, {"value": "fig"},
+
+    {"value": "grapefruit"}, {"value": "huckleberry"}, {"value": "jackfruit"}, {"value": "kumquat"}, {"value": "lime"},
+
+    {"value": "mulberry"}, {"value": "olive"}, {"value": "passionfruit"}, {"value": "pear"}, {"value": "plum"},
+
+    {"value": "pomegranate"}, {"value": "rhubarb"}, {"value": "starfruit"}, {"value": "tomato"}, {"value": "uva"},
+
+    {"value": "violet"}, {"value": "wildberry"}, {"value": "yellowpepper"}, {"value": "zebrafruit"}, {"value": "jambul"}, {"value": "test"}
+]

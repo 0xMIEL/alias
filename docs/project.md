@@ -2,18 +2,31 @@
 
 ## Content
 
-1. [Description](#game-description)
-2. [System Requirements](#system-requirements)
-3. [Setup and Installation](#setup-and-installation)
+- [Node.js-Based Game "Alias" with Chat and Word Checking](#nodejs-based-game-alias-with-chat-and-word-checking)
+  - [Content](#content)
+  - [Game Description](#game-description)
+    - [Game Flow](#game-flow)
+  - [System Requirements](#system-requirements)
+  - [Setup and Installation](#setup-and-installation)
+    - [Clone the Project](#clone-the-project)
+    - [Install dependencies](#install-dependencies)
     - [Running the Application with Docker](#running-the-application-with-docker)
-4. [Database Schema Design](#database-schema-design)
-5. [Running Tests](#running-tests)
-6. [Error Handling](#error-handling)
-7. [Entities](#entities)
-    - [Users](#1-users)
-    - [Game Rooms](#2-gamerooms)
-    - [Front End](#3-frontend)
-    - [Words](#4-words)
+    - [Docker Setup](#docker-setup)
+  - [Database Schema Design](#database-schema-design)
+  - [Running Tests](#running-tests)
+  - [Error Handling](#error-handling)
+  - [Entities](#entities)
+    - [1. Users](#1-users)
+    - [2. GameRooms](#2-gamerooms)
+    - [3. FrontEnd](#3-frontend)
+    - [4. Words](#4-words)
+  - [Security](#security)
+  - [Deployment](#deployment)
+  - [Future Enhancements](#future-enhancements)
+    - [1. User Profile: Player Statistics](#1-user-profile-player-statistics)
+    - [2. Game Levels Based on Word Difficulty](#2-game-levels-based-on-word-difficulty)
+  - [FAQ](#faq)
+  - [Conclusion](#conclusion)
 
 
 ## Game Description
@@ -65,8 +78,7 @@ Alias is a word-guessing game where players form teams. Each team takes turns wh
 
 9. **Player Profiles**
 
-- Players can view profiles of others, which show statistics such as the number of games played and wins.
-
+- Player can logout from sesion.
 
 ## System Requirements
 
@@ -206,3 +218,47 @@ The algorithm uses dynamic programming to build a matrix where each cell represe
 The final cell in the matrix contains the Levenshtein distance, indicating the minimum number of edits required to convert one string into another.
 
 5. 
+
+## Security
+
+Overview of implemented security measures.
+
+## Deployment
+
+Instructions for deploying the application.
+
+## Future Enhancements
+
+### 1. User Profile: Player Statistics
+
+Enhance the user profile page to display player statistics, providing more insights into their performance. This could include:
+
+- **Rounds Played**: Show the total number of rounds the player has participated in.
+- **Final Score**: Display the player’s overall score across all rounds.
+  
+**Implementation Ideas**:
+
+- Add fields like `roundsTotal` and `finalScore` to the user schema.
+- Calculate and update these statistics after each game, potentially storing them in a `UserStats` collection or within the user’s profile document.
+
+### 2. Game Levels Based on Word Difficulty
+
+Introduce different levels in the game, allowing players to choose or progress through various difficulties. Each level could adjust the complexity of words given to the players.
+
+**Implementation Ideas**:
+
+- **Difficulty Levels**: Create levels such as *easy*, *medium*, and *hard*.
+- **Word Bank**: Categorize words in the database by difficulty, allowing the game to serve more complex words as the level increases.
+- Add a field like `difficultyLevel` in the game schema to track the level of each game.
+- Update the game creation endpoint to allow players to select a difficulty level.
+- Implement logic in the game flow to adjust word selection based on the chosen level.
+
+These enhancements would improve user engagement by offering personalized performance tracking and a more varied gameplay experience.
+
+## FAQ
+
+Common questions and troubleshooting tips.
+
+## Conclusion
+
+Final remarks and encouragement for further exploration.

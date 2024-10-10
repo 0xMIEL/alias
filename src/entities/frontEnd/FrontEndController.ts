@@ -53,22 +53,12 @@ export class FrontEndController {
   }
 
   async getSingUpPage(req: Request, res: Response, next: NextFunction) {
-    if (req.cookies.jwtToken) {
-      res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
-      return;
-    }
-
     res
       .status(HTTP_STATUS_CODE.SUCCESS_200)
       .render('sign-up', { layout: 'main', pageTitle: 'Sign up' });
   }
 
   async getLogInPage(req: Request, res: Response, next: NextFunction) {
-    if (req.cookies.jwtToken) {
-      res.redirect(HTTP_STATUS_CODE.REDIRECT_302, '/');
-      return;
-    }
-
     res
       .status(HTTP_STATUS_CODE.SUCCESS_200)
       .render('log-in', { layout: 'main', pageTitle: 'Log in' });

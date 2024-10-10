@@ -19,7 +19,7 @@ export class WordCheckerService {
   }
 
   async getRandomWord(): Promise<IWord> {
-    const words = await Word.find(); // Pobierz wszystkie słowa
+    const words = await Word.find();
     const randomWord = getRandomElement(words, this.usedWords);
 
     if (!randomWord) {
@@ -27,7 +27,7 @@ export class WordCheckerService {
     }
 
     this.usedWords.add(randomWord.value);
-    return randomWord; // Zwróć wylosowane słowo
+    return randomWord; 
   }
 
   async checkSimilarity(
@@ -56,13 +56,13 @@ export class WordCheckerService {
   }
 
   async checkSentenceForWord(word: IWord, sentence: string): Promise<boolean> {
-    const words = sentence.split(/\s+/); // Podziel zdanie na słowa
+    const words = sentence.split(/\s+/);
     for (const sentenceWord of words) {
-      const distance = await levenshtein(word.value, sentenceWord); // Oblicz odległość Levenshteina
+      const distance = await levenshtein(word.value, sentenceWord); 
       if (distance <= 1) {
-        return true; // Wykryto oszustwo
+        return true;
       }
     }
-    return false; // Nie wykryto oszustwa
+    return false;
   }
 }

@@ -33,6 +33,16 @@ export class UserService {
     return { token, user };
   }
 
+  async getOneById(id: string) {  
+    const user = await this.User.findOne({ _id: id });
+
+    if (!user) {
+      throw new AppError('User not found');
+    }
+
+    return user;
+  }
+
   async getMany() {
     return await this.User.find().select(['-password']);
   }
@@ -46,12 +56,25 @@ export class UserService {
       { new: true },
     );
   }
+  async updateById(id: string, data: IUserUpdate, password?: string) {
+    const updateData: Partial<IUser> = { ...data };
 
-  async remove(email: string) {
-    const deletedUser = await this.User.findOne({ email });
+    if (password) {
+        updateData.password = await hashPassword(password);
+    }
+
+    return await this.User.findOneAndUpdate(
+        { _id: id }, 
+        updateData,
+        { new: true }
+    );
+  }
+
+  async remove(id: string) {
+    const deletedUser = await this.User.findOne({ _id: id }).deleteOne();
 
     if (!deletedUser) {
-      throw new AppError(`Fail to delete user. Email ${email} not found`);
+      throw new AppError(`Fail to delete user. Id ${id} not found`);
     }
 
     return deletedUser;

@@ -238,9 +238,7 @@ userRouter
 userRouter
   .route('/:id')
   .all(validateId)
-  .get(asyncErrorCatch(userController.getOne.bind(userController)))
+  .get(asyncErrorCatch(userController.getOneById.bind(userController)))
   .delete(asyncErrorCatch(userController.remove.bind(userController)))
-  .patch(asyncErrorCatch(userController.update.bind(userController)));
-
-  // Have an error here, need to fix it
-  // On swagger 400 on get and delete with id
+  .patch(asyncErrorCatch(userController.updateById.bind(userController)));
+  

@@ -124,9 +124,12 @@ export class GameRoomController extends BaseController {
 
   async joinTeam(req: Request, res: Response, next: NextFunction) {
     const { roomId } = req.params;
-    const { team, userId } = req.body;
+    const { team } = req.body;
 
-    const updatedRoom = await this.gameRoomService.joinTeam(roomId, {
+    const userId = '67079b70d705050ecf4cf5eb'; // todo, get from req
+
+    const updatedRoom = await this.gameRoomService.joinTeam({
+      roomId,
       team,
       userId,
     });

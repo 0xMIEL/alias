@@ -9,7 +9,7 @@ function getTimePerRoundInMilliseconds(timePerRoundInMinutes: number) {
 }
 
 function getCurrentExplanaitorAndTeam(gameRoom: IGameRoom) {
-  const { currentRound, players } = gameRoom;
+  const { currentRound } = gameRoom;
   const turnsPerRound = 2;
   const firstTeam = 1;
   const secondTeam = 2;
@@ -17,14 +17,12 @@ function getCurrentExplanaitorAndTeam(gameRoom: IGameRoom) {
   const currentTeam =
     (currentRound + 1) % turnsPerRound === 0 ? firstTeam : secondTeam;
 
-  const currentTeamPlayers = players.filter(
-    (player) => player.team === currentTeam,
-  );
+  const currentTeamPlayers = gameRoom[`team${currentTeam}`].players;
 
   const currentExplanatorIndex = currentRound % currentTeamPlayers.length;
 
   return {
-    currentExplanaitor: players[currentExplanatorIndex].userId,
+    currentExplanaitor: currentTeamPlayers[currentExplanatorIndex],
     currentTeam,
   };
 }

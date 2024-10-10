@@ -16,29 +16,31 @@ const gameRoomeSchema = new Schema<IGameRoom>(
       type: String,
     },
     playerJoined: [mongoose.Types.ObjectId],
-    players: [
-      {
-        team: Number,
-        userId: mongoose.Types.ObjectId,
-      },
-    ],
     roundsTotal: {
       max: GAME_OPTIONS.MAX_GAME_ROUNDS,
       min: GAME_OPTIONS.MIN_GAME_ROUNDS,
       required: true,
       type: Number,
     },
-    scores: [
-      {
-        score: { default: 0, type: Number },
-        team: Number,
-      },
-    ],
     status: {
       default: gameRoomStatuses.lobby,
       enum: Object.values(gameRoomStatuses),
       required: true,
       type: String,
+    },
+    team1: {
+      players: [mongoose.Types.ObjectId],
+      score: {
+        default: 0,
+        type: Number,
+      },
+    },
+    team2: {
+      players: [mongoose.Types.ObjectId],
+      score: {
+        default: 0,
+        type: Number,
+      },
     },
     teamSize: {
       max: GAME_OPTIONS.MAX_TEAM_SIZE,
@@ -58,10 +60,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
 
 gameRoomeSchema.pre('save', function (next) {
   if (this.isNew) {
-    this.players.push({
-      team: 1,
-      userId: this.hostUserId,
-    });
+    this.team1.players.push(this.hostUserId);
   }
 
   next();

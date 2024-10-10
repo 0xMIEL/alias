@@ -4,7 +4,6 @@ import { GameRoomService } from '../gameRooms/GameRoomService';
 import getManyGameRoomsSchema, {
   frontEndHomeSchemaDefault,
 } from '../gameRooms/gameRoomValidaton';
-import { Player } from '../gameRooms/types/gameRoom';
 
 export class FrontEndController {
   constructor(private gameRoomService: GameRoomService) {
@@ -20,7 +19,10 @@ export class FrontEndController {
 
     const gamesWithTotalPlayers = games.map((game) => ({
       ...game,
-      totalPlayers: game.playerJoined.length + game.players.length,
+      totalPlayers:
+        game.playerJoined.length +
+        game.team1.players.length +
+        game.team2.players.length,
     }));
 
     const username = req.cookies?.username || 'Guest';
@@ -38,21 +40,10 @@ export class FrontEndController {
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
 
-      const team1: Player[] = [];
-      const team2: Player[] = [];
-
-      gameRoom.players.forEach((player: Player) => {
-        if (player.team === 1) {
-          team1.push(player);
-        } else {
-          team2.push(player);
-        }
-      });
-
       return res.render('gameLobby', {
         game: gameRoom,
-        team1,
-        team2,
+        team1: gameRoom.team1.players,
+        team2: gameRoom.team2.players,
         title: 'Game Lobby',
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -83,8 +74,11 @@ export class FrontEndController {
       .render('log-in', { layout: 'main', pageTitle: 'Log in' });
   }
 
-  async getStartGame(req: Request, res: Response, next: NextFunction) {
+  async getInGame(req: Request, res: Response, next: NextFunction) {
+    const gameRoom = await this.gameRoomService.getOne(req.params.id);
+
     res.render('in-game', {
+      gameRoom,
       title: 'Alias Game',
     });
   }

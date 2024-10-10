@@ -1,8 +1,11 @@
 import { SOCKET_EVENT } from '../constants/constants.js';
 import { addMessage } from './handleGameLobbyChat.js';
-import { createGameLobbyPlayersLists } from '../helpers/createHtmlFunctions.js';
-import { getUserFromStorage } from '../helpers/helpers.js';
+import {
+  createGameLobbyPlayersLists,
+  createStartGameButton,
+} from '../helpers/createHtmlFunctions.js';
 import { socket } from '../sockets/socket.js';
+import { startGameWithSocket } from '../sockets/socketHandlers.js';
 
 socket.on(SOCKET_EVENT.KILL_ROOM, () => {
   window.location.replace(`/`);
@@ -33,25 +36,23 @@ socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
 });
 
 function updatePlayerLists(room) {
-  const userId = getUserFromStorage() || 'userid';
-
   const totalTeamsInGame = 1;
 
   if (
-    userId === room.hostUserId &&
-    room.players.length >= room.teamSize * totalTeamsInGame
+    // userId === room.hostUserId &&
+    // room.players.length >= room.teamSize * totalTeamsInGame
+    totalTeamsInGame
   ) {
-    const button = document.createElement('button');
-    button.textContent = 'Start Game';
-    button.id = 'button-start-game';
-    button.className = 'button button-action button-start-game';
+    const button = createStartGameButton();
 
     button.addEventListener('click', () => {
-      window.location.href = '/in-game';
+      startGameWithSocket(room._id);
     });
+
     const buttonsContainer = document.getElementById(
       'action-buttons-container',
     );
+
     buttonsContainer.appendChild(button);
   }
 

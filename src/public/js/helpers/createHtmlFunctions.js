@@ -1,4 +1,4 @@
-export function createGameListItemHTML(game) {
+function createGameListItemHTML(game) {
   const totalPlayersInRoom = game.players.length + game.playerJoined.length;
 
   return `
@@ -29,7 +29,7 @@ export function createGameListItemHTML(game) {
   `;
 }
 
-export function createGameLobbyPlayersLists(game) {
+function createGameLobbyPlayersLists(game) {
   const team1 = [];
   const team2 = [];
   const waitingPlayers = game.playerJoined;
@@ -74,3 +74,17 @@ export function createGameLobbyPlayersLists(game) {
 
   return { team1HTML, team2HTML, waitingHTML };
 }
+
+function createStartGameButton() {
+  const button = document.createElement('button');
+  button.textContent = 'Start Game';
+  button.id = 'button-start-game';
+  button.className = 'button button-action button-start-game';
+  return button;
+}
+
+export {
+  createStartGameButton,
+  createGameListItemHTML,
+  createGameLobbyPlayersLists,
+};

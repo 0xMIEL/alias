@@ -6,12 +6,16 @@
     <h2 class='team-name'>1</h2>
     <h1>Players: 2/2</h1>
     <div class="team-info">
-     <ol>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-    </ol></div>
+
+     <ul>
+      {{#each team1Usernames}}
+        <li>Player: {{this}}</li>
+      {{else}}
+        <li>No players available</li> 
+      {{/each}}
+    </ul>
+
+</div>
   </section>
 
   <section class='score'>
@@ -31,12 +35,13 @@
     <h2 class='team-name'>2</h2>
     <h1>Players: 2/2</h1>
     <div class="team-info">
-    <ol>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-      <li>user</li>
-    </ol></div>
+    <ul>
+      {{#each team2Usernames}}
+        <li>Player: {{this}}</li>
+      {{else}}
+        <li>No players available</li> 
+      {{/each}}
+    </ul></div>
   </section>
     
   </section>

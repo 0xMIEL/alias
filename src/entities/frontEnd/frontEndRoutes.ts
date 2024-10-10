@@ -5,11 +5,14 @@ import { GameRoomService } from '../gameRooms/GameRoomService';
 import { FrontEndController } from './FrontEndController';
 import { redirectIfNotAuthenticated } from '../../middleware/redirectIfNotAuthenticated';
 import { redirectIfAuthenticated } from '../../middleware/redirectIfAuthenticated';
+import { UserService } from '../users/UserService';
+import { User } from '../users/User';
 
 export const frontEndRouter = Router();
 
 const gameRoomService = new GameRoomService(GameRoom);
-const frontEndController = new FrontEndController(gameRoomService);
+const userService = new UserService(User);
+const frontEndController = new FrontEndController(gameRoomService, userService);
 
 frontEndRouter
   .route('/sign-up')

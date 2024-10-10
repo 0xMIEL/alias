@@ -84,10 +84,8 @@ export class FrontEndController {
   }
 
   async getStartGame(req: Request, res: Response, next: NextFunction) {
-  
-    res.render('start-game', {
-      title: 'Start Game',
-    })
-      
+    res.render('in-game', {
+      title: 'Alias Game',
+    });
   }
 }

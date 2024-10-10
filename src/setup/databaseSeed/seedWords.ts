@@ -1,6 +1,8 @@
 import { Word } from '../../entities/word/Word';
 import * as fs from 'fs';
 import * as path from 'path';
+import { AppError } from '../../core/AppError';
+import { HTTP_STATUS_CODE } from '../../constants/constants';
 
 
 export const seedDatabase = async () => {
@@ -13,9 +15,8 @@ export const seedDatabase = async () => {
     const jsonWords = JSON.parse(jsonWordFileContent);
 
     await Word.insertMany(jsonWords);
-    console.log('Words seeded successfully!');
     }
    catch (error) {
-    console.error('Error seeding database:', error);
+    throw new AppError(`Error seeding database: ${error}`, HTTP_STATUS_CODE.INTERNAL_SERVER_ERROR_500);
   }
 };

@@ -15,18 +15,11 @@ const mountJoinGameLobbyEvent = (socket: Socket) => {
   });
 };
 
-const mountJoinGameEvent = (socket: Socket) => {
-  socket.on(SOCKET_EVENT.JOIN_GAME, ({ roomId }) => {
-    socket.join(roomId);
-  });
-};
-
 const initializeSocket = (io: Server) => {
   io.use(socketAuth);
   io.on('connection', (socket) => {
     mountGameLobbyMessageEvent(socket, io);
     mountJoinGameLobbyEvent(socket);
-    mountJoinGameEvent(socket);
     mountGameEvents(socket, io);
   });
 };

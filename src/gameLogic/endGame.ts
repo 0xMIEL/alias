@@ -1,9 +1,22 @@
 import { Server } from 'socket.io';
 import { SOCKET_EVENT } from '../constants/constants';
-import { IGameRoom } from '../entities/gameRooms/types/gameRoom';
+import {
+  gameRoomStatuses,
+  IGameRoom,
+} from '../entities/gameRooms/types/gameRoom';
+import { GameRoomService } from '../entities/gameRooms/GameRoomService';
 
-function endGame(gameRoom: IGameRoom, io: Server) {
-  io.in(gameRoom._id).emit(SOCKET_EVENT.END_GAME, gameRoom);
+async function endGame(
+  gameRoom: IGameRoom,
+  io: Server,
+  gameRoomService: GameRoomService,
+) {
+  await gameRoomService.update(
+    { status: gameRoomStatuses.finished },
+    gameRoom._id,
+  );
+
+  io.in(gameRoom._id.toString()).emit(SOCKET_EVENT.END_GAME, gameRoom);
 }
 
 export { endGame };

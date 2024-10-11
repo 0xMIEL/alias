@@ -479,7 +479,7 @@ gameRoomRouter
  *                   example: "Game room not found"
  */
 gameRoomRouter
-  .route('/:roomId/room/:playerId')
+  .route('/:roomId/room')
   .post(
     throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(

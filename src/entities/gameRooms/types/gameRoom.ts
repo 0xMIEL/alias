@@ -27,7 +27,7 @@ export interface IGameRoom {
   status: GameRoomStatus;
   team1: { players: Array<string>; score: number };
   team2: { players: Array<string>; score: number };
-  playerJoined: Array<{ userId: string }>;
+  playerJoined: Array<{ userId: string }> | [];
 }
 
 export type IGameRoomUpdate = Partial<

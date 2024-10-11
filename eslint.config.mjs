@@ -9,11 +9,16 @@ export default [
   ...tseslint.configs.recommended,
   {
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: 'req|res|next' }],
-      'max-lines-per-function': ['warn', { max: 50 }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: 'req|res|next' },
+      ],
       'no-console': 'warn',
       'no-else-return': 'error',
-      'no-magic-numbers': ['error', { ignore: [0, 1], ignoreArrayIndexes: true }],
+      'no-magic-numbers': [
+        'error',
+        { ignore: [0, 1], ignoreArrayIndexes: true },
+      ],
       'no-new-func': 'error',
       'no-shadow': 'error',
       'no-use-before-define': ['error', { functions: false }],
@@ -26,7 +31,11 @@ export default [
         },
       ],
       'prefer-template': 'error',
-      'sort-keys': ['error', 'asc', { caseSensitive: true, minKeys: 2, natural: true }],
+      'sort-keys': [
+        'error',
+        'asc',
+        { caseSensitive: true, minKeys: 2, natural: true },
+      ],
     },
   },
   {

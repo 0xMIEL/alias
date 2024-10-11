@@ -21,11 +21,10 @@ const updateGameRoom = apiRequestErrorCatch(async ({ data, id }) => {
   });
 });
 
-const joinRoom = apiRequestErrorCatch(async ({ data, id }) => {
+const joinRoom = apiRequestErrorCatch(async ({ id }) => {
   return await makeApiRequest({
-    data,
     method: HTTP_METHODS.PATCH,
-    url: `${baseUrl}/gameRooms/${id}/room/${data.userId}`,
+    url: `${baseUrl}/gameRooms/${id}/room`,
   });
 });
 
@@ -39,14 +38,14 @@ const joinTeam = apiRequestErrorCatch(async ({ data, id }) => {
   });
 });
 
-const leaveRoom = apiRequestErrorCatch(async ({ playerId, gameId }) => {
+const leaveRoom = apiRequestErrorCatch(async ({ gameId }) => {
   return await makeApiRequest({
     method: HTTP_METHODS.DELETE,
-    url: `${baseUrl}/gameRooms/${gameId}/room/${playerId}`,
+    url: `${baseUrl}/gameRooms/${gameId}/room`,
   });
 });
 
-const startGame = apiRequestErrorCatch(async ( {gameData}) => {
+const startGame = apiRequestErrorCatch(async ({ gameData }) => {
   return await makeApiRequest({
     data: gameData,
     method: HTTP_METHODS.POST,
@@ -54,4 +53,11 @@ const startGame = apiRequestErrorCatch(async ( {gameData}) => {
   });
 });
 
-export { leaveRoom, createGameRoom, joinRoom, updateGameRoom, joinTeam, startGame };
+export {
+  leaveRoom,
+  createGameRoom,
+  joinRoom,
+  updateGameRoom,
+  joinTeam,
+  startGame,
+};

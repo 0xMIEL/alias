@@ -9,13 +9,22 @@ const gameRoomeSchema = new Schema<IGameRoom>(
       default: 0,
       type: Number,
     },
-    currentTeam: { type: Number },
-    currentWord: { type: String },
+    currentTeam: {
+      default: 0,
+      type: Number,
+    },
+    currentWord: {
+      default: '',
+      type: String,
+    },
     hostUserId: {
       required: true,
       type: String,
     },
-    playerJoined: [mongoose.Types.ObjectId],
+    playerJoined: {
+      default: [],
+      type: [mongoose.Types.ObjectId],
+    },
     roundsTotal: {
       max: GAME_OPTIONS.MAX_GAME_ROUNDS,
       min: GAME_OPTIONS.MIN_GAME_ROUNDS,
@@ -29,14 +38,20 @@ const gameRoomeSchema = new Schema<IGameRoom>(
       type: String,
     },
     team1: {
-      players: [mongoose.Types.ObjectId],
+      players: {
+        default: [],
+        type: [mongoose.Types.ObjectId],
+      },
       score: {
         default: 0,
         type: Number,
       },
     },
     team2: {
-      players: [mongoose.Types.ObjectId],
+      players: {
+        default: [],
+        type: [mongoose.Types.ObjectId],
+      },
       score: {
         default: 0,
         type: Number,

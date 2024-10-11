@@ -49,11 +49,9 @@ function updatePlayerLists(room) {
       startGameWithSocket(room._id);
     });
 
-    const buttonsContainer = document.getElementById(
-      'action-buttons-container',
-    );
+    const buttonsContainer = document.getElementById('start-button-container');
 
-    buttonsContainer.appendChild(button);
+    buttonsContainer.replaceChildren(button);
   }
 
   const team1List = document.getElementById('team1-list');

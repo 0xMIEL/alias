@@ -1,69 +1,71 @@
-// import { SOCKET_EVENT } from '../constants/constants.js';
-// import { addMessage } from './handleGameLobbyChat.js';
-// import {
-//   createGameLobbyPlayersLists,
-//   createStartGameButton,
-// } from '../helpers/createHtmlFunctions.js';
-// import { socket } from '../sockets/socket.js';
-// import { startGameWithSocket } from '../sockets/socketHandlers.js';
+import { SOCKET_EVENT } from '../constants/constants.js';
+import { addMessage } from './handleGameLobbyChat.js';
+import {
+  createGameLobbyPlayersLists,
+  createStartGameButton,
+} from '../helpers/createHtmlFunctions.js';
+import { socket } from '../sockets/socket.js';
+import { startGameWithSocket } from '../sockets/socketHandlers.js';
 
-// socket.on(SOCKET_EVENT.KILL_ROOM, () => {
-//   window.location.replace(`/`);
-// });
+socket.on(SOCKET_EVENT.KILL_ROOM, () => {
+  window.location.replace(`/`);
+});
 
-// socket.on(SOCKET_EVENT.JOIN_ROOM, (data) => {
-//   const { updatedRoom, message } = data;
+socket.on(SOCKET_EVENT.JOIN_ROOM, (data) => {
+  const { updatedRoom, message } = data;
 
-//   updatePlayerLists(updatedRoom);
+  updatePlayerLists(updatedRoom);
 
-//   addMessage(message);
-// });
+  addMessage(message);
+});
 
-// socket.on(SOCKET_EVENT.LEAVE_ROOM, (data) => {
-//   const { updatedRoom, message } = data;
 
-//   updatePlayerLists(updatedRoom);
 
-//   addMessage(message);
-// });
+socket.on(SOCKET_EVENT.LEAVE_ROOM, (data) => {
+  const { updatedRoom, message } = data;
 
-// socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
-//   const { updatedRoom, message } = data;
+  updatePlayerLists(updatedRoom);
 
-//   updatePlayerLists(updatedRoom);
+  addMessage(message);
+});
 
-//   addMessage(message);
-// });
+socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
+  const { updatedRoom, message } = data;
 
-// function updatePlayerLists(room) {
-//   const totalTeamsInGame = 1;
+  updatePlayerLists(updatedRoom);
 
-//   if (
-//     // userId === room.hostUserId &&
-//     // room.players.length >= room.teamSize * totalTeamsInGame
-//     totalTeamsInGame
-//   ) {
-//     const button = createStartGameButton();
+  addMessage(message);
+});
 
-//     button.addEventListener('click', () => {
-//       startGameWithSocket(room._id);
-//     });
+function updatePlayerLists(room) {
+  const totalTeamsInGame = 1;
 
-//     const buttonsContainer = document.getElementById(
-//       'action-buttons-container',
-//     );
+  if (
+    // userId === room.hostUserId &&
+    // room.players.length >= room.teamSize * totalTeamsInGame
+    totalTeamsInGame
+  ) {
+    const button = createStartGameButton();
 
-//     buttonsContainer.appendChild(button);
-//   }
+    button.addEventListener('click', () => {
+      startGameWithSocket(room._id);
+    });
 
-//   const team1List = document.getElementById('team1-list');
-//   const team2List = document.getElementById('team2-list');
-//   const waitingPlayersList = document.getElementById('waiting-list');
+    const buttonsContainer = document.getElementById(
+      'action-buttons-container',
+    );
 
-//   const { team1HTML, team2HTML, waitingHTML } =
-//     createGameLobbyPlayersLists(room);
+    buttonsContainer.appendChild(button);
+  }
 
-//   team1List.innerHTML = team1HTML;
-//   team2List.innerHTML = team2HTML;
-//   waitingPlayersList.innerHTML = waitingHTML;
-// }
+  const team1List = document.getElementById('team1-list');
+  const team2List = document.getElementById('team2-list');
+  const waitingPlayersList = document.getElementById('waiting-list');
+
+  const { team1HTML, team2HTML, waitingHTML } =
+    createGameLobbyPlayersLists(room);
+
+  team1List.innerHTML = team1HTML;
+  team2List.innerHTML = team2HTML;
+  waitingPlayersList.innerHTML = waitingHTML;
+}

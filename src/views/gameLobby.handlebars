@@ -5,7 +5,8 @@
 
   <h3 class='game-lobby__game-name'>Game id: {{game._id}}</h3>
 
-  <div class='wrapper' id='game-lobby-lists-wrapper'>
+  <main class="game-lobby__main wrapper">
+    <div id='game-lobby-lists-wrapper'>
     <div class='game-lobby__teams'>
       <div class='game-lobby__team1'>
         <h4>Team 1</h4>
@@ -65,7 +66,7 @@
     </div>
   </div>
 
-  <div class="wrapper wrapper--column">
+
     <div class='chat'>
     <div class='chat-window' id='chat-window'>
       <ul class='chat-window__list' id='chat-window__list'>
@@ -80,11 +81,14 @@
         {{/each}}
       </ul>
     </div>
-    <input type='text' id='game-lobby-message-input' />
+    <textarea type='text' id='game-lobby-message-input'></textarea>
     <button class='button' id='button-game-lobby-send-message'>Send message</button>
   </div>
+  
+  </main>
+  <div class="wrapper">
+    <div class='action-buttons-container' id='action-buttons-container'>
   </div>
-  <div class='action-buttons-container' id='action-buttons-container'>
 
     <button
       class='button button-danger button-leave-room'

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { SOCKET_EVENT } from '../constants/constants.js';
 import { getCookie } from '../helpers/getCookie.js';
 import { socket } from '../sockets/socket.js';
@@ -67,6 +68,14 @@ function createMessageElement(username, message, isYours = false) {
   return listElement;
 }
 
+function addMessage(message) {
+  const messageList = document.getElementById('chat-window__list');
+  const listElement = document.createElement('li');
+  listElement.textContent = message;
+
+  messageList.appendChild(listElement);
+}
+
 function addYourMessage(message) {
   const messageList = document.getElementById('chat-window__list');
   const listElement = createMessageElement('you', message, true);
@@ -96,3 +105,5 @@ document.addEventListener('DOMContentLoaded', () => {
   joinGameRoomWithSocket(roomId);
   scrollToBottom();
 });
+
+export { addMessage };

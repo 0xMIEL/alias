@@ -6,10 +6,11 @@ const roomId = document.getElementById('in-game').getAttribute('data-game-id');
 
 const chatSendButton = document.getElementById('chat-send-button');
 
-registerGameSocketListeners(roomId);
-
-chatSendButton.addEventListener('click', handleGameMessageSend);
+chatSendButton.addEventListener('click', (e) =>
+  handleGameMessageSend(e, roomId),
+);
 
 document.addEventListener('DOMContentLoaded', () => {
   joinGameWithSocket(roomId);
+  registerGameSocketListeners(roomId);
 });

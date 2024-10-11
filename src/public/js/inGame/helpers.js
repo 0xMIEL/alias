@@ -55,7 +55,7 @@ function changeScoreElement(score) {
 function setRound(round) {
   const roundElement = document.getElementById('round');
 
-  roundElement.textContent = round;
+  roundElement.textContent = `Round ${round}`;
 }
 
 function startRoundTimer(timePerRoundInMilliseconds) {
@@ -93,7 +93,7 @@ function startRoundTimer(timePerRoundInMilliseconds) {
 function setExplanaitor(username) {
   const explanaitorElement = document.getElementById('explanaitor');
 
-  explanaitorElement.textContent = username;
+  explanaitorElement.textContent = `${username}`;
 }
 
 function setActiveTeam(team) {
@@ -135,14 +135,14 @@ function handleEndRound() {
   addServerResponseToChat('New round will begin shortly!', CHAT.EXPLANATION);
 }
 
-function handleGameMessageSend(e) {
+function handleGameMessageSend(e, roomId) {
   e.preventDefault();
   const chatInputField = document.getElementById('chat-input-field');
   const message = chatInputField.value;
 
   if (!message) return;
 
-  sendGameMessageWithSocket(message);
+  sendGameMessageWithSocket(roomId, message);
   chatInputField.value = '';
 }
 

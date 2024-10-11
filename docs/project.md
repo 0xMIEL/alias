@@ -25,6 +25,7 @@
   - [Future Enhancements](#future-enhancements)
     - [1. User Profile: Player Statistics](#1-user-profile-player-statistics)
     - [2. Game Levels Based on Word Difficulty](#2-game-levels-based-on-word-difficulty)
+    - [3. Filter games list](#3-filter-games-list)
   - [FAQ](#faq)
   - [Conclusion](#conclusion)
 
@@ -42,7 +43,6 @@ Alias is a word-guessing game where players form teams. Each team takes turns wh
 - After logging in, users are presented with the game lobby, where they can:
     - Join an existing room (if it's not full), or
     - Create a new game room with preferences, including the number of **players per team**, **number of rounds**, **time per round**.
-    - Can filter games list based of their game settings
 
 3. **Room Creation & Team Selection**
 
@@ -151,6 +151,8 @@ npm run test
 
 ## Entities
 
+API documentation was created with **Swagger**, providing a user-friendly interface to explore and test the available endpoints.
+
 **For full API documentation, visit:** [API Docs](http://localhost:3000/api-docs/)
 
 ### 1. Users
@@ -218,6 +220,9 @@ Introduce different levels in the game, allowing players to choose or progress t
 
 These enhancements would improve user engagement by offering personalized performance tracking and a more varied gameplay experience.
 
+### 3. Filter games list
+
+Players w game lobby can filter games list based of their game settings.
 ## FAQ
 
 Common questions and troubleshooting tips.

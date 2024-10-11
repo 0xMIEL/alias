@@ -30,33 +30,23 @@ function createGameListItemHTML(game) {
 }
 
 function createGameLobbyPlayersLists(game) {
-  const team1 = [];
-  const team2 = [];
   const waitingPlayers = game.playerJoined;
 
-  game.players.forEach((player) => {
-    if (player.team === 1) {
-      team1.push(player);
-    } else {
-      team2.push(player);
-    }
-  });
-
-  const team1HTML = team1
+  const team1HTML = game.team1.players
     .map(
       (player) => `
-      <li class='team1__list__item' id='${player.userId}'>
-        ${player.userId}
+      <li class='team1__list__item' id='${player}'>
+        ${player}
       </li>
     `,
     )
     .join('');
 
-  const team2HTML = team2
+  const team2HTML = game.team2.players
     .map(
       (player) => `
-      <li class='team2__list__item' id='${player.userId}'>
-        ${player.userId}
+      <li class='team2__list__item' id='${player}'>
+        ${player}
       </li>
     `,
     )
@@ -65,8 +55,8 @@ function createGameLobbyPlayersLists(game) {
   const waitingHTML = waitingPlayers
     .map(
       (player) => `
-      <li class='game-lobby__waiting__item' id='${player.userId}'>
-        ${player.userId}
+      <li class='game-lobby__waiting__item' id='${player}'>
+        ${player}
       </li>
     `,
     )

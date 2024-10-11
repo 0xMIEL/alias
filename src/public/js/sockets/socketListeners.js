@@ -4,6 +4,7 @@ import {
   addGuessToChat,
   addServerResponseToChat,
   handleEndRound,
+  insertSecretWord,
   startRound,
   updateGameOnCorrectGuess,
 } from '../inGame/helpers.js';
@@ -18,20 +19,20 @@ function registerGameSocketListeners(roomId) {
     },
   );
 
-  socket.on(SOCKET_EVENT.WORD_EXPLANATION, ({ explanation }) => {
-    addExplanationToChat(explanation);
+  socket.on(SOCKET_EVENT.WORD_EXPLANATION, ({ message }) => {
+    addExplanationToChat(message);
   });
 
   socket.on(SOCKET_EVENT.CHEATING_EXPLANATION, ({ message }) => {
     addServerResponseToChat(message, CHAT.EXPLANATION);
   });
 
-  socket.on(SOCKET_EVENT.WORD_GUESS, ({ guess }) => {
-    addGuessToChat(guess);
+  socket.on(SOCKET_EVENT.WORD_GUESS, ({ message }) => {
+    addGuessToChat(message);
   });
 
   socket.on(SOCKET_EVENT.INCORRECT_GUESS, ({ message }) => {
-    addServerResponseToChat(message, CHAT.EXPLANATION);
+    addServerResponseToChat(message, CHAT.GUESS);
   });
 
   socket.on(SOCKET_EVENT.CORRECT_GUESS, ({ updatedGameRoom, message }) => {
@@ -45,6 +46,10 @@ function registerGameSocketListeners(roomId) {
 
   socket.on(SOCKET_EVENT.END_GAME, (gameRoom) => {
     addServerResponseToChat(`Game ${gameRoom._id} is over!`, CHAT.EXPLANATION);
+  });
+
+  socket.on(SOCKET_EVENT.SHOW_SECRET, ({ secret }) => {
+    insertSecretWord(secret);
   });
 
   document.addEventListener('DOMContentLoaded', () => {

@@ -44,6 +44,11 @@ function insertSecretWord(word) {
   secret.textContent = word;
 }
 
+function clearSecretWord() {
+  const secret = document.getElementById('secret');
+  secret.textContent = '';
+}
+
 function changeScoreElement(score) {
   const scoreTeam1 = document.getElementById('score-team1');
   const scoreTeam2 = document.getElementById('score-team2');
@@ -103,22 +108,19 @@ function setActiveTeam(team) {
 }
 
 function startRound({ timePerRoundInMilliseconds, updatedGameRoom }) {
-  const { currentTeam, currentWord, currentRound, currentExplanaitor } =
-    updatedGameRoom;
+  const { currentTeam, currentRound, currentExplanaitor } = updatedGameRoom;
 
   clearChatFields();
   startRoundTimer(timePerRoundInMilliseconds);
-  insertSecretWord(currentWord);
   setExplanaitor(currentExplanaitor);
   setActiveTeam(currentTeam);
   setRound(currentRound);
 }
 
 function updateGameOnCorrectGuess(gameRoom) {
-  const { currentWord, team1, team2 } = gameRoom;
+  const { team1, team2 } = gameRoom;
 
   changeScoreElement({ team1: team1.score, team2: team2.score });
-  insertSecretWord(currentWord);
 }
 
 function clearChatFields() {
@@ -129,6 +131,7 @@ function clearChatFields() {
 
   explanationMessageList.innerHTML = '';
   guessMessageList.innerHTML = '';
+  clearSecretWord();
 }
 
 function handleEndRound() {

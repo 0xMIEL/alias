@@ -31,6 +31,7 @@ export const SOCKET_EVENT = {
   INCORRECT_GUESS: 'incorrectGuess',
   CORRECT_GUESS: 'correctGuess',
   GAME_MESSAGE: 'gameMessage',
+  SHOW_SECRET: 'showSecret',
 };
 
 export const GAME_OPTIONS = {

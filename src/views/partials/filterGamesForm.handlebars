@@ -1,0 +1,32 @@
+<form class='filter_Container' method='GET' action='/'>
+  <div>
+    <label class='label' for='status'>game status</label>
+    <select name='status'>
+      <option value=''>All</option>
+      <option value='lobby'>Lobby</option>
+      <option value='inProgress'>Running</option>
+    </select>
+  </div>
+
+  <div>
+    <label class='label' for='teamSize'>players per team</label>
+    <select name='teamSize'>
+      <option value=''>All</option>
+      <option value='2'>2 Players</option>
+      <option value='3'>3 Players</option>
+      <option value='4'>4 Players</option>
+    </select>
+  </div>
+
+  <div>
+    <label class='label' for='timePerRound'>time per round</label>
+    <input
+      type='number'
+      name='timePerRound'
+      min='1'
+      placeholder='Time in minutes'
+    />
+  </div>
+
+  <button type='submit' class='button'>Filter Games</button>
+</form>

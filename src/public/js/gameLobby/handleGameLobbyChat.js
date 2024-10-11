@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable no-magic-numbers */
 import { SOCKET_EVENT } from '../constants/constants.js';
 import { getCookie } from '../helpers/getCookie.js';
 import { socket } from '../sockets/socket.js';

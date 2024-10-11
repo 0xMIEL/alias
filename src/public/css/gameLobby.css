@@ -22,13 +22,14 @@ h3 {
   gap: 2rem;
 }
 
-#game-lobby-lists-wrapper, .chat {
+#game-lobby-lists-wrapper,
+.chat {
   width: 100%;
   flex: 1;
 }
 
 #game-lobby-message-input {
-  font: inherit; 
+  font: inherit;
   overflow: hidden;
   resize: none;
   margin-top: 16px;
@@ -43,6 +44,10 @@ h3 {
 #button-game-lobby-send-message {
   margin-top: 1.2rem;
   width: 100%;
+}
+
+.chat {
+  display: none;
 }
 
 .chat-window {
@@ -60,7 +65,8 @@ h3 {
 }
 
 .filter_Container {
-  display: flex;
+  margin-bottom: 2rem;
+  display: none;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;

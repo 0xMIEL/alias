@@ -7,18 +7,18 @@ import setupSwagger from './swaggerConfig';
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
 
-import { connectDatabase } from './setup/database';
-import { AppError } from './core/AppError';
+import cookieParser from 'cookie-parser';
+import mongoSanitize from 'express-mongo-sanitize';
+import path from 'node:path';
 import { HTTP_STATUS_CODE } from './constants/constants';
-import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { AppError } from './core/AppError';
+import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
-import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
-import cookieParser from 'cookie-parser';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { connectDatabase } from './setup/database';
 import { initializeSocket } from './socket/socket';
-import mongoSanitize from 'express-mongo-sanitize';
-import path from 'node:path';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -70,13 +70,13 @@ app.set('views', './src/views');
 
 app.use('/', frontEndRouter);
 
-// app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
-//   throw new AppError(
-//     `Can't find ${req.originalUrl} on this server!`,
-//     HTTP_STATUS_CODE.NOT_FOUND_404,
-//   );
-// });
+app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
+  throw new AppError(
+    `Can't find ${req.originalUrl} on this server!`,
+    HTTP_STATUS_CODE.NOT_FOUND_404,
+  );
+});
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 export { io, server };

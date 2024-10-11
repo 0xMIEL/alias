@@ -28,6 +28,9 @@ export class GameRoomController extends BaseController {
   }
 
   async create(req: Request, res: Response, next: NextFunction) {
+    const user = req.user!;
+    req.body.hostUserId = user._id;
+
     const newGameRoom = await this.gameRoomService.create(req.body);
 
     this.updateGameListEvent(newGameRoom, req, 'create');

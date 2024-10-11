@@ -25,26 +25,18 @@ async function handleCreateGameRoom(event) {
   const teamSize = document.getElementById('playersPerTeam').value;
   const timePerRound = document.getElementById('timePerRound').value;
   const roundsTotal = document.getElementById('totalRounds').value;
-  const hostUserId = '6555f6f9ceae7adbfa0c49f7';
 
   const gameData = {
-    hostUserId,
     roundsTotal,
     teamSize,
     timePerRound,
   };
-
-  saveUserToStorage(hostUserId);
 
   const { data } = await createGameRoom({ gameData });
 
   createGameRoomForm.reset();
   modal.style.display = 'none';
   window.location.href = `/game-lobby/${data._id}`;
-}
-
-function saveUserToStorage(userId) {
-  localStorage.setItem('userId', userId);
 }
 
 createGameRoomForm.addEventListener('submit', handleCreateGameRoom);

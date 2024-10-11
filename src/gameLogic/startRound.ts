@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { Server } from 'socket.io';
 import {
   IGameRoom,
@@ -14,7 +15,6 @@ import { GameRoomService } from '../entities/gameRooms/GameRoomService';
 import { getRandomWord, PlayersMap } from './game';
 import { endRound } from './endRound';
 import { WordCheckerService } from '../entities/word/wordCheckerService';
-import { AppError } from '../core/AppError';
 
 type StartRoundProps = {
   gameRoom: IGameRoom;
@@ -35,11 +35,11 @@ async function startRound({
   const pauseBetweenRoundsInMilliseconds = 3000;
   const { roundsTotal, currentRound, _id: roomId, timePerRound } = gameRoom;
 
-  // if (currentRound >= roundsTotal * turnsPerRound) {
-  //   const updatedRoom = await gameRoomService.getOne(roomId);
+  if (currentRound >= roundsTotal * turnsPerRound) {
+    const updatedRoom = await gameRoomService.getOne(roomId);
 
-  //   return endGame(updatedRoom, io);
-  // }
+    return await endGame(updatedRoom, io, gameRoomService);
+  }
 
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
@@ -58,8 +58,8 @@ async function startRound({
     return emitGameNotFoundError(io, roomId);
   }
 
-  const timePerRoundInMilliseconds = 20000;
-  // getTimePerRoundInMilliseconds(timePerRound);
+  const timePerRoundInMilliseconds =
+    getTimePerRoundInMilliseconds(timePerRound);
 
   const playersIn = players.get(roomId.toString());
   if (!playersIn) {

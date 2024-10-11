@@ -1,24 +1,11 @@
 import { Server, Socket } from 'socket.io';
 import { SOCKET_EVENT } from '../constants/constants';
-import { gameHistoryService } from '../entities/gameHistory/GameHistoryService';
 import { mountGameEvents } from '../gameLogic/game';
 import { socketAuth } from './socketAuth';
 
 const mountGameLobbyMessageEvent = (socket: Socket, io: Server) => {
   socket.on(SOCKET_EVENT.GAME_LOBBY_MESSAGE, ({ roomId, message }) => {
-    const sender = socket.user!;
-
-    gameHistoryService.storeMessage(
-      roomId,
-      sender._id,
-      sender.username,
-      message,
-    );
-
-    io.to(roomId).emit(SOCKET_EVENT.GAME_LOBBY_MESSAGE, {
-      message,
-      username: sender.username,
-    });
+    io.to(roomId).emit(SOCKET_EVENT.GAME_LOBBY_MESSAGE, message);
   });
 };
 

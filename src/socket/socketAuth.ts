@@ -1,9 +1,9 @@
 import { Socket } from 'socket.io';
-import { HTTP_STATUS_CODE } from '../constants/constants';
 import { AppError } from '../core/AppError';
+import { HTTP_STATUS_CODE } from '../constants/constants';
 import { verifyToken } from '../entities/users/helpers/jwtHelpers';
-import { User } from '../entities/users/User';
 import { UserService } from '../entities/users/UserService';
+import { User } from '../entities/users/User';
 import { extractJwtToken } from '../utils/extractJwt';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type

@@ -1,11 +1,11 @@
 import { SOCKET_EVENT } from '../constants/constants.js';
-import { addMessage } from './handleGameLobbyChat.js';
 import {
   createGameLobbyPlayersLists,
   createStartGameButton,
 } from '../helpers/createHtmlFunctions.js';
 import { socket } from '../sockets/socket.js';
 import { startGameWithSocket } from '../sockets/socketHandlers.js';
+import { addMessage } from './handleGameLobbyChat.js';
 
 socket.on(SOCKET_EVENT.KILL_ROOM, () => {
   window.location.replace(`/`);
@@ -18,8 +18,6 @@ socket.on(SOCKET_EVENT.JOIN_ROOM, (data) => {
 
   addMessage(message);
 });
-
-
 
 socket.on(SOCKET_EVENT.LEAVE_ROOM, (data) => {
   const { updatedRoom, message } = data;

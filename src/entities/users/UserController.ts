@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
-import { UserService } from './UserService';
 import { BaseController } from '../../core/BaseController';
 import { generateToken } from './helpers/jwtHelpers';
 import { IUser } from './types/userTypes';
+import { UserService } from './UserService';
 
 export class UserController extends BaseController {
   constructor(private userService: UserService) {
@@ -19,7 +19,7 @@ export class UserController extends BaseController {
       secure: process.env.NODE_ENV === 'production',
     });
 
-    res.cookie('username', user.username);
+    res.cookie('username', user.username, { httpOnly: true });
 
     this.sendResponse({
       data: {

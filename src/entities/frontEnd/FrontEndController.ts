@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
-import { gameHistoryService } from '../gameHistory/GameHistoryService';
 import { GameRoomService } from '../gameRooms/GameRoomService';
 import getManyGameRoomsSchema, {
   frontEndHomeSchemaDefault,
@@ -45,19 +44,9 @@ export class FrontEndController {
 
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
-      const allMessages = await gameHistoryService.getAllMessages(gameId);
-      const formattedMessages = allMessages.map((message) => ({
-        createdAt: new Date(message.createdAt).toLocaleTimeString([], {
-          hour12: false,
-        }),
-        isYours: message.userId === user._id.toString(),
-        text: message.text,
-        username: message.username,
-      }));
 
       return res.render('gameLobby', {
         game: gameRoom,
-        messages: formattedMessages,
         team1: gameRoom.team1.players,
         team2: gameRoom.team2.players,
         title: 'Game Lobby',

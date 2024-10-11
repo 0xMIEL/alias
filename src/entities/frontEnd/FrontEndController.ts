@@ -80,6 +80,7 @@ export class FrontEndController {
     const team2Users = await this.userService.getUsersByIds(
       gameRoom.team2.players,
     );
+    const totalPlayersInTeam = team2Users.length;
 
     const team1Usernames = team1Users.map((player) => player.username);
     const team2Usernames = team2Users.map((player) => player.username);
@@ -88,6 +89,7 @@ export class FrontEndController {
       team1Usernames,
       team2Usernames,
       title: 'Alias Game',
+      totalPlayersInTeam,
       username: user.username,
     });
   }

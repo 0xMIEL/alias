@@ -28,8 +28,7 @@
     - [3. Filter games list](#3-filter-games-list)
   - [FAQ](#faq)
   - [Conclusion](#conclusion)
-  - [Conclusion](#conclusion-1)
-    - [Key Takeaways:](#key-takeaways)
+    - [Key Takeaways](#key-takeaways)
 
 
 ## Game Description
@@ -231,11 +230,9 @@ Common questions and troubleshooting tips.
 
 ## Conclusion
 
-## Conclusion
-
 The Node.js-based game "Alias" offers an engaging and interactive experience for players through its seamless integration of chat functionality and word-checking algorithms. The game promotes teamwork and communication while leveraging modern web technologies, including Node.js, Express, and MongoDB, to create a robust backend system.
 
-### Key Takeaways:
+### Key Takeaways
 
 - **User-Centric Design**: The game emphasizes user experience, from easy registration and login to a well-structured gameplay flow. Players can easily join or create game rooms and enjoy an intuitive interface powered by Handlebars.
   

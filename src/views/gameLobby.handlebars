@@ -69,7 +69,15 @@
     <div class='chat'>
     <div class='chat-window' id='chat-window'>
       <ul class='chat-window__list' id='chat-window__list'>
-
+        {{#each messages as |m|}}
+          <li class="message {{#if m.isYours}}message--yours{{/if}}">
+            <p class="message__info">
+              <span class="message__user">{{#if m.isYours}}you{{else}}{{m.username}}{{/if}}</span> 
+              at <span class="message__timestamp">{{m.createdAt}}</span>
+            </p>
+            <p class="message__text">{{m.text}}</p>
+          </li>
+        {{/each}}
       </ul>
     </div>
     <input type='text' id='game-lobby-message-input' />

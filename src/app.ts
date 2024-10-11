@@ -70,13 +70,13 @@ app.set('views', './src/views');
 
 app.use('/', frontEndRouter);
 
-app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
-  throw new AppError(
-    `Can't find ${req.originalUrl} on this server!`,
-    HTTP_STATUS_CODE.NOT_FOUND_404,
-  );
-});
+// app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
+//   throw new AppError(
+//     `Can't find ${req.originalUrl} on this server!`,
+//     HTTP_STATUS_CODE.NOT_FOUND_404,
+//   );
+// });
 
-app.use(globalErrorHandler);
+// app.use(globalErrorHandler);
 
 export { io, server };

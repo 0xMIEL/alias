@@ -1,47 +1,49 @@
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
+import { Description, Message, Response } from './GameHistory';
 import { IDescription, IMessage, IResponse } from './types/gameHistoryTypes';
 
 class GameHistoryService {
   constructor(
-    private Message: Model<IMessage>,
-    private Description: Model<IDescription>,
-    private Response: Model<IResponse>,
+    private message: Model<IMessage>,
+    private description: Model<IDescription>,
+    private response: Model<IResponse>,
   ) {
-    this.Message = Message;
-    this.Description = Description;
-    this.Response = Response;
+    this.message = message;
+    this.description = description;
+    this.response = response;
   }
 
-  async getAllMessages(gameId: Types.ObjectId) {
-    return await this.Message.find({ gameId });
+  async getAllMessages(gameId: string): Promise<Array<IMessage>> {
+    return await this.message.find({ gameId });
   }
 
   async storeMessage(
-    gameId: Types.ObjectId,
-    senderId: Types.ObjectId,
+    gameId: string,
+    userId: string,
+    username: string,
     text: string,
-  ) {
-    const newMessage = new this.Message({ gameId, senderId, text });
+  ): Promise<IMessage> {
+    const newMessage = new this.message({ gameId, text, userId, username });
 
     return await newMessage.save();
   }
 
   async getAllDescriptions(
-    gameId: Types.ObjectId,
+    gameId: string,
     roundNumber: number,
     team: 'A' | 'B',
   ) {
-    return await this.Description.find({ gameId, roundNumber, team });
+    return await this.description.find({ gameId, roundNumber, team });
   }
 
   async storeDescription(
-    describerId: Types.ObjectId,
+    describerId: string,
     description: string,
-    gameId: Types.ObjectId,
+    gameId: string,
     roundNumber: number,
     team: 'A' | 'B',
   ) {
-    const newDescription = new this.Description({
+    const newDescription = new this.description({
       describerId,
       description,
       gameId,
@@ -52,22 +54,18 @@ class GameHistoryService {
     return await newDescription.save();
   }
 
-  async getAllResponses(
-    gameId: Types.ObjectId,
-    roundNumber: number,
-    team: 'A' | 'B',
-  ) {
-    return await this.Response.find({ gameId, roundNumber, team });
+  async getAllResponses(gameId: string, roundNumber: number, team: 'A' | 'B') {
+    return await this.response.find({ gameId, roundNumber, team });
   }
 
   async storeResponse(
-    gameId: Types.ObjectId,
-    playerId: Types.ObjectId,
+    gameId: string,
+    playerId: string,
     response: string,
     roundNumber: number,
     team: 'A' | 'B',
   ) {
-    const newResponse = new this.Response({
+    const newResponse = new this.response({
       gameId,
       playerId,
       response,
@@ -79,4 +77,8 @@ class GameHistoryService {
   }
 }
 
-export default GameHistoryService;
+export const gameHistoryService = new GameHistoryService(
+  Message,
+  Description,
+  Response,
+);

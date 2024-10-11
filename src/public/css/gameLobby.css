@@ -64,3 +64,25 @@ input[name='totalRounds'] {
   border-radius: 4px;
   padding: 2px 4px;
 }
+
+.message {
+  padding: 0.6rem 2.4rem;
+  text-align: left;
+}
+
+.message__user {
+  color: blue;
+}
+
+.message__info {
+  font-size: 1.6rem;
+  font-family: monospace;
+}
+
+.message--yours {
+  text-align: right;
+}
+
+.message--yours .message__user {
+  color: red;
+}

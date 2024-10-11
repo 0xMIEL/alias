@@ -13,8 +13,6 @@ import {
 jest.mock('../Word'); 
 jest.mock('../helpers/wordCheckerHelpers');
 
-const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
-
 describe('WordCheckerService', () => {
   let wordCheckerService: WordCheckerService;
 
@@ -61,9 +59,11 @@ describe('WordCheckerService', () => {
       const inputWord: IWord = { _id: '1', value: 'cat' } as IWord;
 
       await expect(
+        /* eslint-disable-next-line */
         wordCheckerService.checkSimilarity(inputWord, null as any),
       ).rejects.toThrow(AppError);
       await expect(
+        /* eslint-disable-next-line */
         wordCheckerService.checkSimilarity(inputWord, null as any),
       ).rejects.toThrow('Both input and target words must be provided.');
     });

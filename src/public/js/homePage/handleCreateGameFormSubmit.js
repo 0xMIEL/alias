@@ -2,16 +2,16 @@ import { createGameRoom } from '../api/gameRoomApi.js';
 
 const modal = document.getElementById('gameModal');
 const createGameBtn = document.getElementById('createGameBtn');
-const closeModal = document.querySelector('.close');
+const closeModal = document.getElementById('closeModal');
 const createGameRoomForm = document.getElementById('createGameForm');
 
 createGameBtn.onclick = function () {
   modal.style.display = 'block';
 };
 
-closeModal.onclick = function () {
+closeModal.addEventListener('click', () => {
   modal.style.display = 'none';
-};
+});
 
 window.onclick = function (event) {
   if (event.target === modal) {

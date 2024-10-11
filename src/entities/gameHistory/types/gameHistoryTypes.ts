@@ -1,24 +1,25 @@
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
-export interface IMessage extends Document<Types.ObjectId> {
-  gameId: Types.ObjectId;
-  senderId: Types.ObjectId;
-  team: 'A' | 'B';
+export interface IMessage extends Document {
+  gameId: string;
+  userId: string;
+  username: string;
   text: string;
+  createdAt: Date
 }
 
-export interface IDescription extends Document<Types.ObjectId> {
-  describerId: Types.ObjectId;
+export interface IDescription extends Document {
+  describerId: string;
   description: string;
-  gameId: Types.ObjectId;
+  gameId: string;
   roundNumber: number;
   team: 'A' | 'B';
   word: string;
 }
 
-export interface IResponse extends Document<Types.ObjectId> {
-  gameId: Types.ObjectId;
-  playerId: Types.ObjectId;
+export interface IResponse extends Document {
+  gameId: string;
+  playerId: string;
   response: string;
   roundNumber: number;
   team: 'A' | 'B';

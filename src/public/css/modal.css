@@ -17,9 +17,14 @@
   border-radius: 5px;
 }
 
+.modal-content .modal-content__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .close {
   color: #aaa;
-  float: right;
   font-size: 28px;
   font-weight: bold;
 }
@@ -30,8 +35,14 @@
   cursor: pointer;
 }
 
-.modal-content h2 {
-  margin-bottom: 20px;
+#optionsModal .modal-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-content button[type='submit'] {
+  margin-top: 20px;
 }
 
 .modal-content form {

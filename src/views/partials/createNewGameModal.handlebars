@@ -1,7 +1,9 @@
 <div id='gameModal' class='modal'>
   <div class='modal-content'>
-    <span class='close'>&times;</span>
-    <h2>Game Properties</h2>
+    <div class="modal-content__header">
+      <h2>Game Properties</h2>
+      <button class='close' id="closeModal">&times;</button>
+    </div>
     <form id='createGameForm'>
       <label for='playersPerTeam'>Players per Team (2 - 4): </label>
       <input
@@ -35,5 +37,5 @@
 
       <button type='submit' class='button'>Create Game</button>
     </form>
-  </div>
+  </button>
 </div>

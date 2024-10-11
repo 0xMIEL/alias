@@ -8,7 +8,7 @@
     "test:c": "npx jest --coverage",
     "watch": "nodemon -L --files src/server.ts",
     "docker": "docker-compose up -d --build",
-    "start": "node --max-old-space-size=4096 -r ts-node/register src/server.ts",
+    "start": "ts-node --files src/server.ts",
     "stop": "docker-compose down",
     "format:other": "prettier --write '**/*.{js,json}'",
     "format:ts": "prettier --write '**/*.ts' --parser typescript",

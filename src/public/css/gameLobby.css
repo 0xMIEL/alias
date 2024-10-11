@@ -9,6 +9,8 @@ h3 {
 
 .game-lobby__header {
   text-align: center;
+  color: darkcyan;
+  font-size: 25px;
 }
 
 .game-lobby__teams {

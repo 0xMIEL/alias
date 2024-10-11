@@ -17,21 +17,6 @@
   - [Error Handling](#error-handling)
   - [Entities](#entities)
     - [1. Users](#1-users)
-  - [1. Get All Users](#1-get-all-users)
-    - [Response](#response)
-  - [2. Register a New User](#2-register-a-new-user)
-    - [Request Body](#request-body)
-    - [Response](#response-1)
-  - [3. Login a User](#3-login-a-user)
-    - [Request Body](#request-body-1)
-    - [Response](#response-2)
-  - [4. Logout a User](#4-logout-a-user)
-    - [Response](#response-3)
-  - [5. Get, Update, or Delete a User by ID](#5-get-update-or-delete-a-user-by-id)
-    - [Parameters](#parameters)
-    - [Get a User by ID](#get-a-user-by-id)
-    - [Delete a User](#delete-a-user)
-    - [Update a User](#update-a-user)
     - [2. GameRooms](#2-gamerooms)
     - [3. FrontEnd](#3-frontend)
     - [4. Words](#4-words)
@@ -166,209 +151,23 @@ npm run test
 
 ## Entities
 
+**For full API documentation, visit:** [API Docs](http://localhost:3000/api-docs/)
+
 ### 1. Users
 
-## 1. Get All Users
-
-**GET** `/api/v1/users/`
-
-- **Summary**: Fetches a list of all users.
-- **Tags**: [User]
-
-### Response
-
-- **200 OK**: A list of users.
-    ```json
-    [
-      {
-        "_id": "string",
-        "username": "string",
-        "email": "string",
-        "roundsTotal": "number",
-        "scores": "number"
-      }
-    ]
-    ```
-- **404 Not Found**: No users found.
-
----
-
-## 2. Register a New User
-
-**POST** `/api/v1/users/register`
-
-- **Summary**: Registers a new user.
-- **Tags**: [User]
-
-### Request Body
-
-- **Required**: 
-    ```json
-    {
-      "username": "string",
-      "email": "string",
-      "password": "string"
-    }
-    ```
-
-### Response
-
-- **201 Created**: User registered successfully.
-- **400 Bad Request**: Invalid input data.
-- **409 Conflict**: User already exists.
-
----
-
-## 3. Login a User
-
-**POST** `/api/v1/users/login`
-
-- **Summary**: Logs in a user with email and password.
-- **Tags**: [User]
-
-### Request Body
-
-- **Required**:
-    ```json
-    {
-      "email": "string",
-      "password": "string"
-    }
-    ```
-
-### Response
-
-- **200 OK**: User logged in successfully.
-    ```json
-    {
-      "_id": "string",
-      "email": "string",
-      "username": "string",
-      "roundsTotal": "number",
-      "scores": "number",
-      "token": "string"
-    }
-    ```
-- **401 Unauthorized**: Invalid email or password.
-
----
-
-## 4. Logout a User
-
-**DELETE** `/api/v1/users/logout`
-
-- **Summary**: Logs out a user.
-- **Tags**: [User]
-
-### Response
-
-- **200 OK**: Successfully logged out.
-    ```json
-    {
-      "data": "User ${mockUsername} logged out successfully"
-    }
-    ```
-- **401 Unauthorized**: Invalid or missing token.
-
----
-
-## 5. Get, Update, or Delete a User by ID
-
-**GET, PATCH, DELETE** `/api/v1/users/{id}`
-
-- **Summary**: Operations to get, update, or delete a user by their ID.
-- **Tags**: [User]
-
-### Parameters
-
-- **Path Parameter**: 
-    - `id`: User's unique ID (string).
-
-### Get a User by ID
-
-- **200 OK**: User details retrieved successfully.
-    ```json
-    {
-      "id": "string",
-      "username": "string",
-      "email": "string"
-    }
-    ```
-- **400 Bad Request**: Invalid user ID.
-- **404 Not Found**: User not found.
-
-### Delete a User
-
-- **204 No Content**: User deleted successfully.
-- **400 Bad Request**: Invalid user ID.
-- **404 Not Found**: User not found.
-
-### Update a User
-
-- **Request Body**:
-    ```json
-    {
-      "username": "string",
-      "email": "string",
-      "password": "string"
-    }
-    ```
-
-- **200 OK**: User updated successfully.
-- **400 Bad Request**: Invalid data or user ID.
-- **404 Not Found**: User not found.
-
+The Users module handles user registration, login and management. It allows creating new users, authenticating them and managing their profiles.
 
 ### 2. GameRooms
 
+The GameRooms module is responsible for managing game rooms where players can join or create new rooms to start playing.
+
 ### 3. FrontEnd
+
+The FrontEnd module provides the interface for interacting with the game, including user login, game room interaction, and word guessing.
 
 ### 4. Words
 
-The Word Checker module is designed for managing words for the game. It allows retrieving random word from the database, and also checks for similarities or potential cheating in chat message.
-
-**Components:**
-- Model: `Word.ts`,
-- Service: `wordCheckerService.ts`,
-- Controller: `wordCheckerController.ts`
-- Routes: `wordCheckerRoutes.ts`
-- Helper functions: `helpers/wordCheckerHelpers.ts`
-
-**4.1. Model**
-`Word` model represents structure of the word documents stored in MongoDB.
-
-Properties:
-- `value`: string
-
-**4.2. Service**
-
-`wordCheckerService` class handles operations such as fetching words from db, checking similarity between words, and validating sentences for potential cheating using Levenshtein algorithm.
-
-Methods:
-- `getAllWords()`: Retrieves all words from database,
-- `getRandomWord()`: Fetches a random word from database, also ensures it wasn't used previously,
-- `checkSimilarity(inputWord: string, targetWord: string)`: Calculates the Levenshtein distance (similarity) between two words,
-- `isSimilarEnough(inputWord: string, targetWord:string, threshold: number)`: Checks if similarity percentage exceeds threshold,
-- `checkSentenceForWord(word: IWord, sentence: string)`: Checks if selected word is in sentence, and returns True if it is.
-
-**4.3. Controller**
-`wordController` class handles incoming requests related to words, utilizing the `wordCheckerService` to perform necessary operations.
-
-Methods:
-- `getWord(res, req, next)`: Handles the request to fetch a random word,
-- `getSimilarity(res, req, next)`: Handles the request to check similarity between word,
-- `checkForWord(res, req, next)`: Handles the request to validate a sentence sent in chat for potential cheating against a currently selected word to guess
-
-**4.4. Routes**
-
-The routes for word-related operations are defined here, linking them to the corresponding controller methods.
-
-`GET /randomWord`: Fetches a random, unique word from MongoDB,
-`POST /similarity`: Checks similarity between words, takes `{ inputWord: PlayerAnswer, targetWord: CurrentlySelectedWordToGuess }` 
-`POST /sentenceCheat`: Validates a sentence sent in chat for potential cheating, takes `{ word: CurrentlySelectedWordToGuess, sentence: SentChatMessage }`
-
-**4.5. Helpers**
-Helpers file provides utility functions for the Word Checker module, including random word selection and similarity checking using Levenshtein algorithm.
+The Word Checker module is designed for managing words for the game. It allows retrieving random words from the database and also checks for similarities or potential cheating in chat messages.
 
 **Levenshtein algorithm**
 
@@ -383,11 +182,9 @@ The algorithm uses dynamic programming to build a matrix where each cell represe
 
 The final cell in the matrix contains the Levenshtein distance, indicating the minimum number of edits required to convert one string into another.
 
-5. 
-
 ## Security
 
-Overview of implemented security measures.
+The application implements security using JSON Web Tokens (JWT) for authentication and authorization. Users receive a JWT upon successful login, which must be included in the headers of protected routes. The token ensures that only authenticated users can access specific endpoints, such as managing profiles, game rooms, and words. Tokens are verified on each request to ensure validity and user identity.
 
 ## Deployment
 

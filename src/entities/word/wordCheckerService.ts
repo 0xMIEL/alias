@@ -22,7 +22,7 @@ export class WordCheckerService {
     const words = await Word.find();
     const randomWord = getRandomElement(words, this.usedWords);
 
-    if (!randomWord) {
+    if (words.length === 0 || !randomWord) {
       throw new AppError('No more words available or word list is empty.');
     }
 

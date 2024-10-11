@@ -3,35 +3,42 @@ const PERCENTAGE_FACTOR = 100;
 import { IWord } from '../types/word';
 
 // Levenshtein distance algorithm - finds the minimum number of operations needed to transform one word into another
-export async function levenshtein(s1: string, s2: string): Promise<number> {
-    if (!s1 || !s2) throw new Error("Both strings must be provided!");
-    
-    // ESLINT: no-magic-numbers - it's shouting at me for using 0 as a magic number, this is solution to that
-    const zero = 0;
-    // Or set rules for ESLINT to ignore this line or numbers like [0,1,-1] etc.
+export async function levenshtein(a: string | undefined, b: string | undefined): Promise<number> {
+  if (a === undefined || b === undefined) {
+    throw new Error("Both strings must be provided!");
+  }
+  if (typeof a !== 'string' || typeof b !== 'string') {
+    throw new Error("Both inputs must be strings!");
+  }
 
-    const distanceMatrix: number[][] = Array(s1.length + 1)
-      .fill(null)
-      .map(() => Array(s2.length + 1).fill(zero));
+  if (a.length === 0) return b.length; 
+  if (b.length === 0) return a.length; 
 
-    for (let i = 0; i <= s1.length; i++) {
-      for (let j = 0; j <= s2.length; j++) {
-        if (i === zero) {
-          distanceMatrix[i][j] = j; // if first word is empty
-        } else if (j === zero) {
-          distanceMatrix[i][j] = i; // if second word is empty
-        } else if (s1[i - 1] === s2[j - 1]) {
-          distanceMatrix[i][j] = distanceMatrix[i - 1][j - 1]; // if the letters are the same
-        } else {
-          distanceMatrix[i][j] = Math.min(
-            distanceMatrix[i - 1][j - 1] + 1, // Swap
-            distanceMatrix[i][j - 1] + 1,     // Insert
-            distanceMatrix[i - 1][j] + 1      // Delete
-          );
-        }
-      }
+  const lenA = a.length;
+  const lenB = b.length;
+
+  const matrix: number[][] = Array.from({ length: lenB + 1 }, () => Array(lenA + 1).fill(0));
+
+  for (let j = 0; j <= lenA; j++) {
+    matrix[0][j] = j; 
+  }
+
+  for (let i = 0; i <= lenB; i++) {
+    matrix[i][0] = i; 
+  }
+
+  for (let i = 1; i <= lenB; i++) {
+    for (let j = 1; j <= lenA; j++) {
+      const cost = a.charAt(j - 1) === b.charAt(i - 1) ? 0 : 1;
+      matrix[i][j] = Math.min(
+        matrix[i - 1][j] + 1,    // deletion
+        matrix[i][j - 1] + 1,    // insertion
+        matrix[i - 1][j - 1] + cost // swap
+      );
     }
-    return distanceMatrix[s1.length][s2.length];
+  }
+
+  return matrix[lenB][lenA];
 }
 
 export const calculateLevenshteinSimilarity = async (inputWord: string, targetWord: string): Promise<number> => {
@@ -44,7 +51,7 @@ export const getRandomElement = (words: IWord[], usedWords: Set<string>): IWord 
   const filteredWords = words.filter(word => !usedWords.has(word.value));
 
   if (filteredWords.length === 0) {
-      return null; // Brak dostępnych słów
+      return null;
   }
 
   const randomIndex = Math.floor(Math.random() * filteredWords.length);

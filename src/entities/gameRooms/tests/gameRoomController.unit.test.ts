@@ -1,5 +1,5 @@
 /* eslint-disable no-magic-numbers */
-/* eslint-disable max-lines-per-function */
+
 import { NextFunction, Request, Response } from 'express';
 import { GameRoomController } from '../GameRoomController';
 import { GameRoomService } from '../GameRoomService';
@@ -23,6 +23,7 @@ describe('GameRoomController', () => {
       //@ts-expect-error error
       app: { get: jest.fn() } as Partial<Express.Application>,
       body: {
+        hostUserId: mockHostUserId,
         player: { team: 2, userId: mockUserId },
         userId: mockHostUserId,
       },
@@ -31,6 +32,8 @@ describe('GameRoomController', () => {
         playerId: mockUserId,
         roomId: mockGameId,
       },
+
+      user: { _id: mockUserId },
     };
     mockRes = {
       json: jest.fn(),

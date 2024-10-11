@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import { IGameRoom } from '../../entities/gameRooms/types/gameRoom';
 import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
+import { IWord } from '../../entities/word/types/word';
 
 function getTimePerRoundInMilliseconds(timePerRoundInMinutes: number) {
   const secondsInMinute = 60;
@@ -34,8 +35,18 @@ function emitGameNotFoundError(io: Server, roomId: string) {
   });
 }
 
+function toIWord(word: string): IWord {
+  return { value: word } as IWord;
+}
+
+function fromIWord(word: IWord): string {
+  return word.value;
+}
+
 export {
   getTimePerRoundInMilliseconds,
   getCurrentExplanaitorAndTeam,
   emitGameNotFoundError,
+  toIWord,
+  fromIWord,
 };

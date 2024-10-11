@@ -27,6 +27,15 @@
     - [2. Game Levels Based on Word Difficulty](#2-game-levels-based-on-word-difficulty)
     - [3. Filter games list](#3-filter-games-list)
   - [FAQ](#faq)
+    - [1. How do I register and log in to the game?](#1-how-do-i-register-and-log-in-to-the-game)
+    - [2. Can I play the game alone?](#2-can-i-play-the-game-alone)
+    - [3. What if I experience issues with real-time chat?](#3-what-if-i-experience-issues-with-real-time-chat)
+    - [4. How is word similarity checked during gameplay?](#4-how-is-word-similarity-checked-during-gameplay)
+    - [5. Are my user credentials stored securely?](#5-are-my-user-credentials-stored-securely)
+    - [6. How do I run the application locally?](#6-how-do-i-run-the-application-locally)
+    - [7. How can I contribute to the project?](#7-how-can-i-contribute-to-the-project)
+    - [8. What future enhancements are planned for the game?](#8-what-future-enhancements-are-planned-for-the-game)
+    - [9. Where can I find the API documentation?](#9-where-can-i-find-the-api-documentation)
   - [Conclusion](#conclusion)
     - [Key Takeaways](#key-takeaways)
 
@@ -224,9 +233,35 @@ These enhancements would improve user engagement by offering personalized perfor
 ### 3. Filter games list
 
 Players w game lobby can filter games list based of their game settings.
+
 ## FAQ
 
-Common questions and troubleshooting tips.
+### 1. How do I register and log in to the game?
+To register, visit the homepage and fill out the registration form with your details. Once registered, you can log in using your credentials.
+
+### 2. Can I play the game alone?
+Currently, the game is designed for team play. However, you can create a game room and invite friends or other users to join.
+
+### 3. What if I experience issues with real-time chat?
+Ensure that your internet connection is stable. If you still encounter issues, try refreshing the page or logging out and back in.
+
+### 4. How is word similarity checked during gameplay?
+The game uses the Levenshtein algorithm to check for word similarity, which compares the guessed word with the correct answer and determines if they are close enough based on a defined threshold.
+
+### 5. Are my user credentials stored securely?
+Yes, user passwords are hashed using bcryptjs for security, ensuring that sensitive information is not stored in plain text.
+
+### 6. How do I run the application locally?
+To run the application locally, clone the repository, install the dependencies using `npm install`, and then start the application using `npm start`. Ensure you have Docker and MongoDB set up correctly if you're using Docker.
+
+### 7. How can I contribute to the project?
+We welcome contributions! Please fork the repository, make your changes, and submit a pull request. Be sure to follow the contribution guidelines outlined in the repository.
+
+### 8. What future enhancements are planned for the game?
+Future enhancements include user profiles for tracking statistics, different game levels based on word difficulty, and filtering options for the game lobby. Check the "Future Enhancements" section for more details.
+
+### 9. Where can I find the API documentation?
+You can access the full API documentation generated with Swagger at the following link: [API Docs](http://localhost:3000/api-docs/).
 
 ## Conclusion
 

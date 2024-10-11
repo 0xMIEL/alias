@@ -32,10 +32,15 @@ function addGameToList(game) {
 
 function updateGameInList(game) {
   const gameToUpdate = document.getElementById(game._id);
+  const team1Players = game.team1.players;
+  const team2Players = game.team2.players;
 
   gameToUpdate.innerHTML = createGameListItemHTML(game);
 
-  if (game.players.length >= game.teamSize) {
+  if (
+    team1Players.length >= game.teamSize &&
+    team2Players.length >= game.teamSize
+  ) {
     gameToUpdate.classList.add('full');
   }
 

@@ -1,5 +1,8 @@
 function createGameListItemHTML(game) {
-  const totalPlayersInRoom = game.players.length + game.playerJoined.length;
+  const totalPlayersInRoom =
+    game.team1.players.length +
+    game.team2.players.length +
+    game.playerJoined.length;
 
   return `
   <div class="game-list__item-info">

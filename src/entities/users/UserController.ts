@@ -19,7 +19,11 @@ export class UserController extends BaseController {
       secure: process.env.NODE_ENV === 'production',
     });
 
-    res.cookie('username', user.username, { httpOnly: true });
+    res.cookie('username', user.username, {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+    });
 
     this.sendResponse({
       data: {

@@ -36,8 +36,7 @@ authForm.addEventListener('submit', async (e) => {
     };
 
     try {
-      const response = await axios.post('/api/v1/users/login', formData);
-      console.log(response.data);
+      await axios.post('/api/v1/users/login', formData);
       authForm.reset();
       window.history.replaceState(null, null, '/');
       window.location.href = '/';

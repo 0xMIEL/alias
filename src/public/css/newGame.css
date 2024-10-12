@@ -49,12 +49,14 @@
   height: 10vh;
   background-color: darkcyan;
   color: white;
+  overflow-y: auto;
 }
 
 .guess {
   height: 30vh;
   color: black;
   border: 1px solid black;
+  overflow-y: auto;
 }
 
 .secret {

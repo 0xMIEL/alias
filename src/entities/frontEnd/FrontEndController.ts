@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { GameRoomService } from '../gameRooms/GameRoomService';
-import getManyGameRoomsSchema, {
-  frontEndHomeSchemaDefault,
-} from '../gameRooms/gameRoomValidaton';
+import getManyGameRoomsSchema from '../gameRooms/gameRoomValidaton';
 import { UserService } from '../users/UserService';
+import { AppError } from '../../core/AppError';
 
 export class FrontEndController {
   constructor(
@@ -16,12 +15,16 @@ export class FrontEndController {
   }
 
   async getHome(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = getManyGameRoomsSchema.validate(req.query);
+    const { error, value } = getManyGameRoomsSchema.validate(req.query, {
+      stripUnknown: true,
+    });
     const user = req.user!;
 
-    const games = await this.gameRoomService.getMany(
-      error ? frontEndHomeSchemaDefault : value,
-    );
+    if (error) {
+      throw new AppError(error.message);
+    }
+
+    const games = await this.gameRoomService.getMany(value);
 
     const gamesWithTotalPlayers = games.map((game) => ({
       ...game,

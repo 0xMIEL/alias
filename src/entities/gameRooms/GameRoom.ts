@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from 'mongoose';
 import { gameRoomStatuses, IGameRoom } from './types/gameRoom';
-import { GAME_OPTIONS } from '../../constants/constants';
+import { GAME_DIFFICULTY, GAME_OPTIONS } from '../../constants/constants';
 
 const gameRoomeSchema = new Schema<IGameRoom>(
   {
@@ -15,6 +15,11 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     },
     currentWord: {
       default: '',
+      type: String,
+    },
+    difficulty: {
+      default: GAME_DIFFICULTY.EASY,
+      enum: [...Object.values(GAME_DIFFICULTY)],
       type: String,
     },
     hostUserId: {

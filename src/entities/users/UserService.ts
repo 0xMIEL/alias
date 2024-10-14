@@ -90,8 +90,18 @@ async getUsersByIds(userIds: string[]) {
     const decoded = verifyToken(token);
     const username = decoded.userId;
 
-    res.clearCookie('jwtToken');
-    res.clearCookie('username');
+    res.clearCookie('jwtToken', {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
+    res.clearCookie('username', {
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: process.env.NODE_ENV === 'production',
+    });
+
 
     return username;
   }

@@ -48,10 +48,6 @@ h3 {
   width: 100%;
 }
 
-.chat {
-  display: none;
-}
-
 .chat-window {
   height: 45vh;
   border: 1px solid black;

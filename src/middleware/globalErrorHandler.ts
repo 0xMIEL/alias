@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { NextFunction, Request, Response } from 'express';
-import { AppError } from '../core/AppError';
+import { STATUS_CODES } from 'node:http';
 import { HTTP_STATUS_CODE, StatusCode } from '../constants/constants';
+import { AppError } from '../core/AppError';
 
 const sendDevError = (err: AppError, res: Response, statusCode: StatusCode) => {
   const { status, message, stack } = err;
@@ -13,14 +14,16 @@ const sendProductionError = (
   res: Response,
   statusCode: StatusCode,
 ) => {
-  const { status, message, isOperational } = err;
+  const { message, isOperational } = err;
   const clientMessage = isOperational
     ? message
     : 'Something went wrong, please try again later.';
 
-  res
-    .status(statusCode)
-    .json({ message: clientMessage, status: status || 'error' });
+  res.render('error-page', {
+    clientMessage,
+    statusCode,
+    statusMessage: STATUS_CODES[statusCode],
+  });
 };
 
 export const globalErrorHandler = (

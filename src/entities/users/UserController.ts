@@ -29,8 +29,6 @@ export class UserController extends BaseController {
       data: {
         _id: user._id,
         email: user.email,
-        roundsTotal: user.roundsTotal,
-        scores: user.scores,
         token,
         username: user.username,
       },
@@ -56,7 +54,13 @@ export class UserController extends BaseController {
     const user = await this.userService.getOneById(req.params.id);
 
     this.sendResponse({
-      data: user,
+      data: {
+        _id: user._id,
+        gameHistory: user.gameHistory,
+        role: user.role,
+        username: user.username,
+        wins: user.wins,
+      },
       res,
     });
   }

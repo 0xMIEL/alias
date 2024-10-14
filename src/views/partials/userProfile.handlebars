@@ -15,7 +15,26 @@
 
 <div id='optionsModal' class='modal'>
   <div class='modal-content'>
-    <button class='button' id='logoutButton'>Logout</button>
+    
+   
+<h1>{{username}}'s Profile:</h1>
+
+<p>Role: {{role}}</p>
+<p>Wins: {{wins}}</p>
+
+<h2>Game History:</h2>
+<ul>
+  {{#each gameHistory}}
+    <li>
+      <strong>Game:</strong> {{this.gameTitle}} <br />
+      <strong>Date Played:</strong> {{this.datePlayed}} <br />
+      <strong>Result:</strong> {{this.result}} <br />
+    </li>
+  {{else}}
+    <li>No games played yet.</li>
+  {{/each}}
+</ul>
+
+<button class='button' id='logoutButton'>Logout</button>
     <div class='close'>&times;</div>
-  </div>
 </div>

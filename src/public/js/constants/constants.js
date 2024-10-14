@@ -19,6 +19,8 @@ export const SOCKET_EVENT = {
   CORRECT_GUESS: 'correctGuess',
   GAME_MESSAGE: 'gameMessage',
   SHOW_SECRET: 'showSecret',
+  FULL_LOBBY: 'fullLobby',
+  NOT_FULL_LOBBY: 'notFullLobby',
 };
 
 export const CHAT = {

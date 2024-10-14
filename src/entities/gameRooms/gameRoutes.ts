@@ -483,7 +483,7 @@ gameRoomRouter
   .post(
     throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(
-      gameRoomeController.removePlayerOnWindowUnload.bind(gameRoomeController),
+      gameRoomeController.leaveRoomOnWindowUnload.bind(gameRoomeController),
     ),
   )
   .patch(

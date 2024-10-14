@@ -121,7 +121,7 @@ export class GameRoomService {
 
     const playerObjectId = new mongoose.Types.ObjectId(playerId);
 
-    if (playerId === gameRoom.hostUserId.toString()) {
+    if (playerId.toString() === gameRoom.hostUserId.toString()) {
       return await this.remove(roomId);
     }
 

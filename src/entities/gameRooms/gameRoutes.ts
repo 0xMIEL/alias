@@ -559,3 +559,10 @@ gameRoomRouter
     throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
   );
+
+gameRoomRouter
+  .route('/:roomId/unload')
+  .post(
+    throwAuthErrorIfNotAuthenticated,
+    asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
+  );

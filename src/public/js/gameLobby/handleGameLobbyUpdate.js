@@ -1,10 +1,6 @@
 import { SOCKET_EVENT } from '../constants/constants.js';
-import {
-  createGameLobbyPlayersLists,
-  createStartGameButton,
-} from '../helpers/createHtmlFunctions.js';
+import { createGameLobbyPlayersLists } from '../helpers/createHtmlFunctions.js';
 import { socket } from '../sockets/socket.js';
-import { startGameWithSocket } from '../sockets/socketHandlers.js';
 import { addMessage } from './handleGameLobbyChat.js';
 
 socket.on(SOCKET_EVENT.KILL_ROOM, () => {
@@ -36,24 +32,6 @@ socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
 });
 
 function updatePlayerLists(room) {
-  const totalTeamsInGame = 1;
-
-  if (
-    // userId === room.hostUserId &&
-    // room.players.length >= room.teamSize * totalTeamsInGame
-    totalTeamsInGame
-  ) {
-    const button = createStartGameButton();
-
-    button.addEventListener('click', () => {
-      startGameWithSocket(room._id);
-    });
-
-    const buttonsContainer = document.getElementById('start-button-container');
-
-    buttonsContainer.replaceChildren(button);
-  }
-
   const team1List = document.getElementById('team1-list');
   const team2List = document.getElementById('team2-list');
   const waitingPlayersList = document.getElementById('waiting-list');

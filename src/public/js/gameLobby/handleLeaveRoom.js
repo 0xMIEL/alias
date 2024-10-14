@@ -1,25 +1,24 @@
 import { leaveRoom } from '../api/gameRoomApi.js';
-// import { baseUrl } from '../setup/config.js';
-// commented leaving room on some browser actions like go back
+import { baseUrl } from '../setup/config.js';
 
 const gameId = document
   .querySelector('.game-lobby')
   .getAttribute('data-game-id');
 
 const leaveRoomButton = document.getElementById('button-leave-room');
-// let hasLeft = false;
+let hasLeft = false;
 
 async function leaveRoomHandler() {
   await leaveRoom({ gameId });
-  // hasLeft = true;
+  hasLeft = true;
 
   window.location.replace(`/`);
 }
 
-// window.addEventListener('unload', async () => {
-//   if (!hasLeft) {
-//     navigator.sendBeacon(`${baseUrl}/gameRooms/${gameId}/room/${playerId}`);
-//   }
-// });
+window.addEventListener('unload', async () => {
+  if (!hasLeft) {
+    navigator.sendBeacon(`${baseUrl}/gameRooms/${gameId}/unload`);
+  }
+});
 
 leaveRoomButton.addEventListener('click', leaveRoomHandler);

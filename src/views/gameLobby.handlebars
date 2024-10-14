@@ -94,8 +94,20 @@
       class='button button-danger button-leave-room'
       id='button-leave-room'
     >Leave Room</button>
+    
+        {{#if isHost}}
 
-    <div id="start-button-container"></div>
+          {{#if isTeamsFull}}
+
+            <button class="button button-action button-start-game" id="button-start-game">Start Game</button>
+
+          {{else}}
+
+            <button disabled class="button button-action button-start-game disabled" id="button-start-game">Start Game</button>  
+
+          {{/if}}
+
+        {{/if}}
 
   </div>
 </div>

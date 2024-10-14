@@ -4,6 +4,7 @@ import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
 import { BaseController } from '../../core/BaseController';
 import getManyGameRoomsSchema from './gameRoomValidaton';
 import { AppError } from '../../core/AppError';
+import { isGameRoomFull } from '../../utils/isGameRoomFull';
 
 export class GameRoomController extends BaseController {
   constructor(private gameRoomService: GameRoomService) {
@@ -151,6 +152,14 @@ export class GameRoomController extends BaseController {
       roomId,
     });
 
+    if (isGameRoomFull(updatedRoom)) {
+      this.emitSocketEvent({
+        event: SOCKET_EVENT.FULL_LOBBY,
+        req,
+        roomId,
+      });
+    }
+
     this.sendResponse({
       data: updatedRoom,
       res,
@@ -192,6 +201,12 @@ export class GameRoomController extends BaseController {
       roomId,
     });
 
+    this.emitSocketEvent({
+      event: SOCKET_EVENT.NOT_FULL_LOBBY,
+      req,
+      roomId,
+    });
+
     this.sendResponse({
       data: updatedRoom,
       res,
@@ -203,9 +218,10 @@ export class GameRoomController extends BaseController {
     res: Response,
     next: NextFunction,
   ) {
-    const { roomId, playerId } = req.params;
+    const { roomId } = req.params;
+    const userId = req.user!._id;
 
-    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, playerId);
+    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, userId);
 
     if (!updatedRoom) {
       this.updateGameListEvent({ _id: roomId }, req, 'remove');

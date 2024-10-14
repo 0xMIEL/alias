@@ -17,6 +17,7 @@ describe('GameRoomController', () => {
   const mockGameId = '6703c61ec87924a96bea60ec';
   const mockHostUserId = '6555f6f9ceae7adbfa0c49f7';
   const mockUserId = '6704a8907b4e3858d673d4c8';
+  const mockUsername = 'username';
 
   beforeEach(() => {
     mockReq = {
@@ -25,6 +26,7 @@ describe('GameRoomController', () => {
       body: {
         hostUserId: mockHostUserId,
         player: { team: 2, userId: mockUserId },
+        team: 2,
         userId: mockHostUserId,
       },
       params: {
@@ -33,7 +35,8 @@ describe('GameRoomController', () => {
         roomId: mockGameId,
       },
 
-      user: { _id: mockUserId },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      user: { _id: mockUserId, username: mockUsername } as any,
     };
     mockRes = {
       json: jest.fn(),
@@ -195,7 +198,7 @@ describe('GameRoomController', () => {
 
       expect(mockGameRoomService.joinRoom).toHaveBeenCalledWith(
         mockReq.params!.roomId,
-        mockReq.params!.playerId,
+        mockUserId,
       );
       expect(mockIo.emit).toHaveBeenCalledTimes(2);
       expect(mockIo.in).toHaveBeenCalledWith(mockGameId);
@@ -204,7 +207,7 @@ describe('GameRoomController', () => {
         game: mockServiceReturnValue,
       });
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.JOIN_ROOM, {
-        message: `Player join ${mockReq.params!.playerId} the room`,
+        message: `Player join ${mockUsername} the room`,
         updatedRoom: mockServiceReturnValue,
       });
     });
@@ -224,17 +227,19 @@ describe('GameRoomController', () => {
         mockNext,
       );
 
-      expect(mockGameRoomService.joinTeam).toHaveBeenCalledWith(
-        mockReq.params!.roomId,
-        { team: mockReq.body.team, userId: mockReq.body.userId },
-      );
+      expect(mockGameRoomService.joinTeam).toHaveBeenCalledWith({
+        roomId: mockReq.params!.roomId,
+        team: mockReq.body.team,
+        userId: mockUserId,
+      });
+
       expect(mockIo.emit).toHaveBeenCalledTimes(2);
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.GAME_LIST_UPDATE, {
         action: 'update',
         game: mockServiceReturnValue,
       });
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.JOIN_TEAM, {
-        message: `New player ${mockReq.body.userId} joined team: ${mockReq.body.team}`,
+        message: `New player ${mockUsername} joined team: ${mockReq.body.team}`,
         updatedRoom: mockServiceReturnValue,
       });
       expect(mockIo.in).toHaveBeenCalledWith(mockReq.params!.roomId);
@@ -253,8 +258,9 @@ describe('GameRoomController', () => {
 
       expect(mockGameRoomService.leaveRoom).toHaveBeenCalledWith(
         mockReq.params!.roomId,
-        mockReq.params!.playerId,
+        mockUserId,
       );
+
       expect(mockIo.in).toHaveBeenCalledWith(mockReq.params!.roomId);
       expect(mockIo.emit).toHaveBeenCalledTimes(2);
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.KILL_ROOM, {
@@ -283,7 +289,7 @@ describe('GameRoomController', () => {
 
       expect(mockGameRoomService.leaveRoom).toHaveBeenCalledWith(
         mockReq.params!.roomId,
-        mockReq.params!.playerId,
+        mockUserId,
       );
       expect(mockIo.in).toHaveBeenCalledWith(mockReq.params!.roomId);
       expect(mockIo.emit).toHaveBeenCalledTimes(2);
@@ -292,7 +298,7 @@ describe('GameRoomController', () => {
         game: mockServiceReturnValue,
       });
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.LEAVE_ROOM, {
-        message: `Player ${mockReq.params!.playerId} leave the room`,
+        message: `Player ${mockUsername} leave the room`,
         updatedRoom: mockServiceReturnValue,
       });
       expect(mockRes.status).toHaveBeenCalledWith(HTTP_STATUS_CODE.SUCCESS_200);

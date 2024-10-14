@@ -43,7 +43,16 @@ export const GAME_OPTIONS = {
   MAX_TIME_PER_ROUND_MINUTES: 5,
 };
 
+export const GAME_DIFFICULTY = {
+  EASY: 'easy',
+  MEDIUM: 'medium',
+  HARD: 'hard',
+};
+
 export type StatusCode =
   (typeof HTTP_STATUS_CODE)[keyof typeof HTTP_STATUS_CODE];
 
 export type SocketEvent = (typeof SOCKET_EVENT)[keyof typeof SOCKET_EVENT];
+
+export type GameDifficulty =
+  (typeof GAME_DIFFICULTY)[keyof typeof GAME_DIFFICULTY];

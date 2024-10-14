@@ -1,3 +1,5 @@
+import { GameDifficulty } from '../../../constants/constants';
+
 export const gameRoomStatuses = {
   finished: 'finished',
   inProgress: 'inProgress',
@@ -16,6 +18,7 @@ export type GameRoomQueryOptions = {
 
 export interface IGameRoom {
   _id: string;
+  difficulty: GameDifficulty;
   hostUserId: string;
   teamSize: number;
   timePerRound: number;

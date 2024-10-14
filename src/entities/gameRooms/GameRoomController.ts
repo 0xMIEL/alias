@@ -52,7 +52,9 @@ export class GameRoomController extends BaseController {
   }
 
   async getMany(req: Request, res: Response, next: NextFunction) {
-    const { error, value } = getManyGameRoomsSchema.validate(req.query);
+    const { error, value } = getManyGameRoomsSchema.validate(req.query, {
+      stripUnknown: true,
+    });
 
     if (error) {
       throw new AppError(error.message);

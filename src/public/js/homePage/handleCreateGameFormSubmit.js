@@ -25,12 +25,15 @@ async function handleCreateGameRoom(event) {
   const teamSize = document.getElementById('playersPerTeam').value;
   const timePerRound = document.getElementById('timePerRound').value;
   const roundsTotal = document.getElementById('totalRounds').value;
+  const difficulty = document.getElementById('difficulty').value;
 
   const gameData = {
+    difficulty,
     roundsTotal,
     teamSize,
     timePerRound,
   };
+  console.log(gameData);
 
   const { data } = await createGameRoom({ gameData });
 

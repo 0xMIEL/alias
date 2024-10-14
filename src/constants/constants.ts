@@ -32,6 +32,8 @@ export const SOCKET_EVENT = {
   CORRECT_GUESS: 'correctGuess',
   GAME_MESSAGE: 'gameMessage',
   SHOW_SECRET: 'showSecret',
+  FULL_LOBBY: 'fullLobby',
+  NOT_FULL_LOBBY: 'notFullLobby',
 };
 
 export const GAME_OPTIONS = {
@@ -48,6 +50,10 @@ export const GAME_DIFFICULTY = {
   MEDIUM: 'medium',
   HARD: 'hard',
 };
+
+const defaultTeamQuantity = 2;
+export const TOTAL_TEAMS =
+  (process.env.TOTAL_TEAMS as unknown as number) || defaultTeamQuantity;
 
 export type StatusCode =
   (typeof HTTP_STATUS_CODE)[keyof typeof HTTP_STATUS_CODE];

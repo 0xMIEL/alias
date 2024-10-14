@@ -33,7 +33,9 @@ async function startRound({
 }: StartRoundProps) {
   const turnsPerRound = 2;
   const pauseBetweenRoundsInMilliseconds = 3000;
-  const { roundsTotal, currentRound, _id: roomId, timePerRound } = gameRoom;
+  const { roundsTotal, currentRound, _id, timePerRound } = gameRoom;
+
+  const roomId = _id.toString();
 
   if (currentRound >= roundsTotal * turnsPerRound) {
     const updatedRoom = await gameRoomService.getOne(roomId);

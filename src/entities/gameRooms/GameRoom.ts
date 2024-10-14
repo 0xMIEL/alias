@@ -1,10 +1,10 @@
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { gameRoomStatuses, IGameRoom } from './types/gameRoom';
 import { GAME_DIFFICULTY, GAME_OPTIONS } from '../../constants/constants';
 
 const gameRoomeSchema = new Schema<IGameRoom>(
   {
-    currentExplanaitor: mongoose.Types.ObjectId,
+    currentExplanaitor: { type: Schema.Types.ObjectId },
     currentRound: {
       default: 0,
       type: Number,
@@ -24,11 +24,11 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     },
     hostUserId: {
       required: true,
-      type: String,
+      type: Schema.Types.ObjectId,
     },
     playerJoined: {
       default: [],
-      type: [mongoose.Types.ObjectId],
+      type: [Schema.Types.ObjectId],
     },
     roundsTotal: {
       max: GAME_OPTIONS.MAX_GAME_ROUNDS,
@@ -45,7 +45,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     team1: {
       players: {
         default: [],
-        type: [mongoose.Types.ObjectId],
+        type: [Schema.Types.ObjectId],
       },
       score: {
         default: 0,
@@ -55,7 +55,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     team2: {
       players: {
         default: [],
-        type: [mongoose.Types.ObjectId],
+        type: [Schema.Types.ObjectId],
       },
       score: {
         default: 0,
@@ -78,7 +78,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
   { timestamps: true },
 );
 
-gameRoomeSchema.pre('save', function (next) {
+gameRoomeSchema.pre<IGameRoom>('save', function (next) {
   if (this.isNew) {
     this.team1.players.push(this.hostUserId);
   }

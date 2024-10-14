@@ -4,6 +4,7 @@ import { GameRoomService } from '../gameRooms/GameRoomService';
 import getManyGameRoomsSchema from '../gameRooms/gameRoomValidaton';
 import { UserService } from '../users/UserService';
 import { AppError } from '../../core/AppError';
+import { isGameRoomFull } from '../../utils/isGameRoomFull';
 
 export class FrontEndController {
   constructor(
@@ -48,10 +49,17 @@ export class FrontEndController {
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
 
+      const { players: team1Players } = gameRoom.team1;
+      const { players: team2Players } = gameRoom.team2;
+
+      const isHost = gameRoom.hostUserId.toString() === user._id.toString();
+
       return res.render('gameLobby', {
         game: gameRoom,
-        team1: gameRoom.team1.players,
-        team2: gameRoom.team2.players,
+        isHost,
+        isTeamsFull: isGameRoomFull(gameRoom),
+        team1: team1Players,
+        team2: team2Players,
         title: 'Game Lobby',
         username: user.username,
       });
@@ -78,10 +86,10 @@ export class FrontEndController {
     const user = req.user!;
 
     const team1Users = await this.userService.getUsersByIds(
-      gameRoom.team1.players,
+      gameRoom.team1.players.map((el) => el.toString()),
     );
     const team2Users = await this.userService.getUsersByIds(
-      gameRoom.team2.players,
+      gameRoom.team2.players.map((el) => el.toString()),
     );
     const totalPlayersInTeam = team2Users.length;
 

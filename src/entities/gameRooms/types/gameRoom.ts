@@ -1,3 +1,4 @@
+import mongoose, { Document } from 'mongoose';
 import { GameDifficulty } from '../../../constants/constants';
 
 export const gameRoomStatuses = {
@@ -16,21 +17,21 @@ export type GameRoomQueryOptions = {
   timePerRound?: number;
 };
 
-export interface IGameRoom {
-  _id: string;
+export interface IGameRoom extends Document {
+  _id: mongoose.Types.ObjectId;
   difficulty: GameDifficulty;
-  hostUserId: string;
+  hostUserId: mongoose.Types.ObjectId;
   teamSize: number;
   timePerRound: number;
   currentTeam: number;
-  currentExplanaitor: string;
+  currentExplanaitor: mongoose.Types.ObjectId;
   currentWord: string;
   roundsTotal: number;
   currentRound: number;
   status: GameRoomStatus;
-  team1: { players: Array<string>; score: number };
-  team2: { players: Array<string>; score: number };
-  playerJoined: Array<{ userId: string }> | [];
+  team1: { players: Array<mongoose.Types.ObjectId>; score: number };
+  team2: { players: Array<mongoose.Types.ObjectId>; score: number };
+  playerJoined: Array<mongoose.Types.ObjectId>;
 }
 
 export type IGameRoomUpdate = Partial<

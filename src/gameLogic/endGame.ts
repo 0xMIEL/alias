@@ -13,7 +13,7 @@ async function endGame(
 ) {
   await gameRoomService.update(
     { status: gameRoomStatuses.finished },
-    gameRoom._id,
+    gameRoom._id.toString(),
   );
 
   io.in(gameRoom._id.toString()).emit(SOCKET_EVENT.END_GAME, gameRoom);

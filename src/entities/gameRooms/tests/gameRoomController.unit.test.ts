@@ -215,7 +215,11 @@ describe('GameRoomController', () => {
 
   describe('joinTeam', () => {
     it(`should return response with updated room and emit ${SOCKET_EVENT.GAME_LIST_UPDATE}, ${SOCKET_EVENT.JOIN_TEAM}`, async () => {
-      const mockServiceReturnValue = { _id: mockGameId };
+      const mockServiceReturnValue = {
+        _id: mockGameId,
+        team1: { players: [] },
+        team2: { players: [] },
+      };
 
       mockGameRoomService.joinTeam = jest
         .fn()
@@ -292,7 +296,7 @@ describe('GameRoomController', () => {
         mockUserId,
       );
       expect(mockIo.in).toHaveBeenCalledWith(mockReq.params!.roomId);
-      expect(mockIo.emit).toHaveBeenCalledTimes(2);
+      expect(mockIo.emit).toHaveBeenCalledTimes(3);
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.GAME_LIST_UPDATE, {
         action: 'update',
         game: mockServiceReturnValue,
@@ -356,7 +360,7 @@ describe('GameRoomController', () => {
           { action: 'update', game: mockServiceReturnValue },
         );
         expect(mockRes.status).toHaveBeenCalledWith(
-          HTTP_STATUS_CODE.NO_CONTENT_204,
+          HTTP_STATUS_CODE.SUCCESS_200,
         );
       });
     });

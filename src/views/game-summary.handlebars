@@ -1,0 +1,46 @@
+{{> navbar}}
+
+<main class="game-summary">
+    {{#unless isFinished}} 
+        <h1>The game is not over yet!</h1>
+    {{/unless}}
+    {{#if isFinished}} 
+        <h1>Game preview</h1>
+        <div class="wrapper">
+            <section>
+                <ul class="game-summary__list">
+                    <li class="game-summary__item"><b>id:</b> <span>{{gameRoom._id}}</span></li>
+                    <li class="game-summary__item"><b>difficulty:</b> <span>{{gameRoom.difficulty}}</span></li>
+                    <li class="game-summary__item"><b>total rounds:</b> <span>{{gameRoom.roundsTotal}}</span></li>
+                    <li class="game-summary__item"><b>time per round:</b> <span>{{gameRoom.timePerRound}}</span></li>
+                    <li class="game-summary__item win"><span><b>team 1 (score: {{gameRoom.team1.score}} pkt)</b></span>
+                        <ul class="player-list">
+                            {{#each gameRoom.team1.players as | player |}}
+                                <li class="player-list__item">{{player}}</li>
+                            {{/each}}
+                        </ul>
+                    </li>
+
+                    <li class="game-summary__item lose"><span><b>team 2 (score: {{gameRoom.team2.score}} pkt)</b></span>
+                        <ul class="player-list">
+                            {{#each gameRoom.team2.players as | player |}}
+                                <li class="player-list__item">{{player}}</li>
+                            {{/each}}
+                        </ul>
+                    </li>
+
+                    <li class="game-summary__item"><b>Result:</b> <span>{{result}}</span></li>
+                    
+                    
+                </ul>
+            </section>
+            <section>
+                <div class="game-preview">
+
+                </div>
+            </section>
+        </div>
+    {{/if}}
+    
+</main>
+{{> footer}}

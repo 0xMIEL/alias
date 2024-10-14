@@ -1,12 +1,12 @@
 import { Router } from 'express';
+import { redirectIfAuthenticated } from '../../middleware/redirectIfAuthenticated';
+import { redirectIfNotAuthenticated } from '../../middleware/redirectIfNotAuthenticated';
 import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
 import { GameRoom } from '../gameRooms/GameRoom';
 import { GameRoomService } from '../gameRooms/GameRoomService';
-import { FrontEndController } from './FrontEndController';
-import { redirectIfNotAuthenticated } from '../../middleware/redirectIfNotAuthenticated';
-import { redirectIfAuthenticated } from '../../middleware/redirectIfAuthenticated';
-import { UserService } from '../users/UserService';
 import { User } from '../users/User';
+import { UserService } from '../users/UserService';
+import { FrontEndController } from './FrontEndController';
 
 export const frontEndRouter = Router();
 
@@ -54,4 +54,11 @@ frontEndRouter
   .get(
     redirectIfNotAuthenticated,
     frontEndController.getInGame.bind(frontEndController),
+  );
+
+frontEndRouter
+  .route('/history/:id')
+  .get(
+    redirectIfNotAuthenticated,
+    frontEndController.getGameSummary.bind(frontEndController),
   );

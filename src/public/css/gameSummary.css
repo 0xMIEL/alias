@@ -1,0 +1,59 @@
+.game-summary {
+    padding-top: 20px;
+}
+
+.game-summary h1 {
+    font-size: 24px;
+    text-align: center;
+}
+
+.game-summary .wrapper {
+    padding-top: 20px;
+    gap: 20px;
+}
+
+.game-summary section {
+    flex: 1;
+}
+
+.game-preview {
+    border: 1px solid black;
+    height: 100%;
+    border-radius: 6px;
+}
+
+
+.game-summary__item {
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  text-transform: uppercase;
+  &:first-child {
+    background-color: #000;
+    color: #fff;
+    border-radius: 4px;
+  }
+}
+
+.game-summary__item b {
+  font-weight: 700;
+}
+
+.game-summary__item span {
+  padding: 4px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.player-list {
+  padding-left: 3%;
+  list-style: decimal;
+  list-style-position: inside;
+}
+
+.player-list__item {
+  &:first-child {
+    padding-top: 16px;
+  }
+}

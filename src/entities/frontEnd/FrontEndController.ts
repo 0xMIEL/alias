@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
+import { AppError } from '../../core/AppError';
 import { GameRoomService } from '../gameRooms/GameRoomService';
 import getManyGameRoomsSchema from '../gameRooms/gameRoomValidaton';
 import { UserService } from '../users/UserService';
-import { AppError } from '../../core/AppError';
 
 export class FrontEndController {
   constructor(
@@ -93,6 +93,31 @@ export class FrontEndController {
       team2Usernames,
       title: 'Alias Game',
       totalPlayersInTeam,
+      username: user.username,
+    });
+  }
+
+  async getGameSummary(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const user = req.user!;
+    const gameRoom = await this.gameRoomService.getOne(id);
+
+    const isFinished = gameRoom.status === 'finished';
+
+    let result = '';
+    if (gameRoom.team1.score > gameRoom.team2.score) {
+      result += 'Team 1 win';
+    } else if (gameRoom.team1.score < gameRoom.team2.score) {
+      result += 'Team 2 win';
+    } else {
+      result += 'Draw';
+    }
+
+    res.render('game-summary', {
+      gameRoom,
+      isFinished,
+      result,
+      title: 'Game summary',
       username: user.username,
     });
   }

@@ -13,11 +13,11 @@
 
         <ul class='team1__list' id='team1-list'>
 
-          {{#each team1 as |player|}}
+          {{#each game.team1.players as |player|}}
 
-            <li class='team1__list__item' id='{{player.userId}}'>
+            <li class='team1__list__item' id='{{player}}'>
 
-              {{player.userId}}
+              {{player}}
 
             </li>
 
@@ -36,9 +36,9 @@
 
           {{#each team2 as |player|}}
 
-            <li class='team2__list__item' id='{{player.userId}}'>
+            <li class='team2__list__item' id='{{player}}'>
 
-              {{player.userId}}
+              {{player}}
 
             </li>
 

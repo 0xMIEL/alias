@@ -101,8 +101,12 @@ async getUsersByIds(userIds: string[]) {
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     });
-
-
     return username;
   }
+
+  async updateUserProfile(userId: string, updateData: Partial<IUser>) {
+    return await this.User.findByIdAndUpdate(userId, updateData, { new: true });
+  }
+
+
 }

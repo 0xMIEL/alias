@@ -28,7 +28,7 @@ export class GameRoomService {
       throw new AppError(`Invalid game room id: ${id}`);
     }
 
-    return gameRoom;
+    return gameRoom as IGameRoom;
   }
 
   async getMany(queryParams: Record<string, unknown>): Promise<IGameRoom[]> {

@@ -12,7 +12,9 @@ if (!JWT_SECRET) {
 }
 
 export const generateToken = (userId: string): string => {
-  return jwt.sign({ userId }, JWT_SECRET, { expiresIn: '1h' });
+  return jwt.sign({ userId }, JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN || '1h',
+  });
 };
 
 export const verifyToken = (token: string): JwtPayload => {

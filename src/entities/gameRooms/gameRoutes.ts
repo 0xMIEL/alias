@@ -483,7 +483,7 @@ gameRoomRouter
   .post(
     throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(
-      gameRoomeController.removePlayerOnWindowUnload.bind(gameRoomeController),
+      gameRoomeController.leaveRoomOnWindowUnload.bind(gameRoomeController),
     ),
   )
   .patch(
@@ -556,13 +556,6 @@ gameRoomRouter
 gameRoomRouter
   .route('/:roomId/team')
   .patch(
-    throwAuthErrorIfNotAuthenticated,
-    asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
-  );
-
-gameRoomRouter
-  .route('/:roomId/unload')
-  .post(
     throwAuthErrorIfNotAuthenticated,
     asyncErrorCatch(gameRoomeController.joinTeam.bind(gameRoomeController)),
   );

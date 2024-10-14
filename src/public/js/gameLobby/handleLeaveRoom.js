@@ -15,9 +15,9 @@ async function leaveRoomHandler() {
   window.location.replace(`/`);
 }
 
-window.addEventListener('unload', async () => {
+window.addEventListener('beforeunload', () => {
   if (!hasLeft) {
-    navigator.sendBeacon(`${baseUrl}/gameRooms/${gameId}/unload`);
+    navigator.sendBeacon(`${baseUrl}/gameRooms/${gameId}/room`);
   }
 });
 

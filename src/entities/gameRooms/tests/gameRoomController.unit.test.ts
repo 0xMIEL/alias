@@ -314,7 +314,7 @@ describe('GameRoomController', () => {
       it(`should response 204, emit ${SOCKET_EVENT.GAME_LIST_UPDATE} action remove`, async () => {
         mockGameRoomService.leaveRoom = jest.fn().mockResolvedValue(null);
 
-        await gameRoomController.removePlayerOnWindowUnload(
+        await gameRoomController.leaveRoomOnWindowUnload(
           mockReq as Request,
           mockRes as Response,
           mockNext,
@@ -341,7 +341,7 @@ describe('GameRoomController', () => {
           .fn()
           .mockResolvedValue(mockServiceReturnValue);
 
-        await gameRoomController.removePlayerOnWindowUnload(
+        await gameRoomController.leaveRoomOnWindowUnload(
           mockReq as Request,
           mockRes as Response,
           mockNext,

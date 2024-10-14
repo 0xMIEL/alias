@@ -213,26 +213,11 @@ export class GameRoomController extends BaseController {
     });
   }
 
-  async removePlayerOnWindowUnload(
+  async leaveRoomOnWindowUnload(
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
-    const { roomId } = req.params;
-    const userId = req.user!._id;
-
-    const updatedRoom = await this.gameRoomService.leaveRoom(roomId, userId);
-
-    if (!updatedRoom) {
-      this.updateGameListEvent({ _id: roomId }, req, 'remove');
-    } else {
-      this.updateGameListEvent(updatedRoom, req, 'update');
-    }
-
-    this.sendResponse({
-      data: {},
-      res,
-      statusCode: HTTP_STATUS_CODE.NO_CONTENT_204,
-    });
+    return this.leaveRoom(req, res, next);
   }
 }

@@ -48,6 +48,7 @@ export class FrontEndController {
 
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
+
       const { players: team1Players } = gameRoom.team1;
       const { players: team2Players } = gameRoom.team2;
 
@@ -85,10 +86,10 @@ export class FrontEndController {
     const user = req.user!;
 
     const team1Users = await this.userService.getUsersByIds(
-      gameRoom.team1.players,
+      gameRoom.team1.players.map((el) => el.toString()),
     );
     const team2Users = await this.userService.getUsersByIds(
-      gameRoom.team2.players,
+      gameRoom.team2.players.map((el) => el.toString()),
     );
     const totalPlayersInTeam = team2Users.length;
 

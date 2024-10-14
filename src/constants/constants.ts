@@ -51,7 +51,9 @@ export const GAME_DIFFICULTY = {
   HARD: 'hard',
 };
 
-export const TOTAL_TEAMS = 1;
+const defaultTeamQuantity = 2;
+export const TOTAL_TEAMS =
+  (process.env.TOTAL_TEAMS as unknown as number) || defaultTeamQuantity;
 
 export type StatusCode =
   (typeof HTTP_STATUS_CODE)[keyof typeof HTTP_STATUS_CODE];

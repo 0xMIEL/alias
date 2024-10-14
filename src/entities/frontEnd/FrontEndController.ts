@@ -53,13 +53,24 @@ export class FrontEndController {
       const { players: team2Players } = gameRoom.team2;
 
       const isHost = gameRoom.hostUserId.toString() === user._id.toString();
+      
+      const team1NamesToString = await this.userService.getUsersByIds(
+        gameRoom.team1.players.map((el) => el.toString()),
+      );
+      const team2NamesToString = await this.userService.getUsersByIds(
+        gameRoom.team2.players.map((el) => el.toString()),
+      );
+      const team1Names = team1NamesToString.map((player) => player.username);
+      const team2Names = team2NamesToString.map((player) => player.username);
 
       return res.render('gameLobby', {
         game: gameRoom,
         isHost,
         isTeamsFull: isGameRoomFull(gameRoom),
         team1: team1Players,
+        team1Names,
         team2: team2Players,
+        team2Names,
         title: 'Game Lobby',
         username: user.username,
       });

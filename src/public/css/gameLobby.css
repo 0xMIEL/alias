@@ -1,23 +1,23 @@
-h3 {
-  font-size: 1.6rem;
-  padding-bottom: 1rem;
-}
 
-.game-lobby__game-name {
+.gameId{
+  background-color: black;
+  color: white;
   text-align: center;
+  font-size: 15px ;
+  margin: 5px 0;
 }
 
 .game-lobby__header {
   text-align: center;
   color: darkcyan;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .game-lobby__teams {
   flex: 1;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .game-lobby__main {
@@ -107,4 +107,11 @@ input[name='totalRounds'] {
 
 .message--yours .message__user {
   color: red;
+}
+
+.team-list {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0
 }

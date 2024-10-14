@@ -3,55 +3,12 @@
 <div class='game-lobby' id='game-lobby' data-game-id='{{game._id}}'>
   <h2 class='game-lobby__header'>Choose your team and start the Game!</h2>
 
-  <h3 class='game-lobby__game-name'>Game id: {{game._id}}</h3>
+  <div class='gameId'>Game ID: {{game._id}}</div>
 
   <main class="game-lobby__main wrapper">
     <div id='game-lobby-lists-wrapper'>
-    <div class='game-lobby__teams'>
-      <div class='game-lobby__team1'>
-      
-
-        <ul class='team1__list' id='team1-list'>
-
-          {{#each game.team1.players as |player|}}
-
-            <li class='team1__list__item' id='{{player}}'>
-
-              {{player}}
-
-            </li>
-
-          {{/each}}
-
-        </ul>
-
-        <button class='button button-join-team1' id='button-join-team1'>Join
-          Team A</button>
-      </div>
-
-      <div class='game-lobby__team2'>
-        
-
-        <ul class='team2__list' id='team2-list'>
-
-          {{#each team2 as |player|}}
-
-            <li class='team2__list__item' id='{{player}}'>
-
-              {{player}}
-
-            </li>
-
-          {{/each}}
-
-        </ul>
-
-        <button class='button button-join-team2' id='button-join-team2'>Join
-          Team B</button>
-      </div>
-    </div>
-    <div class='game-lobby__waiting__wrapper'>
-      <h4>Waiting players</h4>
+         <div class='game-lobby__waiting__wrapper'>
+      <h2>Waiting players: </h2>
       <ul class='game-lobby__waiting__list' id='waiting-list'>
         {{#each game.playerJoined as |player|}}
 
@@ -64,6 +21,39 @@
         {{/each}}
       </ul>
     </div>
+    <div class='game-lobby__teams'>
+      <div>
+           <button class='button' id='button-join-team1'>Join
+          Team A</button>
+        <ul class='team-list' id='team1-list'>
+          {{#each team1Names}}
+            <li class='team1__list__item' id='{{player}}'>
+              {{this}}
+            </li>
+              {{else}}
+        <li>No players joined</li> 
+          {{/each}}
+        </ul>
+      </div>
+
+      <div>
+         <button class='button' id='button-join-team2'>Join
+          Team B</button>
+        <ul class='team-list' id='team2-list'>
+          {{#each team2Names}}
+            <li class='team1__list__item' id='{{player}}'>
+              {{this}}
+            </li>
+                  {{else}}
+        <li>No players joined</li> 
+          {{/each}}
+        </ul>
+
+       
+      </div>
+    </div>
+
+ 
   </div>
 
 

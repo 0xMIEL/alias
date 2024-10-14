@@ -46,7 +46,7 @@ async function startRound({
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
 
-  const currentWord = await getRandomWord(wordCheckerService);
+  const currentWord = await getRandomWord(gameRoom.difficulty, wordCheckerService);
 
   const data: IGameRoomUpdate = {
     currentExplanaitor,

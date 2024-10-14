@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
+import { AppError } from '../../core/AppError';
+import { isGameRoomFull } from '../../utils/isGameRoomFull';
+import { gameHistoryService } from '../gameHistory/GameHistoryService';
 import { GameRoomService } from '../gameRooms/GameRoomService';
 import getManyGameRoomsSchema from '../gameRooms/gameRoomValidaton';
 import { UserService } from '../users/UserService';
-import { AppError } from '../../core/AppError';
-import { isGameRoomFull } from '../../utils/isGameRoomFull';
 
 export class FrontEndController {
   constructor(
@@ -48,16 +49,33 @@ export class FrontEndController {
 
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
+      const messages = await gameHistoryService.getAllMessages(gameId);
 
       const { players: team1Players } = gameRoom.team1;
       const { players: team2Players } = gameRoom.team2;
 
       const isHost = gameRoom.hostUserId.toString() === user._id.toString();
 
+      const sortedMessages = messages.map((m) => {
+        return {
+          createdAt: m.createdAt.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            hour12: false,
+            minute: '2-digit',
+            second: '2-digit',
+          }),
+          isYours: m.userId === user._id.toString(),
+          text: m.text,
+          username: m.username,
+        };
+      });
+
       return res.render('gameLobby', {
         game: gameRoom,
         isHost,
         isTeamsFull: isGameRoomFull(gameRoom),
+        messages,
+        sortedMessages,
         team1: team1Players,
         team2: team2Players,
         title: 'Game Lobby',

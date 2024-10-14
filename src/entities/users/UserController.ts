@@ -20,7 +20,7 @@ export class UserController extends BaseController {
     });
 
     res.cookie('username', user.username, {
-      httpOnly: true,
+      httpOnly: false,
       sameSite: 'strict',
       secure: process.env.NODE_ENV === 'production',
     });

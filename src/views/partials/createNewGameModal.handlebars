@@ -1,8 +1,8 @@
 <div id='gameModal' class='modal'>
   <div class='modal-content'>
-    <div class="modal-content__header">
+    <div class='modal-content__header'>
       <h2>Game Properties</h2>
-      <button class='close' id="closeModal">&times;</button>
+      <button class='close' id='closeModal'>&times;</button>
     </div>
     <form id='createGameForm'>
       <label for='playersPerTeam'>Players per Team (2 - 4): </label>
@@ -12,6 +12,7 @@
         name='playersPerTeam'
         min='2'
         max='4'
+        value='2'
         required
       /><br />
 
@@ -22,6 +23,7 @@
         name='timePerRound'
         min='1'
         max='5'
+        value='1'
         required
       /><br />
 
@@ -32,10 +34,18 @@
         name='totalRounds'
         min='1'
         max='5'
+        value='1'
         required
       /><br />
 
+      <label class='label' for='difficulty'>Difficulty</label>
+      <select name='difficulty' id='difficulty'>
+        <option value='easy'>easy</option>
+        <option value='medium'>medium</option>
+        <option value='hard'>hard</option>
+      </select><br />
+
       <button type='submit' class='button'>Create Game</button>
     </form>
-  </button>
+  </div>
 </div>

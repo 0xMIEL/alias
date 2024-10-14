@@ -3,6 +3,8 @@ import { gameRoomStatuses, IGameRoom, IGameRoomUpdate } from './types/gameRoom';
 import { AppError } from '../../core/AppError';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { ApiQueryBuilder } from '../../core/ApiQueryBuilder';
+import { isGameRoomFull } from '../../utils/isGameRoomFull';
+import { isTeamFull } from '../../utils/isTeamFull';
 
 type JoinTeamProps = {
   roomId: string;
@@ -62,6 +64,12 @@ export class GameRoomService {
   async joinRoom(roomId: string, userId: string) {
     const userObjectId = new mongoose.Types.ObjectId(userId);
 
+    const gameRoom = await this.getOne(roomId);
+
+    if (isGameRoomFull(gameRoom)) {
+      throw new AppError('Game room is full');
+    }
+
     const updatedRoom = await this.GameRoom.findByIdAndUpdate(
       { _id: roomId },
       { $addToSet: { playerJoined: userObjectId } },
@@ -74,11 +82,21 @@ export class GameRoomService {
   async joinTeam({ roomId, team, userId }: JoinTeamProps) {
     const userObjectId = new mongoose.Types.ObjectId(userId);
     const teamField = `team${team}.players`;
+    const teamField1 = `team1.players`;
+    const teamField2 = `team2.players`;
+
+    const gameRoom = await this.getOne(roomId);
+
+    if (isTeamFull(gameRoom, team)) {
+      throw new AppError('Team is full, please choose another team');
+    }
 
     const updatedRoom = await this.GameRoom.findOneAndUpdate(
       {
         _id: roomId,
         [`${teamField}`]: { $ne: userObjectId },
+        [`${teamField1}`]: { $ne: userObjectId },
+        [`${teamField2}`]: { $ne: userObjectId },
       },
       {
         $addToSet: { [teamField]: userObjectId },
@@ -88,7 +106,7 @@ export class GameRoomService {
     ).lean();
 
     if (!updatedRoom) {
-      throw new AppError('Player already exists in the room');
+      throw new AppError('Player already exists in the one of the team');
     }
 
     return updatedRoom;

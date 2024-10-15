@@ -3,74 +3,60 @@
 <div class='game-lobby' id='game-lobby' data-game-id='{{game._id}}'>
   <h2 class='game-lobby__header'>Choose your team and start the Game!</h2>
 
-  <h3 class='game-lobby__game-name'>Game id: {{game._id}}</h3>
+  <div class='gameId'>Game ID: {{game._id}}</div>
 
   <main class="game-lobby__main wrapper">
     <div id='game-lobby-lists-wrapper'>
-    <div class='game-lobby__teams'>
-      <div class='game-lobby__team1'>
-      
-
-        <ul class='team1__list' id='team1-list'>
-
-          {{#each team1 as |player|}}
-
-            <li class='team1__list__item' id='{{player.userId}}'>
-
-              {{player.userId}}
-
-            </li>
-
-          {{/each}}
-
-        </ul>
-
-        <button class='button button-join-team1' id='button-join-team1'>Join
-          Team A</button>
-      </div>
-
-      <div class='game-lobby__team2'>
-        
-
-        <ul class='team2__list' id='team2-list'>
-
-          {{#each team2 as |player|}}
-
-            <li class='team2__list__item' id='{{player.userId}}'>
-
-              {{player.userId}}
-
-            </li>
-
-          {{/each}}
-
-        </ul>
-
-        <button class='button button-join-team2' id='button-join-team2'>Join
-          Team B</button>
-      </div>
-    </div>
-    <div class='game-lobby__waiting__wrapper'>
-      <h4>Waiting players</h4>
+         <div class='game-lobby__waiting__wrapper'>
+      <h2>Waiting players: </h2>
       <ul class='game-lobby__waiting__list' id='waiting-list'>
-        {{#each game.playerJoined as |player|}}
-
+        {{#each waitingUsernames}}
           <li class='game-lobby__waiting__item'>
-
-            {{player}}
-
+            {{this}}
           </li>
-
         {{/each}}
       </ul>
     </div>
+    <div class='game-lobby__teams'>
+      <div>
+           <button class='button' id='button-join-team1'>Join
+          Team A</button>
+        <ul class='team-list' id='team1-list'>
+          {{#each team1Names}}
+            <li class='team1__list__item' id='{{player}}'>
+              {{this}}
+            </li>
+              {{else}}
+        <li>No players joined</li> 
+          {{/each}}
+        </ul>
+      </div>
+
+      <div>
+         <button class='button' id='button-join-team2'>Join
+          Team B</button>
+        <ul class='team-list' id='team2-list'>
+          {{#each team2Names}}
+            <li class='team1__list__item' id='{{player}}'>
+              {{this}}
+            </li>
+                  {{else}}
+        <li>No players joined</li> 
+          {{/each}}
+        </ul>
+
+       
+      </div>
+    </div>
+
+ 
   </div>
 
 
     <div class='chat'>
     <div class='chat-window' id='chat-window'>
       <ul class='chat-window__list' id='chat-window__list'>
-        {{#each messages as |m|}}
+        {{#each sortedMessages as |m|}}
           <li class="message {{#if m.isYours}}message--yours{{/if}}">
             <p class="message__info">
               <span class="message__user">{{#if m.isYours}}you{{else}}{{m.username}}{{/if}}</span> 
@@ -94,8 +80,20 @@
       class='button button-danger button-leave-room'
       id='button-leave-room'
     >Leave Room</button>
+    
+        {{#if isHost}}
 
-    <div id="start-button-container"></div>
+          {{#if isTeamsFull}}
+
+            <button class="button button-action button-start-game" id="button-start-game">Start Game</button>
+
+          {{else}}
+
+            <button disabled class="button button-action button-start-game disabled" id="button-start-game">Start Game</button>  
+
+          {{/if}}
+
+        {{/if}}
 
   </div>
 </div>

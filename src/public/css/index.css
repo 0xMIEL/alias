@@ -69,3 +69,8 @@ body {
 body {
   padding-bottom: 10rem;
 }
+
+.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

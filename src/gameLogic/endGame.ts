@@ -5,18 +5,35 @@ import {
   IGameRoom,
 } from '../entities/gameRooms/types/gameRoom';
 import { GameRoomService } from '../entities/gameRooms/GameRoomService';
+import { UserService } from '../entities/users/UserService';
+import { saveUsersGameData } from './helpers/helpers';
+import { PlayersMap } from './game';
 
-async function endGame(
-  gameRoom: IGameRoom,
-  io: Server,
-  gameRoomService: GameRoomService,
-) {
+type EndGameProps = {
+  gameRoom: IGameRoom;
+  io: Server;
+  gameRoomService: GameRoomService;
+  userService: UserService;
+  players: PlayersMap;
+};
+
+async function endGame({
+  gameRoom,
+  io,
+  gameRoomService,
+  userService,
+  players,
+}: EndGameProps) {
+  const gameRoomId = gameRoom._id.toString();
   await gameRoomService.update(
     { status: gameRoomStatuses.finished },
-    gameRoom._id,
+    gameRoomId,
   );
 
-  io.in(gameRoom._id.toString()).emit(SOCKET_EVENT.END_GAME, gameRoom);
-}
+  io.in(gameRoomId).emit(SOCKET_EVENT.END_GAME, gameRoom);
 
+  saveUsersGameData(gameRoom, userService);
+
+  players.delete(gameRoomId);
+}
 export { endGame };

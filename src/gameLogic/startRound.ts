@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Server } from 'socket.io';
 import {
   IGameRoom,
@@ -7,14 +6,18 @@ import {
 import { SOCKET_EVENT } from '../constants/constants';
 import {
   emitGameNotFoundError,
+  emitSecretWord,
   getCurrentExplanaitorAndTeam,
   getTimePerRoundInMilliseconds,
 } from './helpers/helpers';
 import { endGame } from './endGame';
 import { GameRoomService } from '../entities/gameRooms/GameRoomService';
-import { getRandomWord, PlayersMap } from './game';
+import { PlayersMap } from './game';
 import { endRound } from './endRound';
 import { WordCheckerService } from '../entities/word/wordCheckerService';
+import { getRandomWord } from './helpers/wordHelpers';
+import { UserService } from '../entities/users/UserService';
+import { User } from '../entities/users/User';
 
 type StartRoundProps = {
   gameRoom: IGameRoom;
@@ -31,20 +34,31 @@ async function startRound({
   wordCheckerService,
   players,
 }: StartRoundProps) {
-  const turnsPerRound = 2;
   const pauseBetweenRoundsInMilliseconds = 3000;
-  const { roundsTotal, currentRound, _id: roomId, timePerRound } = gameRoom;
+  const turnsPerRound = 2;
+  const { roundsTotal, currentRound, _id, timePerRound } = gameRoom;
+  const roomId = _id.toString();
 
   if (currentRound >= roundsTotal * turnsPerRound) {
     const updatedRoom = await gameRoomService.getOne(roomId);
+    const userService = new UserService(User);
 
-    return await endGame(updatedRoom, io, gameRoomService);
+    return await endGame({
+      gameRoom: updatedRoom,
+      gameRoomService,
+      io,
+      players,
+      userService,
+    });
   }
 
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
 
-  const currentWord = await getRandomWord(wordCheckerService);
+  const currentWord = await getRandomWord(
+    gameRoom.difficulty,
+    wordCheckerService,
+  );
 
   const data: IGameRoomUpdate = {
     currentExplanaitor,
@@ -61,38 +75,18 @@ async function startRound({
   const timePerRoundInMilliseconds =
     getTimePerRoundInMilliseconds(timePerRound);
 
-  const playersIn = players.get(roomId.toString());
-  if (!playersIn) {
-    return console.log('no players');
-  }
-
-  playersIn.forEach((player) => {
-    const playerSocket = io.sockets.sockets.get(player.socket);
-
-    if (!playerSocket) {
-      return console.log('not found socket id', player.socket);
-    }
-
-    playerSocket.join(roomId);
-  });
-
   io.to(roomId).emit(SOCKET_EVENT.START_ROUND, {
     timePerRoundInMilliseconds,
     updatedGameRoom,
   });
 
-  const playersInGame = players.get(roomId.toString());
-  const explanatorPlayer = playersInGame?.find(
-    (el) => el.userId === currentExplanaitor.toString(),
-  );
-  const playerSocket = io.sockets.sockets.get(explanatorPlayer!.socket);
-  playerSocket!.emit(SOCKET_EVENT.SHOW_SECRET, { secret: currentWord });
+  emitSecretWord({ gameRoom: updatedGameRoom, io, players });
 
-  setTimeout(async () => {
+  setTimeout(() => {
     endRound(io, roomId);
 
-    setTimeout(() => {
-      startRound({
+    setTimeout(async () => {
+      await startRound({
         gameRoom: updatedGameRoom,
         gameRoomService,
         io,

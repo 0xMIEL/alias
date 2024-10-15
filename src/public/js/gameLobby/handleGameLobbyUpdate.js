@@ -1,11 +1,15 @@
 import { SOCKET_EVENT } from '../constants/constants.js';
-import {
-  createGameLobbyPlayersLists,
-  createStartGameButton,
-} from '../helpers/createHtmlFunctions.js';
+import { createGameLobbyPlayersLists } from '../helpers/createHtmlFunctions.js';
 import { socket } from '../sockets/socket.js';
-import { startGameWithSocket } from '../sockets/socketHandlers.js';
-import { addMessage } from './handleGameLobbyChat.js';
+
+function addInfo(message) {
+  const messageList = document.getElementById('chat-window__list');
+  const li = document.createElement('li');
+  li.classList.add('lobby-info')
+  li.textContent = message;
+
+  messageList.appendChild(li);
+}
 
 socket.on(SOCKET_EVENT.KILL_ROOM, () => {
   window.location.replace(`/`);
@@ -16,7 +20,7 @@ socket.on(SOCKET_EVENT.JOIN_ROOM, (data) => {
 
   updatePlayerLists(updatedRoom);
 
-  addMessage(message);
+  addInfo(message);
 });
 
 socket.on(SOCKET_EVENT.LEAVE_ROOM, (data) => {
@@ -24,7 +28,7 @@ socket.on(SOCKET_EVENT.LEAVE_ROOM, (data) => {
 
   updatePlayerLists(updatedRoom);
 
-  addMessage(message);
+  addInfo(message);
 });
 
 socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
@@ -32,28 +36,10 @@ socket.on(SOCKET_EVENT.JOIN_TEAM, (data) => {
 
   updatePlayerLists(updatedRoom);
 
-  addMessage(message);
+  addInfo(message);
 });
 
 function updatePlayerLists(room) {
-  const totalTeamsInGame = 1;
-
-  if (
-    // userId === room.hostUserId &&
-    // room.players.length >= room.teamSize * totalTeamsInGame
-    totalTeamsInGame
-  ) {
-    const button = createStartGameButton();
-
-    button.addEventListener('click', () => {
-      startGameWithSocket(room._id);
-    });
-
-    const buttonsContainer = document.getElementById('start-button-container');
-
-    buttonsContainer.replaceChildren(button);
-  }
-
   const team1List = document.getElementById('team1-list');
   const team2List = document.getElementById('team2-list');
   const waitingPlayersList = document.getElementById('waiting-list');

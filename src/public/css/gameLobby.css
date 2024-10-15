@@ -1,23 +1,23 @@
-h3 {
-  font-size: 1.6rem;
-  padding-bottom: 1rem;
-}
 
-.game-lobby__game-name {
+.gameId{
+  background-color: black;
+  color: white;
   text-align: center;
+  font-size: 15px ;
+  margin: 5px 0;
 }
 
 .game-lobby__header {
   text-align: center;
   color: darkcyan;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .game-lobby__teams {
   flex: 1;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
 .game-lobby__main {
@@ -40,6 +40,7 @@ h3 {
   height: 10vh;
   width: 100%;
   border-radius: 4px;
+  font-size: 16px;
   border: 1px solid black;
 }
 
@@ -48,14 +49,17 @@ h3 {
   width: 100%;
 }
 
-.chat {
-  display: none;
-}
-
 .chat-window {
+  border-radius: 4px;
   height: 45vh;
   border: 1px solid black;
   overflow-y: scroll;
+}
+
+.lobby-info {
+  text-align: center;
+  font-size: 16px;
+  color: lime;
 }
 
 .chat-window__list {
@@ -101,14 +105,26 @@ input[name='totalRounds'] {
 }
 
 .message__info {
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-family: monospace;
+}
+
+.message__text {
+  font-size: 1.6rem;
 }
 
 .message--yours {
   text-align: right;
 }
 
+
 .message--yours .message__user {
   color: red;
+}
+
+.team-list {
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px 0
 }

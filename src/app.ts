@@ -1,24 +1,23 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { create } from 'express-handlebars';
-import http from 'node:http';
+import http, { STATUS_CODES } from 'node:http';
 import { Server } from 'socket.io';
+import { HTTP_STATUS_CODE } from './constants/constants';
 import setupSwagger from './swaggerConfig';
 
 import dontenv from 'dotenv';
 dontenv.config({ path: '.env' });
 
-import { connectDatabase } from './setup/database';
-import { AppError } from './core/AppError';
-import { HTTP_STATUS_CODE } from './constants/constants';
-import { globalErrorHandler } from './middleware/globalErrorHandler';
+import cookieParser from 'cookie-parser';
+import mongoSanitize from 'express-mongo-sanitize';
+import path from 'node:path';
+import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
 import { wordCheckRouter } from './entities/word/wordCheckerRoutes';
-import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
-import cookieParser from 'cookie-parser';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
+import { connectDatabase } from './setup/database';
 import { initializeSocket } from './socket/socket';
-import mongoSanitize from 'express-mongo-sanitize';
-import path from 'node:path';
 
 process.on('uncaughtException', (err) => {
   // eslint-disable-next-line no-console
@@ -71,10 +70,11 @@ app.set('views', './src/views');
 app.use('/', frontEndRouter);
 
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
-  throw new AppError(
-    `Can't find ${req.originalUrl} on this server!`,
-    HTTP_STATUS_CODE.NOT_FOUND_404,
-  );
+  _res.render('error-page', {
+    clientMessage: `Can't find ${req.originalUrl} on this server!`,
+    statusCode: HTTP_STATUS_CODE.NOT_FOUND_404,
+    statusMessage: STATUS_CODES[HTTP_STATUS_CODE.NOT_FOUND_404],
+  });
 });
 
 app.use(globalErrorHandler);

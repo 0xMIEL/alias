@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { NextFunction, Request, Response } from 'express';
-import { AppError } from '../core/AppError';
 import { HTTP_STATUS_CODE, StatusCode } from '../constants/constants';
+import { AppError } from '../core/AppError';
 
 const sendDevError = (err: AppError, res: Response, statusCode: StatusCode) => {
   const { status, message, stack } = err;

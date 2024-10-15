@@ -87,7 +87,7 @@ export class WordCheckerService {
     }
 
     const similarity = await calculateLevenshteinSimilarity(
-      inputWord.value,
+      inputWord.value.trim(),
       targetWord.value,
     );
 

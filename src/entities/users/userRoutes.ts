@@ -35,12 +35,24 @@ const userController = new UserController(userService);
  *                   email:
  *                     type: string
  *                     description: User's email address
- *                   roundsTotal:
+ *                   wins:
  *                     type: number
- *                     description: Total number of rounds played by the user
- *                   scores:
- *                     type: number
- *                     description: User's total score
+ *                     description: Total number of wins by the user
+ *                   role:
+ *                     type: string
+ *                     enum: [user, admin]
+ *                     description: Role of the user
+ *                   gameHistory:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         gameId:
+ *                           type: string
+ *                           description: ID of the game played
+ *                         outcome:
+ *                           type: string
+ *                           description: Outcome of the game (e.g., win or loss)
  *       404:
  *         description: No users found
  */
@@ -116,12 +128,6 @@ userRouter
  *                 username:
  *                   type: string
  *                   description: Username of the user
- *                 roundsTotal:
- *                   type: number
- *                   description: Total number of rounds played by the user
- *                 scores:
- *                   type: number
- *                   description: User's total score
  *                 token:
  *                   type: string
  *                   description: Authentication token (JWT) for the user

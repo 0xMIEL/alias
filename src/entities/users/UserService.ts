@@ -34,7 +34,7 @@ export class UserService {
   }
 
   async getOneById(id: string) {
-    const user = await this.User.findOne({ _id: id });
+    const user = await this.User.findOne({ _id: id }).lean();
 
     if (!user) {
       throw new AppError('User not found');

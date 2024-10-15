@@ -16,8 +16,6 @@ describe('UserController', () => {
   const mockUserData = {
     email: 'test@example.com',
     password: 'password123',
-    roundsTotal: 0,
-    scores: [],
     username: 'testUser',
   };
 
@@ -56,8 +54,6 @@ describe('UserController', () => {
       const mockServiceReturnValue = {
         _id: '6704a8907b4e3858d673d4c8',
         email: mockUserData.email,
-        roundsTotal: mockUserData.roundsTotal,
-        scores: mockUserData.scores,
         token: 'dummyToken',
         username: mockUserData.username,
       };
@@ -93,8 +89,6 @@ describe('UserController', () => {
           _id: '6704a8907b4e3858d673d4c8',
           email: 'test@example.com',
           password: 'password123',
-          roundsTotal: 0,
-          scores: [],
           username: 'testUser',
         },
       };
@@ -118,8 +112,6 @@ describe('UserController', () => {
         data: {
           _id: mockServiceReturnValue.user._id,
           email: mockServiceReturnValue.user.email,
-          roundsTotal: mockServiceReturnValue.user.roundsTotal,
-          scores: mockServiceReturnValue.user.scores,
           token: mockServiceReturnValue.token,
           username: mockServiceReturnValue.user.username,
         },

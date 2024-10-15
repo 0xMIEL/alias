@@ -1,314 +1,602 @@
 [
-    {
-      "value": "apple"
-    },
-    {
-      "value": "banana"
-    },
-    {
-      "value": "car"
-    },
-    {
-      "value": "dog"
-    },
-    {
-      "value": "elephant"
-    },
-    {
-      "value": "fish"
-    },
-    {
-      "value": "giraffe"
-    },
-    {
-      "value": "house"
-    },
-    {
-      "value": "ice cream"
-    },
-    {
-      "value": "jacket"
-    },
-    {
-      "value": "kite"
-    },
-    {
-      "value": "lemon"
-    },
-    {
-      "value": "monkey"
-    },
-    {
-      "value": "notebook"
-    },
-    {
-      "value": "orange"
-    },
-    {
-      "value": "pizza"
-    },
-    {
-      "value": "queen"
-    },
-    {
-      "value": "rabbit"
-    },
-    {
-      "value": "snake"
-    },
-    {
-      "value": "tiger"
-    },
-    {
-      "value": "umbrella"
-    },
-    {
-      "value": "violin"
-    },
-    {
-      "value": "watermelon"
-    },
-    {
-      "value": "xylophone"
-    },
-    {
-      "value": "yacht"
-    },
-    {
-      "value": "zebra"
-    },
-    {
-      "value": "airplane"
-    },
-    {
-      "value": "bicycle"
-    },
-    {
-      "value": "cupcake"
-    },
-    {
-      "value": "dragon"
-    },
-    {
-      "value": "egg"
-    },
-    {
-      "value": "flamingo"
-    },
-    {
-      "value": "grapes"
-    },
-    {
-      "value": "hat"
-    },
-    {
-      "value": "igloo"
-    },
-    {
-      "value": "jam"
-    },
-    {
-      "value": "kangaroo"
-    },
-    {
-      "value": "lamp"
-    },
-    {
-      "value": "mouse"
-    },
-    {
-      "value": "nose"
-    },
-    {
-      "value": "octopus"
-    },
-    {
-      "value": "piano"
-    },
-    {
-      "value": "quilt"
-    },
-    {
-      "value": "rose"
-    },
-    {
-      "value": "star"
-    },
-    {
-      "value": "turtle"
-    },
-    {
-      "value": "unicorn"
-    },
-    {
-      "value": "vase"
-    },
-    {
-      "value": "whale"
-    },
-    {
-      "value": "xmas tree"
-    },
-    {
-      "value": "yogurt"
-    },
-    {
-      "value": "zucchini"
-    },
-    {
-      "value": "aligator"
-    },
-    {
-      "value": "beach"
-    },
-    {
+  {
+      "category": "Animals",
+      "difficulty": "easy",
       "value": "cat"
-    },
-    {
-      "value": "drum"
-    },
-    {
-      "value": "eleven"
-    },
-    {
-      "value": "feather"
-    },
-    {
-      "value": "guitar"
-    },
-    {
-      "value": "honey"
-    },
-    {
-      "value": "island"
-    },
-    {
-      "value": "jackfruit"
-    },
-    {
-      "value": "kettle"
-    },
-    {
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "dog"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "fish"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "bird"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "cow"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "rabbit"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "frog"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "horse"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "sheep"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "easy",
+      "value": "duck"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
       "value": "lion"
-    },
-    {
-      "value": "mushroom"
-    },
-    {
-      "value": "notepad"
-    },
-    {
-      "value": "ocean"
-    },
-    {
-      "value": "peacock"
-    },
-    {
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "tiger"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "elephant"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "giraffe"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "bear"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "zebra"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "kangaroo"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "leopard"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "hippopotamus"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "medium",
+      "value": "penguin"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "platypus"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "aardvark"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "narwhal"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "armadillo"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "rhinoceros"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "chameleon"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "meerkat"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "wolverine"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
+      "value": "axolotl"
+  },
+  {
+      "category": "Animals",
+      "difficulty": "hard",
       "value": "quokka"
-    },
-    {
-      "value": "raccoon"
-    },
-    {
-      "value": "snowman"
-    },
-    {
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "ball"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "chair"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "table"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "pen"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "book"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "phone"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "lamp"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "spoon"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "fork"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "easy",
+      "value": "cup"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "computer"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "guitar"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "television"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "microwave"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "refrigerator"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "camera"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
       "value": "toaster"
-    },
-    {
-      "value": "ukulele"
-    },
-    {
-      "value": "vulture"
-    },
-    {
-      "value": "windmill"
-    },
-    {
-      "value": "x-ray"
-    },
-    {
-      "value": "yarn"
-    },
-    {
-      "value": "zeppelin"
-    },
-    {
-      "value": "ant"
-    },
-    {
-      "value": "bunny"
-    },
-    {
-      "value": "chocolate"
-    },
-    {
-      "value": "dolphin"
-    },
-    {
-      "value": "eggplant"
-    },
-    {
-      "value": "fence"
-    },
-    {
-      "value": "grapefruit"
-    },
-    {
-      "value": "helicopter"
-    },
-    {
-      "value": "iguanodon"
-    },
-    {
-      "value": "jigsaw"
-    },
-    {
-      "value": "kaleidoscope"
-    },
-    {
-      "value": "lighthouse"
-    },
-    {
-      "value": "moose"
-    },
-    {
-      "value": "nutmeg"
-    },
-    {
-      "value": "ostrich"
-    },
-    {
-      "value": "pancake"
-    },
-    {
-      "value": "quasar"
-    },
-    {
-      "value": "robot"
-    },
-    {
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "vacuum"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "printer"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "medium",
+      "value": "blender"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "thermometer"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "microscope"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "satellite"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "sextant"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "periscope"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "telescope"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "barometer"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "stethoscope"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "photocopier"
+  },
+  {
+      "category": "Objects",
+      "difficulty": "hard",
+      "value": "phonograph"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "run"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "jump"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "walk"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "sit"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "sleep"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "eat"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "read"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "write"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "draw"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "easy",
+      "value": "talk"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "dance"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "swim"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "cook"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "drive"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "play"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "paint"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "throw"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "climb"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "lift"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "medium",
+      "value": "clean"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "skydive"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "paraglide"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "juggle"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "yoga"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "meditate"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "sledge"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "kite"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "hike"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "surf"
+  },
+  {
+      "category": "Actions",
+      "difficulty": "hard",
+      "value": "skate"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "apple"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "banana"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "carrot"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "bread"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "cheese"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "milk"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "egg"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "cookie"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "chicken"
+  },
+  {
+      "category": "Food",
+      "difficulty": "easy",
+      "value": "fish"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "pizza"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "pasta"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "sushi"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "salad"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "hamburger"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
       "value": "sandwich"
-    },
-    {
-      "value": "trombone"
-    },
-    {
-      "value": "utensil"
-    },
-    {
-      "value": "viaduct"
-    },
-    {
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "taco"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
       "value": "waffle"
-    },
-    {
-      "value": "xerox"
-    },
-    {
-      "value": "yeti"
-    },
-    {
-      "value": "zucchini"
-    }
-  ]
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "cereal"
+  },
+  {
+      "category": "Food",
+      "difficulty": "medium",
+      "value": "brownie"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "quiche"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "sushi"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "ratatouille"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "samosa"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "biryani"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "cappuccino"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "moussaka"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "goulash"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "paella"
+  },
+  {
+      "category": "Food",
+      "difficulty": "hard",
+      "value": "tiramisu"
+  }
+]

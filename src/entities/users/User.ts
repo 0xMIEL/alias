@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model, Types } from 'mongoose';
 import { IUser } from './types/userTypes';
 
 const userSchema = new Schema<IUser>({
@@ -8,18 +8,30 @@ const userSchema = new Schema<IUser>({
     type: String,
     unique: true,
   },
+  gameHistory: [
+    {
+      gameId: {  ref: 'Game', type: Types.ObjectId, },
+      outcome: {  enum: ['win', 'loss', 'draw'],type: String },
+    },
+  ],
   password: {
     required: [true, 'Password is required'],
     type: String,
   },
-  roundsTotal: {
-    type: Number,
+  role: {
+    default: 'user',
+    enum: ['user', 'admin'],
+    type: String,
   },
-  scores: [{ score: Number, team: Number }],
+
   username: {
     required: [true, 'Username is required'],
     type: String,
     unique: true,
+  },
+  wins: {
+    default: 0,
+    type: Number,
   },
 });
 

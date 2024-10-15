@@ -108,7 +108,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
 
     await gameRoomService.updateScoreByOne(roomId, currentTeam);
 
-    const newWord = await getRandomWord(wordCheckerService);
+    const newWord = await getRandomWord(gameRoom.difficulty, wordCheckerService);
 
     const updatedGameRoom = await gameRoomService.update(
       { currentWord: newWord },
@@ -160,7 +160,7 @@ export async function isTheSame(
   return similarityResponse;
 }
 
-export async function getRandomWord(wordCheckerService: WordCheckerService) {
-  const generatedWord = await wordCheckerService.getRandomWord();
+export async function getRandomWord(difficulty: string, wordCheckerService: WordCheckerService) {
+  const generatedWord = await wordCheckerService.getRandomWord(difficulty);
   return fromIWord(generatedWord);
 }

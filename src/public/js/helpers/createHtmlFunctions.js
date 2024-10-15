@@ -55,7 +55,7 @@ function createGameLobbyPlayersLists(game) {
     )
     .join('');
 
-    const waitingHTML = waitingPlayers
+  const waitingHTML = waitingPlayers
     .map(
       (player) => `
       <li class='game-lobby__waiting__item' id='${player}'>
@@ -67,7 +67,6 @@ function createGameLobbyPlayersLists(game) {
 
   return { team1HTML, team2HTML, waitingHTML };
 }
-
 
 function createStartGameButton() {
   const button = document.createElement('button');

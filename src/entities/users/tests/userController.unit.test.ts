@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 process.env.JWT_SECRET = 'testSecret';
 import { NextFunction, Request, Response } from 'express';
 import { UserController } from '../UserController';

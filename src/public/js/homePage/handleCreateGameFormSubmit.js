@@ -33,7 +33,6 @@ async function handleCreateGameRoom(event) {
     teamSize,
     timePerRound,
   };
-  console.log(gameData);
 
   const { data } = await createGameRoom({ gameData });
 

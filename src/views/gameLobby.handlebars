@@ -60,7 +60,7 @@
     <div class='chat'>
     <div class='chat-window' id='chat-window'>
       <ul class='chat-window__list' id='chat-window__list'>
-        {{#each messages as |m|}}
+        {{#each sortedMessages as |m|}}
           <li class="message {{#if m.isYours}}message--yours{{/if}}">
             <p class="message__info">
               <span class="message__user">{{#if m.isYours}}you{{else}}{{m.username}}{{/if}}</span> 

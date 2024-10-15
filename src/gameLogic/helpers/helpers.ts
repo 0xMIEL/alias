@@ -1,7 +1,10 @@
+import mongoose from 'mongoose';
 import { Server } from 'socket.io';
-import { IGameRoom } from '../../entities/gameRooms/types/gameRoom';
 import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
-import { getRandomWord, isCheatinExplanation, isTheSame } from './wordHelpers';
+import { gameHistoryService } from '../../entities/gameHistory/GameHistoryService';
+import { IGameRoom } from '../../entities/gameRooms/types/gameRoom';
+import { UserService } from '../../entities/users/UserService';
+import { PlayersMap } from '../game';
 import {
   AddPlayerToRoomProps,
   EmitSecretWordProps,
@@ -10,9 +13,7 @@ import {
   HandleGuessMessageProps,
   HandleIncorrectGuessProps,
 } from '../types/types';
-import { PlayersMap } from '../game';
-import { UserService } from '../../entities/users/UserService';
-import mongoose from 'mongoose';
+import { getRandomWord, isCheatinExplanation, isTheSame } from './wordHelpers';
 
 function getTimePerRoundInMilliseconds(timePerRoundInMinutes: number) {
   const secondsInMinute = 60;
@@ -86,13 +87,22 @@ async function handleExplanationMessage({
   wordCheckerService,
   message,
 }: HandleExplanationMessageProps) {
-  const { currentWord } = gameRoom;
+  const { currentWord, currentExplanaitor, currentRound, currentTeam } = gameRoom;
   const roomId = gameRoom._id.toString();
 
   const isCheating = await isCheatinExplanation(
     wordCheckerService,
     currentWord,
     message,
+  );
+
+  await gameHistoryService.storeDescription(
+    currentExplanaitor,
+    message,
+    roomId,
+    currentRound,
+    currentWord,
+    currentTeam,
   );
 
   io.to(roomId).emit(
@@ -113,13 +123,20 @@ async function handleGuessMessage({
 }: HandleGuessMessageProps) {
   const gameDifficultyWordThreshold = 90;
   const roomId = gameRoom._id.toString();
-  const { currentWord, currentTeam } = gameRoom;
+  const { currentWord, currentTeam, currentRound } = gameRoom;
 
   io.to(roomId).emit(SOCKET_EVENT.WORD_GUESS, { message });
 
   const isCorrect =
     (await isTheSame(wordCheckerService, currentWord, message)) >
     gameDifficultyWordThreshold;
+
+  await gameHistoryService.storeResponse(
+    roomId,
+    message,
+    currentRound,
+    currentTeam,
+  );
 
   if (!isCorrect) {
     return handleIncorrectGuess({ io, message, roomId });
@@ -217,14 +234,14 @@ async function saveUsersGameData(
 }
 
 export {
-  getTimePerRoundInMilliseconds,
-  getCurrentExplanaitorAndTeam,
+  addPlayerToRoom,
   emitGameNotFoundError,
   emitSecretWord,
-  addPlayerToRoom,
-  isUserExplanator,
+  getCurrentExplanaitorAndTeam,
+  getTimePerRoundInMilliseconds,
   handleExplanationMessage,
   handleGuessMessage,
   isAllPlayersJoined,
+  isUserExplanator,
   saveUsersGameData,
 };

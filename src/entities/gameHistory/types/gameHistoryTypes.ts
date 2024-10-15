@@ -1,20 +1,21 @@
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export interface IMessage extends Document {
   gameId: string;
   userId: string;
   username: string;
   text: string;
-  createdAt: Date
+  createdAt: Date;
 }
 
 export interface IDescription extends Document {
-  describerId: string;
+  describerId: Types.ObjectId;
   description: string;
   gameId: string;
   roundNumber: number;
-  team: 'A' | 'B';
+  team: number;
   word: string;
+  createdAt: Date;
 }
 
 export interface IResponse extends Document {
@@ -22,5 +23,6 @@ export interface IResponse extends Document {
   playerId: string;
   response: string;
   roundNumber: number;
-  team: 'A' | 'B';
+  team: number;
+  createdAt: Date;
 }

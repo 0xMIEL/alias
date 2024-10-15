@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Description, Message, Response } from './GameHistory';
 import { IDescription, IMessage, IResponse } from './types/gameHistoryTypes';
 
@@ -28,20 +28,17 @@ class GameHistoryService {
     return await newMessage.save();
   }
 
-  async getAllDescriptions(
-    gameId: string,
-    roundNumber: number,
-    team: 'A' | 'B',
-  ) {
-    return await this.description.find({ gameId, roundNumber, team });
+  async getAllDescriptions(gameId: string) {
+    return await this.description.find({ gameId }).lean();
   }
 
   async storeDescription(
-    describerId: string,
+    describerId: Types.ObjectId,
     description: string,
     gameId: string,
     roundNumber: number,
-    team: 'A' | 'B',
+    word: string,
+    team: number,
   ) {
     const newDescription = new this.description({
       describerId,
@@ -49,25 +46,24 @@ class GameHistoryService {
       gameId,
       roundNumber,
       team,
+      word,
     });
 
     return await newDescription.save();
   }
 
-  async getAllResponses(gameId: string, roundNumber: number, team: 'A' | 'B') {
-    return await this.response.find({ gameId, roundNumber, team });
+  async getAllResponses(gameId: string) {
+    return await this.response.find({ gameId }).lean();
   }
 
   async storeResponse(
     gameId: string,
-    playerId: string,
     response: string,
     roundNumber: number,
-    team: 'A' | 'B',
+    team: number,
   ) {
     const newResponse = new this.response({
       gameId,
-      playerId,
       response,
       roundNumber,
       team,

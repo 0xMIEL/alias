@@ -103,8 +103,9 @@ export class FrontEndController {
         team2Names,
         title: 'Game Lobby',
         username: user.username,
-        wins: userProfile.wins,
         waitingUsernames,
+        wins: userProfile.wins,
+       
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {

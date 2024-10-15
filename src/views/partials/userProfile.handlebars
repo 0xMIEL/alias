@@ -25,9 +25,8 @@
 <ul>
   {{#each gameHistory}}
     <li>
-      <strong>Game:</strong> {{this.gameTitle}} <br />
-      <strong>Date Played:</strong> {{this.datePlayed}} <br />
-      <strong>Result:</strong> {{this.result}} <br />
+      <strong>Game:</strong> {{this.gameId}} <br />
+      <strong>Result:</strong> {{this.outcome}} <br />
     </li>
   {{else}}
     <li>No games played yet.</li>

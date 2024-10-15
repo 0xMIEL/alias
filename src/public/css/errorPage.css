@@ -1,0 +1,30 @@
+.error-page {
+  padding-top: 160px;
+  justify-content: center;
+}
+
+.error-page .button {
+    margin: 20px auto;
+    width: max-content;
+}
+
+.error-group {
+    margin: 20px auto;
+    display: inline;
+    width: max-content;
+}
+
+.error-page .status-code {
+  line-height: 1;
+  font-size: 100px;
+}
+
+.error-page .status-message {
+  font-size: 25px;
+  text-align: center;
+}
+
+.client-message {
+    font-size: 20px;
+    text-align: center;
+}

@@ -24,8 +24,8 @@
 <h2>Game History:</h2>
 <ul>
   {{#each gameHistory}}
-<li onclick="navigateToGameHistory('{{this.gameId}}')" style="cursor: pointer;">
-      <strong>Game:</strong> {{this.gameId}} <br />
+<li>
+      <span class="history-game-id" onclick="navigateToGameHistory('{{this.gameId}}')" style="cursor: pointer;"><strong >Game:</strong> {{this.gameId}}</span> <br />
       <strong>Result:</strong> {{this.outcome}} <br />
     </li>
   {{else}}
@@ -40,7 +40,7 @@
 
 <script>
   function navigateToGameHistory(gameId) {
-    window.location.replace(`/api/v1/gameRooms/history/${gameId}`);
+    window.location.replace(`/history/${gameId}`);
   }
 </script>
 

@@ -12,6 +12,11 @@
     gap: 20px;
 }
 
+.game-summary .button {
+  margin-top: 24px;
+  width: 100%;
+}
+
 .game-summary section {
     flex: 1;
 }

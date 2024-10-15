@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { AppError } from '../../core/AppError';
 import { isGameRoomFull } from '../../utils/isGameRoomFull';
@@ -52,7 +53,6 @@ export class FrontEndController {
     const user = req.user!;
     const userProfile = await this.userService.getOneById(user._id);
 
-
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
       const messages = await gameHistoryService.getAllMessages(gameId);
@@ -76,7 +76,7 @@ export class FrontEndController {
           username: m.username,
         };
       });
-      
+
       const team1NamesToString = await this.userService.getUsersByIds(
         gameRoom.team1.players.map((el) => el.toString()),
       );
@@ -155,9 +155,14 @@ export class FrontEndController {
   async getGameSummary(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     const user = req.user!;
-    const gameRoom = await this.gameRoomService.getOne(id);
 
-    const isFinished = gameRoom.status === 'finished';
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.redirect('/');
+    }
+
+    const gameRoom = await this.gameRoomService.getOne(id);
+    // const isFinished = gameRoom.status === 'finished';
+    const isFinished = true;
 
     let result = '';
     if (gameRoom.team1.score > gameRoom.team2.score) {

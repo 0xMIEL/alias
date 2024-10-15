@@ -33,6 +33,8 @@ function createGameListItemHTML(game) {
 }
 
 function createGameLobbyPlayersLists(game) {
+  const waitingPlayers = game.playerJoined;
+
   const team1HTML = game.team1.players
     .map(
       (player) => `
@@ -53,10 +55,10 @@ function createGameLobbyPlayersLists(game) {
     )
     .join('');
 
-  const waitingHTML = game.playerJoined
+  const waitingHTML = waitingPlayers
     .map(
       (player) => `
-      <li class='waiting__list__item' id='${player}'>
+      <li class='game-lobby__waiting__item' id='${player}'>
         ${player}
       </li>
     `,

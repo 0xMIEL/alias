@@ -16,6 +16,8 @@ import { PlayersMap } from './game';
 import { endRound } from './endRound';
 import { WordCheckerService } from '../entities/word/wordCheckerService';
 import { getRandomWord } from './helpers/wordHelpers';
+import { UserService } from '../entities/users/UserService';
+import { User } from '../entities/users/User';
 
 type StartRoundProps = {
   gameRoom: IGameRoom;
@@ -39,14 +41,24 @@ async function startRound({
 
   if (currentRound >= roundsTotal * turnsPerRound) {
     const updatedRoom = await gameRoomService.getOne(roomId);
+    const userService = new UserService(User);
 
-    return await endGame(updatedRoom, io, gameRoomService);
+    return await endGame({
+      gameRoom: updatedRoom,
+      gameRoomService,
+      io,
+      players,
+      userService,
+    });
   }
 
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
 
-  const currentWord = await getRandomWord(gameRoom.difficulty, wordCheckerService);
+  const currentWord = await getRandomWord(
+    gameRoom.difficulty,
+    wordCheckerService,
+  );
 
   const data: IGameRoomUpdate = {
     currentExplanaitor,

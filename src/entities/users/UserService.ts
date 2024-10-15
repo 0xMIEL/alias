@@ -1,4 +1,4 @@
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { IUser, IUserUpdate } from './types/userTypes';
 import { hashPassword, comparePasswords } from './helpers/authHelpers';
 import { generateToken } from './helpers/jwtHelpers';
@@ -43,9 +43,9 @@ export class UserService {
     return user;
   }
 
-async getUsersByIds(userIds: string[]) {
-  return await this.User.find({ _id: { $in: userIds } });
-}
+  async getUsersByIds(userIds: string[]) {
+    return await this.User.find({ _id: { $in: userIds } });
+  }
 
   async getMany() {
     return await this.User.find().select(['-password']);
@@ -104,9 +104,20 @@ async getUsersByIds(userIds: string[]) {
     return username;
   }
 
-  async updateUserProfile(userId: string, updateData: Partial<IUser>) {
+  async updateUserProfile(
+    userId: string,
+    gameId: mongoose.Types.ObjectId,
+    outcome: 'win' | 'loss' | 'draw',
+  ) {
+    const updateData = {
+      $inc: {
+        wins: outcome === 'win' ? 1 : 0,
+      },
+      $push: {
+        gameHistory: { gameId, outcome },
+      },
+    };
+
     return await this.User.findByIdAndUpdate(userId, updateData, { new: true });
   }
-
-
 }

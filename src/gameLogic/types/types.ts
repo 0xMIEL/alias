@@ -3,6 +3,7 @@ import { IGameRoom } from '../../entities/gameRooms/types/gameRoom';
 import { PlayersMap } from '../game';
 import { WordCheckerService } from '../../entities/word/wordCheckerService';
 import { GameRoomService } from '../../entities/gameRooms/GameRoomService';
+import { GameDifficulty } from '../../constants/constants';
 
 export type EmitSecretWordProps = {
   gameRoom: IGameRoom;
@@ -46,4 +47,5 @@ export type HandleCorrectGuessProps = {
   wordCheckerService: WordCheckerService;
   message: string;
   io: Server;
+  difficulty: GameDifficulty;
 };

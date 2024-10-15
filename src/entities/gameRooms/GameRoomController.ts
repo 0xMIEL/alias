@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
-import { GameRoomService } from './GameRoomService';
 import { HTTP_STATUS_CODE, SOCKET_EVENT } from '../../constants/constants';
-import { BaseController } from '../../core/BaseController';
-import getManyGameRoomsSchema from './gameRoomValidaton';
 import { AppError } from '../../core/AppError';
+import { BaseController } from '../../core/BaseController';
 import { isGameRoomFull } from '../../utils/isGameRoomFull';
+import { GameRoomService } from './GameRoomService';
+import getManyGameRoomsSchema from './gameRoomValidaton';
 
 export class GameRoomController extends BaseController {
   constructor(private gameRoomService: GameRoomService) {

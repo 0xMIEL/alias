@@ -1,11 +1,12 @@
-import { Document } from 'mongoose';
+import { Document, Types  } from 'mongoose';
 export interface IUser extends Document {
   _id: string;
   email: string;
   password: string;
   username: string;
-  roundsTotal: number;
-  scores: Array<{ team: number; score: number }>;
+  wins: number; 
+  role: 'user' | 'admin'; 
+  gameHistory: Array<{ gameId: Types.ObjectId; outcome: string }>;
 }
 
 export type IUserUpdate = Partial<Omit<IUser, 'password'>>;

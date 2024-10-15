@@ -1,7 +1,8 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { create } from 'express-handlebars';
-import http from 'node:http';
+import http, { STATUS_CODES } from 'node:http';
 import { Server } from 'socket.io';
+import { HTTP_STATUS_CODE } from './constants/constants';
 import setupSwagger from './swaggerConfig';
 
 import dontenv from 'dotenv';
@@ -10,8 +11,6 @@ dontenv.config({ path: '.env' });
 import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';
 import path from 'node:path';
-import { HTTP_STATUS_CODE } from './constants/constants';
-import { AppError } from './core/AppError';
 import { frontEndRouter } from './entities/frontEnd/frontEndRoutes';
 import { gameRoomRouter } from './entities/gameRooms/gameRoutes';
 import { userRouter } from './entities/users/userRoutes';
@@ -71,10 +70,11 @@ app.set('views', './src/views');
 app.use('/', frontEndRouter);
 
 app.use('*', (req: Request, _res: Response, _next: NextFunction) => {
-  throw new AppError(
-    `Can't find ${req.originalUrl} on this server!`,
-    HTTP_STATUS_CODE.NOT_FOUND_404,
-  );
+  _res.render('error-page', {
+    clientMessage: `Can't find ${req.originalUrl} on this server!`,
+    statusCode: HTTP_STATUS_CODE.NOT_FOUND_404,
+    statusMessage: STATUS_CODES[HTTP_STATUS_CODE.NOT_FOUND_404],
+  });
 });
 
 app.use(globalErrorHandler);

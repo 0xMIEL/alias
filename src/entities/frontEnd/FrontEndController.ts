@@ -76,6 +76,19 @@ export class FrontEndController {
           username: m.username,
         };
       });
+      
+      const team1NamesToString = await this.userService.getUsersByIds(
+        gameRoom.team1.players.map((el) => el.toString()),
+      );
+      const team2NamesToString = await this.userService.getUsersByIds(
+        gameRoom.team2.players.map((el) => el.toString()),
+      );
+      const waitingUsers = await this.userService.getUsersByIds(
+        gameRoom.playerJoined.map((el) => el.toString()),
+      );
+      const team1Names = team1NamesToString.map((player) => player.username);
+      const team2Names = team2NamesToString.map((player) => player.username);
+      const waitingUsernames = waitingUsers.map((player) => player.username);
 
       return res.render('gameLobby', {
         game: gameRoom,
@@ -85,10 +98,13 @@ export class FrontEndController {
         role: userProfile.role,
         sortedMessages,
         team1: team1Players,
+        team1Names,
         team2: team2Players,
+        team2Names,
         title: 'Game Lobby',
         username: user.username,
         wins: userProfile.wins,
+        waitingUsernames,
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {

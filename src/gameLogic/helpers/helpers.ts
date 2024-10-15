@@ -11,6 +11,8 @@ import {
   HandleIncorrectGuessProps,
 } from '../types/types';
 import { PlayersMap } from '../game';
+import { UserService } from '../../entities/users/UserService';
+import mongoose from 'mongoose';
 
 function getTimePerRoundInMilliseconds(timePerRoundInMinutes: number) {
   const secondsInMinute = 60;
@@ -183,6 +185,37 @@ function isAllPlayersJoined(gameRoom: IGameRoom, players: PlayersMap) {
   );
 }
 
+async function saveUsersGameData(
+  gameRoom: IGameRoom,
+  userService: UserService,
+) {
+  const scoreTeam1 = gameRoom.team1.score;
+  const scoreTeam2 = gameRoom.team2.score;
+  const gameObjectId = new mongoose.Types.ObjectId(gameRoom._id);
+
+  const isDraw = scoreTeam1 === scoreTeam2;
+  const team1Win = scoreTeam1 > scoreTeam2;
+
+  const players = [
+    ...gameRoom.team1.players.map((player) => ({
+      id: player,
+      win: team1Win,
+    })),
+    ...gameRoom.team2.players.map((player) => ({
+      id: player,
+      win: !team1Win,
+    })),
+  ];
+
+  const promises = players.map((player) => {
+    const outcome = isDraw ? 'draw' : player.win ? 'win' : 'loss';
+
+    userService.updateUserProfile(player.id.toString(), gameObjectId, outcome);
+  });
+
+  await Promise.all(promises);
+}
+
 export {
   getTimePerRoundInMilliseconds,
   getCurrentExplanaitorAndTeam,
@@ -193,4 +226,5 @@ export {
   handleExplanationMessage,
   handleGuessMessage,
   isAllPlayersJoined,
+  saveUsersGameData,
 };

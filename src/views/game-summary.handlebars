@@ -39,10 +39,10 @@
                 <ul class="game-preview">
                     {{#each gameLogs as | log i |}}
                         {{#if log.description}}
-                        <li class="log log--des"><b>{{i}}. Description</b> <span>Round: {{log.roundNumber}}</span>|<span>Team: {{log.team}}</span>|<span>{{log.description}}</span>|<span>DescriberID: {{log.describerId}}</span></li>
+                        <li class="log log--des"><b>{{i}}. Description</b> <span>Round: {{log.roundNumber}}</span>|<span>Word: {{log.word}}</span>|<span>Team: {{log.team}}</span>|<span>{{log.description}}</span>|<span>DescriberID: {{log.describerId}}</span></li>
                         {{/if}}
                         {{#if log.response}}
-                            <li class="log"><b>{{i}}. Response</b><span>Round: {{log.roundNumber}}</span>|<span>Team: {{log.team}}</span>|<span>{{log.response}}</span></li>
+                            <li class="log"><b>{{i}}. Response</b>-<span>Round: {{log.roundNumber}}</span>|<span>Team: {{log.team}}</span>|<span>{{log.response}}</span></li>
                         {{/if}}
                     {{/each}}
                 </ul>

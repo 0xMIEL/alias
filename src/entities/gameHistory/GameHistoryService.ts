@@ -37,6 +37,7 @@ class GameHistoryService {
     description: string,
     gameId: string,
     roundNumber: number,
+    word: string,
     team: number,
   ) {
     const newDescription = new this.description({
@@ -45,6 +46,7 @@ class GameHistoryService {
       gameId,
       roundNumber,
       team,
+      word,
     });
 
     return await newDescription.save();

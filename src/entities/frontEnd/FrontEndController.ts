@@ -170,7 +170,7 @@ export class FrontEndController {
     });
 
     const gameRoom = await this.gameRoomService.getOne(id);
-    const isFinished = gameRoom.status === 'finished';
+    const isFinished = true
 
     let result = '';
     if (gameRoom.team1.score > gameRoom.team2.score) {

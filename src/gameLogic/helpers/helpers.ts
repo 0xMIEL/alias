@@ -101,6 +101,7 @@ async function handleExplanationMessage({
     message,
     roomId,
     currentRound,
+    currentWord,
     currentTeam,
   );
 

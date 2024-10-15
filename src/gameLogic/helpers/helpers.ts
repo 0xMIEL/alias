@@ -125,6 +125,7 @@ async function handleGuessMessage({
 
   const updatedGameRoom = await handleCorrectGuess({
     currentTeam,
+    difficulty: gameRoom.difficulty,
     gameRoomService,
     io,
     message,
@@ -142,10 +143,11 @@ async function handleCorrectGuess({
   wordCheckerService,
   message,
   io,
+  difficulty,
 }: HandleCorrectGuessProps) {
   await gameRoomService.updateScoreByOne(roomId, currentTeam);
 
-  const newWord = await getRandomWord(wordCheckerService);
+  const newWord = await getRandomWord(difficulty, wordCheckerService);
 
   const updatedGameRoom = await gameRoomService.update(
     { currentWord: newWord },

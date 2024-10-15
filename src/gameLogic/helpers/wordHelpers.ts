@@ -39,7 +39,10 @@ function fromIWord(word: IWord): string {
   return word.value;
 }
 
-export async function getRandomWord(wordCheckerService: WordCheckerService) {
-  const generatedWord = await wordCheckerService.getRandomWord();
+export async function getRandomWord(
+  difficulty: string,
+  wordCheckerService: WordCheckerService,
+) {
+  const generatedWord = await wordCheckerService.getRandomWord(difficulty);
   return fromIWord(generatedWord);
 }

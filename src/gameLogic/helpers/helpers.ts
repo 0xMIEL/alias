@@ -87,7 +87,7 @@ async function handleExplanationMessage({
   wordCheckerService,
   message,
 }: HandleExplanationMessageProps) {
-  const { currentWord, currentExplanaitor, currentRound } = gameRoom;
+  const { currentWord, currentExplanaitor, currentRound, currentTeam } = gameRoom;
   const roomId = gameRoom._id.toString();
 
   const isCheating = await isCheatinExplanation(
@@ -101,7 +101,7 @@ async function handleExplanationMessage({
     message,
     roomId,
     currentRound,
-    currentRound,
+    currentTeam,
   );
 
   io.to(roomId).emit(
@@ -133,8 +133,8 @@ async function handleGuessMessage({
   await gameHistoryService.storeResponse(
     roomId,
     message,
-    currentTeam,
     currentRound,
+    currentTeam,
   );
 
   if (!isCorrect) {

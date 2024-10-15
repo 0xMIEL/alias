@@ -28,8 +28,8 @@ class GameHistoryService {
     return await newMessage.save();
   }
 
-  async getAllDescriptions(gameId: string, roundNumber: number, team: number) {
-    return await this.description.find({ gameId, roundNumber, team });
+  async getAllDescriptions(gameId: string) {
+    return await this.description.find({ gameId }).lean();
   }
 
   async storeDescription(
@@ -50,8 +50,8 @@ class GameHistoryService {
     return await newDescription.save();
   }
 
-  async getAllResponses(gameId: string, roundNumber: number, team: 'A' | 'B') {
-    return await this.response.find({ gameId, roundNumber, team });
+  async getAllResponses(gameId: string) {
+    return await this.response.find({ gameId }).lean();
   }
 
   async storeResponse(

@@ -15,6 +15,7 @@ export interface IDescription extends Document {
   roundNumber: number;
   team: number;
   word: string;
+  createdAt: Date;
 }
 
 export interface IResponse extends Document {
@@ -23,4 +24,5 @@ export interface IResponse extends Document {
   response: string;
   roundNumber: number;
   team: number;
+  createdAt: Date;
 }

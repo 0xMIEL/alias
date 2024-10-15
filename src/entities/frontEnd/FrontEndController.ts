@@ -160,6 +160,15 @@ export class FrontEndController {
       return res.redirect('/');
     }
 
+    const descriptions = await gameHistoryService.getAllDescriptions(id);
+    const responses = await gameHistoryService.getAllResponses(id);
+
+    const gameLogs = [...descriptions, ...responses].sort((a, b) => {
+      const dateA = a.createdAt;
+      const dateB = b.createdAt;
+      return dateA.getTime() - dateB.getTime();
+    });
+
     const gameRoom = await this.gameRoomService.getOne(id);
     // const isFinished = gameRoom.status === 'finished';
     const isFinished = true;
@@ -174,6 +183,7 @@ export class FrontEndController {
     }
 
     res.render('game-summary', {
+      gameLogs,
       gameRoom,
       isFinished,
       result,

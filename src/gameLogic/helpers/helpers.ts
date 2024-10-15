@@ -69,11 +69,14 @@ function addPlayerToRoom({
 }: AddPlayerToRoomProps) {
   const player = { socket: socketId, userId };
   const room = players.get(roomId);
-  const playerIsInRoom = room?.some((user) => user.userId === userId);
+  const playerInRoom = room?.find((user) => user.userId === userId);
 
-  if (!playerIsInRoom) {
-    room!.push(player);
+  if (playerInRoom) {
+    playerInRoom.socket = socketId;
+    return true;
   }
+
+  room!.push(player);
 }
 
 function isUserExplanator(userId: string, currentExplanaitor: string) {

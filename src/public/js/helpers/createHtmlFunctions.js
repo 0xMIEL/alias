@@ -33,8 +33,6 @@ function createGameListItemHTML(game) {
 }
 
 function createGameLobbyPlayersLists(game) {
-  
-
   const team1HTML = game.team1.players
     .map(
       (player) => `
@@ -55,7 +53,17 @@ function createGameLobbyPlayersLists(game) {
     )
     .join('');
 
-  return { team1HTML, team2HTML};
+  const waitingHTML = game.playerJoined
+    .map(
+      (player) => `
+      <li class='waiting__list__item' id='${player}'>
+        ${player}
+      </li>
+    `,
+    )
+    .join('');
+
+  return { team1HTML, team2HTML, waitingHTML };
 }
 
 function createStartGameButton() {

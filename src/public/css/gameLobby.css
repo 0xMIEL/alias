@@ -56,6 +56,12 @@ h3 {
   overflow-y: scroll;
 }
 
+.lobby-info {
+  text-align: center;
+  font-size: 16px;
+  color: lime;
+}
+
 .chat-window__list {
   list-style: none;
 }

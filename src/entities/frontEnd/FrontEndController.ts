@@ -63,6 +63,7 @@ export class FrontEndController {
             hour12: false,
             minute: '2-digit',
             second: '2-digit',
+            timeZone: 'Europe/Warsaw',
           }),
           isYours: m.userId === user._id.toString(),
           text: m.text,

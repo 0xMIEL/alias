@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { WordCheckerController } from './wordCheckerController';
 import { WordCheckerService } from './wordCheckerService';
 import { asyncErrorCatch } from '../../utils/asyncErrorCatch';
+import { throwAuthErrorIfNotAuthenticated } from '../../middleware/throwAuthErrorIfNotAuthenticated';
+import { restrictTo } from '../../middleware/restrictTo';
 
 export const wordCheckRouter = Router();
 const wordService = new WordCheckerService();
@@ -47,8 +49,10 @@ const wordCheckerController = new WordCheckerController(wordService);
  *         description: No words found for the specified difficulty level
  */
 wordCheckRouter
-    .route('/randomWord')
-    .post(asyncErrorCatch(wordCheckerController.getWord.bind(wordCheckerController)));
+  .route('/randomWord')
+  .post(
+    asyncErrorCatch(wordCheckerController.getWord.bind(wordCheckerController)),
+  );
 
 /**
  * @swagger
@@ -89,10 +93,12 @@ wordCheckRouter
  *         description: Bad request
  */
 wordCheckRouter
-    .route('/similarity')
-    .post(asyncErrorCatch(wordCheckerController.getSimilarity.bind(wordCheckerController)));
-
-
+  .route('/similarity')
+  .post(
+    asyncErrorCatch(
+      wordCheckerController.getSimilarity.bind(wordCheckerController),
+    ),
+  );
 
 /**
  * @swagger
@@ -130,8 +136,12 @@ wordCheckRouter
  *         description: Bad request
  */
 wordCheckRouter
-    .route('/sentenceCheat')
-    .post(asyncErrorCatch(wordCheckerController.checkForWord.bind(wordCheckerController)));
+  .route('/sentenceCheat')
+  .post(
+    asyncErrorCatch(
+      wordCheckerController.checkForWord.bind(wordCheckerController),
+    ),
+  );
 
 /**
  * @swagger
@@ -225,9 +235,17 @@ wordCheckRouter
  *         description: Server error.
  */
 wordCheckRouter
-    .route('/words')
-    .get(asyncErrorCatch(wordCheckerController.getAllWords.bind(wordCheckerController)))
-    .post(asyncErrorCatch(wordCheckerController.addWords.bind(wordCheckerController)));
+  .route('/words')
+  .get(
+    asyncErrorCatch(
+      wordCheckerController.getAllWords.bind(wordCheckerController),
+    ),
+  )
+  .post(
+    throwAuthErrorIfNotAuthenticated,
+    restrictTo(['admin']),
+    asyncErrorCatch(wordCheckerController.addWords.bind(wordCheckerController)),
+  );
 
 /**
  * @swagger
@@ -265,8 +283,12 @@ wordCheckRouter
  *         description: Server error.
  */
 wordCheckRouter
-    .route('/word')
-    .post(asyncErrorCatch(wordCheckerController.addWord.bind(wordCheckerController)));
+  .route('/word')
+  .post(
+    throwAuthErrorIfNotAuthenticated,
+    restrictTo(['admin']),
+    asyncErrorCatch(wordCheckerController.addWord.bind(wordCheckerController)),
+  );
 
 /**
  * @swagger
@@ -326,6 +348,18 @@ wordCheckRouter
  *         description: Server error.
  */
 wordCheckRouter
-    .route('/word/:id')
-    .delete(asyncErrorCatch(wordCheckerController.deleteWord.bind(wordCheckerController)))
-    .patch(asyncErrorCatch(wordCheckerController.updateWord.bind(wordCheckerController)));
+  .route('/word/:id')
+  .delete(
+    throwAuthErrorIfNotAuthenticated,
+    restrictTo(['admin']),
+    asyncErrorCatch(
+      wordCheckerController.deleteWord.bind(wordCheckerController),
+    ),
+  )
+  .patch(
+    throwAuthErrorIfNotAuthenticated,
+    restrictTo(['admin']),
+    asyncErrorCatch(
+      wordCheckerController.updateWord.bind(wordCheckerController),
+    ),
+  );

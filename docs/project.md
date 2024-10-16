@@ -64,7 +64,7 @@ Alias is a word-guessing game where players form teams. Each team takes turns wh
 5. **Gameplay**
 
  - A team is randomly chosen to take the first turn.
- - A chat window is visible to all players, but only the active team can write in the chat during their turn.
+ - A chat window is visible to all players and the first person to guess a word will score a point.
  - One player from the active team is given a word from the word list (which is pre-configured in the system).
  - As the team guesses the correct word, a new word is presented.
  - There is a configurable time limit for each round (set during game creation).

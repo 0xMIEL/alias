@@ -1,12 +1,12 @@
+import dontenv from 'dotenv';
+dontenv.config({ path: '.env' });
+
 import express, { NextFunction, Request, Response } from 'express';
 import { create } from 'express-handlebars';
 import http, { STATUS_CODES } from 'node:http';
 import { Server } from 'socket.io';
 import { HTTP_STATUS_CODE } from './constants/constants';
 import setupSwagger from './swaggerConfig';
-
-import dontenv from 'dotenv';
-dontenv.config({ path: '.env' });
 
 import cookieParser from 'cookie-parser';
 import mongoSanitize from 'express-mongo-sanitize';

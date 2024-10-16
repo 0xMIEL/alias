@@ -1,0 +1,54 @@
+{{> navbar}}
+
+<main class="game-summary">
+    {{#unless isFinished}} 
+        <h1>The game is not over yet!</h1>
+    {{/unless}}
+    {{#if isFinished}} 
+        <h1>Game preview</h1>
+        <div class="wrapper">
+            <section>
+                <ul class="game-summary__list">
+                    <li class="game-summary__item"><b>id:</b> <span>{{gameRoom._id}}</span></li>
+                    <li class="game-summary__item"><b>difficulty:</b> <span>{{gameRoom.difficulty}}</span></li>
+                    <li class="game-summary__item"><b>total rounds:</b> <span>{{gameRoom.roundsTotal}}</span></li>
+                    <li class="game-summary__item"><b>time per round:</b> <span>{{gameRoom.timePerRound}}</span></li>
+                    <li class="game-summary__item win"><span><b>team 1 (score: {{gameRoom.team1.score}} pkt)</b></span>
+                        <ul class="player-list">
+                            {{#each gameRoom.team1.players as | player |}}
+                                <li class="player-list__item">{{player}}</li>
+                            {{/each}}
+                        </ul>
+                    </li>
+
+                    <li class="game-summary__item lose"><span><b>team 2 (score: {{gameRoom.team2.score}} pkt)</b></span>
+                        <ul class="player-list">
+                            {{#each gameRoom.team2.players as | player |}}
+                                <li class="player-list__item">{{player}}</li>
+                            {{/each}}
+                        </ul>
+                    </li>
+
+                    <li class="game-summary__item"><b>Result:</b> <span>{{result}}</span></li>
+                    
+                    
+                </ul>
+                <a href="/" class="button button--outline">back</a>
+            </section>
+            <section>
+                <ul class="game-preview">
+                    {{#each gameLogs as | log i |}}
+                        {{#if log.description}}
+                        <li class="log log--des"><b>{{i}}. Description</b> <span>Round: {{log.roundNumber}}</span>|<span>Word: {{log.word}}</span>|<span>Team: {{log.team}}</span>|<span>{{log.description}}</span>|<span>DescriberID: {{log.describerId}}</span></li>
+                        {{/if}}
+                        {{#if log.response}}
+                            <li class="log"><b>{{i}}. Response</b>-<span>Round: {{log.roundNumber}}</span>|<span>Team: {{log.team}}</span>|<span>{{log.response}}</span></li>
+                        {{/if}}
+                    {{/each}}
+                </ul>
+            </section>
+        </div>
+    {{/if}}
+    
+</main>
+{{> footer}}

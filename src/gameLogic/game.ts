@@ -28,40 +28,49 @@ export function mountGameEvents(socket: Socket, io: Server) {
   const wordCheckerService = new WordCheckerService();
 
   socket.on(SOCKET_EVENT.JOIN_GAME, async ({ roomId }) => {
-    socket.join(roomId);
+    try {
+      socket.join(roomId);
 
-    if (!players.has(roomId)) {
-      players.set(roomId, []);
-    }
+      if (!players.has(roomId)) {
+        players.set(roomId, []);
+      }
 
-    const userId = socket.user!._id.toString();
+      const userId = socket.user!._id.toString();
 
-    addPlayerToRoom({
-      players,
-      roomId,
-      socketId: socket.id.toString(),
-      userId,
-    });
-
-    const gameRoom = await gameRoomService.getOne(roomId);
-
-    if (!gameRoom) {
-      emitGameNotFoundError(io, roomId);
-    }
-
-    if (isGameRoomFull(gameRoom) && isAllPlayersJoined(gameRoom, players)) {
-      const updatedGameRoom = await gameRoomService.update(
-        { status: gameRoomStatuses.inProgress },
-        roomId,
-      );
-
-      startRound({
-        gameRoom: updatedGameRoom!,
-        gameRoomService,
-        io,
+      const isInRoom = addPlayerToRoom({
         players,
-        wordCheckerService,
+        roomId,
+        socketId: socket.id.toString(),
+        userId,
       });
+
+      if (isInRoom) {
+        return;
+      }
+
+      const gameRoom = await gameRoomService.getOne(roomId);
+
+      if (!gameRoom) {
+        emitGameNotFoundError(io, roomId);
+      }
+
+      if (isGameRoomFull(gameRoom) && isAllPlayersJoined(gameRoom, players)) {
+        const updatedGameRoom = await gameRoomService.update(
+          { status: gameRoomStatuses.inProgress },
+          roomId,
+        );
+
+        startRound({
+          gameRoom: updatedGameRoom!,
+          gameRoomService,
+          io,
+          players,
+          wordCheckerService,
+        });
+      }
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log(error);
     }
   });
 

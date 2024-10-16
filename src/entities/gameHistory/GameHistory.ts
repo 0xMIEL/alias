@@ -32,7 +32,7 @@ const descriptionSchema = new Schema<IDescription>(
     describerId: {
       ref: 'User',
       required: [true, 'Describer ID is required'],
-      type: String,
+      type: Schema.ObjectId,
     },
     description: {
       required: [true, 'Description is required'],
@@ -48,12 +48,8 @@ const descriptionSchema = new Schema<IDescription>(
       type: Number,
     },
     team: {
-      enum: {
-        message: '{VALUE} is not a valid team. Valid teams are A or B.',
-        values: ['A', 'B'],
-      },
       required: [true, 'Team is required'],
-      type: String,
+      type: Number,
     },
     word: {
       required: [true, 'Word is required'],
@@ -70,11 +66,6 @@ const responseSchema = new Schema<IResponse>(
       required: [true, 'Game ID is required'],
       type: String,
     },
-    playerId: {
-      ref: 'User',
-      required: [true, 'Player ID is required'],
-      type: String,
-    },
     response: {
       required: [true, 'Response is required'],
       type: String,
@@ -84,12 +75,8 @@ const responseSchema = new Schema<IResponse>(
       type: Number,
     },
     team: {
-      enum: {
-        message: '{VALUE} is not a valid team. Valid teams are A or B.',
-        values: ['A', 'B'],
-      },
       required: [true, 'Team is required'],
-      type: String,
+      type: Number,
     },
   },
   { timestamps: true },

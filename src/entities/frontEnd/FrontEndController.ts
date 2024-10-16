@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { HTTP_STATUS_CODE } from '../../constants/constants';
 import { AppError } from '../../core/AppError';
 import { isGameRoomFull } from '../../utils/isGameRoomFull';
@@ -52,7 +53,6 @@ export class FrontEndController {
     const user = req.user!;
     const userProfile = await this.userService.getOneById(user._id);
 
-
     try {
       const gameRoom = await this.gameRoomService.getOne(gameId);
       const messages = await gameHistoryService.getAllMessages(gameId);
@@ -76,7 +76,7 @@ export class FrontEndController {
           username: m.username,
         };
       });
-      
+
       const team1NamesToString = await this.userService.getUsersByIds(
         gameRoom.team1.players.map((el) => el.toString()),
       );
@@ -103,8 +103,8 @@ export class FrontEndController {
         team2Names,
         title: 'Game Lobby',
         username: user.username,
-        wins: userProfile.wins,
         waitingUsernames,
+        wins: userProfile.wins,
       });
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
@@ -150,7 +150,44 @@ export class FrontEndController {
       username: user.username,
       wins: userProfile.wins,
     });
-  };
+  }
 
+  async getGameSummary(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const user = req.user!;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.redirect('/');
+    }
+
+    const descriptions = await gameHistoryService.getAllDescriptions(id);
+    const responses = await gameHistoryService.getAllResponses(id);
+
+    const gameLogs = [...descriptions, ...responses].sort((a, b) => {
+      const dateA = a.createdAt;
+      const dateB = b.createdAt;
+      return dateA.getTime() - dateB.getTime();
+    });
+
+    const gameRoom = await this.gameRoomService.getOne(id);
+    const isFinished = gameRoom.status === 'finished';
+
+    let result = '';
+    if (gameRoom.team1.score > gameRoom.team2.score) {
+      result += 'Team 1 win';
+    } else if (gameRoom.team1.score < gameRoom.team2.score) {
+      result += 'Team 2 win';
+    } else {
+      result += 'Draw';
+    }
+
+    res.render('game-summary', {
+      gameLogs,
+      gameRoom,
+      isFinished,
+      result,
+      title: 'Game summary',
+      username: user.username,
+    });
+  }
 }

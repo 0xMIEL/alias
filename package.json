@@ -14,7 +14,9 @@
     "format:ts": "prettier --write '**/*.ts' --parser typescript",
     "format": "npm run format:other --silent; npm run format:ts --silent",
     "lint": "eslint .",
-    "sass": "sass --watch ./src/public/scss:./src/public/css --style=compressed"
+    "sass": "sass --watch ./src/public/scss:./src/public/css --style=compressed",
+    "build": "tsc",
+    "postbuild": "node scripts/copyFiles.js"
   },
   "keywords": [],
   "author": "Team 1",
@@ -37,7 +39,7 @@
     "globals": "^15.11.0",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^10.1.2",
-    "mongoose": "^8.7.0",
+    
     "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
     "sass": "^1.79.4",
@@ -50,6 +52,7 @@
   "dependencies": {
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
+    "mongoose": "^8.7.0",
     "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",

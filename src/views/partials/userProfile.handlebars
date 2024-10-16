@@ -24,10 +24,9 @@
 <h2>Game History:</h2>
 <ul>
   {{#each gameHistory}}
-    <li>
-      <strong>Game:</strong> {{this.gameTitle}} <br />
-      <strong>Date Played:</strong> {{this.datePlayed}} <br />
-      <strong>Result:</strong> {{this.result}} <br />
+<li>
+      <span class="history-game-id" onclick="navigateToGameHistory('{{this.gameId}}')" style="cursor: pointer;"><strong >Game:</strong> {{this.gameId}}</span> <br />
+      <strong>Result:</strong> {{this.outcome}} <br />
     </li>
   {{else}}
     <li>No games played yet.</li>
@@ -37,3 +36,11 @@
 <button class='button' id='logoutButton'>Logout</button>
     <div class='close'>&times;</div>
 </div>
+
+
+<script>
+  function navigateToGameHistory(gameId) {
+    window.location.replace(`/history/${gameId}`);
+  }
+</script>
+

@@ -18,5 +18,6 @@ export function startGameWithSocket(roomId) {
 }
 
 export function sendGameMessageWithSocket(roomId, message) {
-  socket.emit(SOCKET_EVENT.GAME_MESSAGE, { message, roomId });
+  const clearMessage = message.trim();
+  socket.emit(SOCKET_EVENT.GAME_MESSAGE, { message: clearMessage, roomId });
 }

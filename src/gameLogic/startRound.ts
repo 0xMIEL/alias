@@ -63,6 +63,8 @@ async function startRound({
   const currentWord = await getRandomWord(
     gameRoom.difficulty,
     wordCheckerService,
+    players,
+    roomId,
   );
 
   const data: IGameRoomUpdate = {

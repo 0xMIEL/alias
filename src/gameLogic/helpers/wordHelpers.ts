@@ -1,5 +1,6 @@
 import { IWord } from '../../entities/word/types/word';
 import { WordCheckerService } from '../../entities/word/wordCheckerService';
+import { PlayersMap } from '../game';
 
 export async function isCheatinExplanation(
   wordCheckerService: WordCheckerService,
@@ -42,7 +43,20 @@ function fromIWord(word: IWord): string {
 export async function getRandomWord(
   difficulty: string,
   wordCheckerService: WordCheckerService,
+  players: PlayersMap,
+  roomId: string,
 ) {
-  const generatedWord = await wordCheckerService.getRandomWord(difficulty);
-  return fromIWord(generatedWord);
+  const usedWords = players.get(roomId)?.words;
+  let generatedWord = fromIWord(
+    await wordCheckerService.getRandomWord(difficulty),
+  );
+
+  while (usedWords?.has(generatedWord)) {
+    const word = await wordCheckerService.getRandomWord(difficulty);
+    generatedWord = fromIWord(word);
+  }
+
+  usedWords?.add(generatedWord);
+
+  return generatedWord;
 }

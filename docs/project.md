@@ -198,7 +198,7 @@ The application implements security using JSON Web Tokens (JWT) for authenticati
 
 ## Deployment
 
-Instructions for deploying the application.
+Aplication deployed on amazon ec2 service: http://3.86.11.89:3000/.
 
 ## Future Enhancements
 

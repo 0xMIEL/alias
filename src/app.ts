@@ -46,7 +46,9 @@ app.set('io', io);
 
 initializeSocket(io);
 
-connectDatabase();
+if(process.env.NODE_ENV !== 'test') {
+  connectDatabase();
+}
 
 // body parser
 app.use(express.json());

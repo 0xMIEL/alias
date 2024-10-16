@@ -2,8 +2,8 @@ import { Schema, model } from 'mongoose';
 import { IWord } from './types/word';
 
 const wordSchema = new Schema<IWord>({
-  category: { required: true, type: String },
-  difficulty: { required: true, type: String },
+  category: { type: String },
+  difficulty: { type: String },
   value: { required: true, type: String },
 });
 

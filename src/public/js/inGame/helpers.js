@@ -107,8 +107,12 @@ function setActiveTeam(team) {
   activeTeam.textContent = team;
 }
 
-function startRound({ timePerRoundInMilliseconds, updatedGameRoom }) {
-  const { currentTeam, currentRound, currentExplanaitor } = updatedGameRoom;
+function startRound({
+  timePerRoundInMilliseconds,
+  updatedGameRoom,
+  currentExplanaitor,
+}) {
+  const { currentTeam, currentRound } = updatedGameRoom;
 
   clearChatFields();
   startRoundTimer(timePerRoundInMilliseconds);

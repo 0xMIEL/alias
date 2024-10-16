@@ -14,8 +14,12 @@ import { joinGameWithSocket } from './socketHandlers.js';
 function registerGameSocketListeners(roomId) {
   socket.on(
     SOCKET_EVENT.START_ROUND,
-    ({ timePerRoundInMilliseconds, updatedGameRoom }) => {
-      startRound({ timePerRoundInMilliseconds, updatedGameRoom });
+    ({ timePerRoundInMilliseconds, updatedGameRoom, currentExplanaitor }) => {
+      startRound({
+        currentExplanaitor,
+        timePerRoundInMilliseconds,
+        updatedGameRoom,
+      });
     },
   );
 

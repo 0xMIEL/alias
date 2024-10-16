@@ -55,6 +55,11 @@ async function startRound({
   const { currentExplanaitor, currentTeam } =
     getCurrentExplanaitorAndTeam(gameRoom);
 
+  const userService = new UserService(User);
+  const { username } = await userService.getOneById(
+    currentExplanaitor.toString(),
+  );
+
   const currentWord = await getRandomWord(
     gameRoom.difficulty,
     wordCheckerService,
@@ -76,6 +81,7 @@ async function startRound({
     getTimePerRoundInMilliseconds(timePerRound);
 
   io.to(roomId).emit(SOCKET_EVENT.START_ROUND, {
+    currentExplanaitor: username,
     timePerRoundInMilliseconds,
     updatedGameRoom,
   });

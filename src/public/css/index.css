@@ -78,3 +78,8 @@ body {
 .history-game-id:hover {
   color: rgb(85, 85, 235);
 }
+
+#explanaitor {
+  font-weight: bold;
+  color: rgb(66, 66, 233);
+}

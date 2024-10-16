@@ -83,6 +83,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
     const { currentExplanaitor } = gameRoom;
 
     const user = socket.user!;
+    const { username } = user;
 
     const isExplanaitor = isUserExplanator(
       user._id.toString(),
@@ -94,6 +95,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
         gameRoom,
         io,
         message,
+        username,
         wordCheckerService,
       });
     } else {
@@ -103,6 +105,7 @@ export function mountGameEvents(socket: Socket, io: Server) {
         io,
         message,
         players,
+        username,
         wordCheckerService,
       });
     }

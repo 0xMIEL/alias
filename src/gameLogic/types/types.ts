@@ -23,6 +23,7 @@ export type HandleExplanationMessageProps = {
   gameRoom: IGameRoom;
   wordCheckerService: WordCheckerService;
   message: string;
+  username: string;
 };
 
 export type HandleGuessMessageProps = {
@@ -32,6 +33,7 @@ export type HandleGuessMessageProps = {
   wordCheckerService: WordCheckerService;
   gameRoomService: GameRoomService;
   players: PlayersMap;
+  username: string;
 };
 
 export type HandleIncorrectGuessProps = {

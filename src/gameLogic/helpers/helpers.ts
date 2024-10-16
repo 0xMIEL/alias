@@ -89,8 +89,10 @@ async function handleExplanationMessage({
   gameRoom,
   wordCheckerService,
   message,
+  username,
 }: HandleExplanationMessageProps) {
-  const { currentWord, currentExplanaitor, currentRound, currentTeam } = gameRoom;
+  const { currentWord, currentExplanaitor, currentRound, currentTeam } =
+    gameRoom;
   const roomId = gameRoom._id.toString();
 
   const isCheating = await isCheatinExplanation(
@@ -112,7 +114,7 @@ async function handleExplanationMessage({
     isCheating
       ? SOCKET_EVENT.CHEATING_EXPLANATION
       : SOCKET_EVENT.WORD_EXPLANATION,
-    { message: isCheating ? 'Cheating detected!' : message },
+    { message: isCheating ? 'Cheating detected!' : `${username}: ${message}` },
   );
 }
 
@@ -123,12 +125,15 @@ async function handleGuessMessage({
   wordCheckerService,
   gameRoomService,
   players,
+  username,
 }: HandleGuessMessageProps) {
   const gameDifficultyWordThreshold = 90;
   const roomId = gameRoom._id.toString();
   const { currentWord, currentTeam, currentRound } = gameRoom;
 
-  io.to(roomId).emit(SOCKET_EVENT.WORD_GUESS, { message });
+  io.to(roomId).emit(SOCKET_EVENT.WORD_GUESS, {
+    message: `${username}: ${message}`,
+  });
 
   const isCorrect =
     (await isTheSame(wordCheckerService, currentWord, message)) >

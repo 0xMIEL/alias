@@ -24,8 +24,6 @@
   - [Deployment](#deployment)
   - [Future Enhancements](#future-enhancements)
     - [1. User Profile: Player Statistics](#1-user-profile-player-statistics)
-    - [2. Game Levels Based on Word Difficulty](#2-game-levels-based-on-word-difficulty)
-    - [3. Filter games list](#3-filter-games-list)
   - [FAQ](#faq)
     - [1. How do I register and log in to the game?](#1-how-do-i-register-and-log-in-to-the-game)
     - [2. Can I play the game alone?](#2-can-i-play-the-game-alone)
@@ -34,8 +32,7 @@
     - [5. Are my user credentials stored securely?](#5-are-my-user-credentials-stored-securely)
     - [6. How do I run the application locally?](#6-how-do-i-run-the-application-locally)
     - [7. How can I contribute to the project?](#7-how-can-i-contribute-to-the-project)
-    - [8. What future enhancements are planned for the game?](#8-what-future-enhancements-are-planned-for-the-game)
-    - [9. Where can I find the API documentation?](#9-where-can-i-find-the-api-documentation)
+    - [8. Where can I find the API documentation?](#8-where-can-i-find-the-api-documentation)
   - [Conclusion](#conclusion)
     - [Key Takeaways](#key-takeaways)
 
@@ -89,6 +86,7 @@ Alias is a word-guessing game where players form teams. Each team takes turns wh
 9. **Player Profiles**
 
 - Player can logout from sesion.
+- Player can see its statistics: played games and score. By clicing on a game player is directed to game histiry page.
 
 ## System Requirements
 
@@ -216,24 +214,6 @@ Enhance the user profile page to display player statistics, providing more insig
 - Add fields like `roundsTotal` and `finalScore` to the user schema.
 - Calculate and update these statistics after each game, potentially storing them in a `UserStats` collection or within the user’s profile document.
 
-### 2. Game Levels Based on Word Difficulty
-
-Introduce different levels in the game, allowing players to choose or progress through various difficulties. Each level could adjust the complexity of words given to the players.
-
-**Implementation Ideas**:
-
-- **Difficulty Levels**: Create levels such as *easy*, *medium*, and *hard*.
-- **Word Bank**: Categorize words in the database by difficulty, allowing the game to serve more complex words as the level increases.
-- Add a field like `difficultyLevel` in the game schema to track the level of each game.
-- Update the game creation endpoint to allow players to select a difficulty level.
-- Implement logic in the game flow to adjust word selection based on the chosen level.
-
-These enhancements would improve user engagement by offering personalized performance tracking and a more varied gameplay experience.
-
-### 3. Filter games list
-
-Players w game lobby can filter games list based of their game settings.
-
 ## FAQ
 
 ### 1. How do I register and log in to the game?
@@ -257,10 +237,7 @@ To run the application locally, clone the repository, install the dependencies u
 ### 7. How can I contribute to the project?
 We welcome contributions! Please fork the repository, make your changes, and submit a pull request. Be sure to follow the contribution guidelines outlined in the repository.
 
-### 8. What future enhancements are planned for the game?
-Future enhancements include user profiles for tracking statistics, different game levels based on word difficulty, and filtering options for the game lobby. Check the "Future Enhancements" section for more details.
-
-### 9. Where can I find the API documentation?
+### 8. Where can I find the API documentation?
 You can access the full API documentation generated with Swagger at the following link: [API Docs](http://localhost:3000/api-docs/).
 
 ## Conclusion
@@ -275,7 +252,7 @@ The Node.js-based game "Alias" offers an engaging and interactive experience for
 
 - **Security Measures**: The implementation of JSON Web Tokens (JWT) ensures that user authentication and authorization are handled securely, providing peace of mind regarding user data and interactions.
 
-- **Future Enhancements**: The outlined future enhancements aim to further improve player engagement and customization, allowing for personalized player statistics and varied difficulty levels, ensuring that the game continues to evolve with user needs.
+- **Future Enhancements**: The outlined future enhancements aim to further improve player engagement and customization, allowing for personalized player statistics, ensuring that the game continues to evolve with user needs.
 
 This project was a collaborative effort by a team of four developers, who learned a great deal throughout the development process. From navigating technical challenges to implementing best practices in coding and design, each member gained invaluable experience that will contribute to their future endeavors in software development.
 

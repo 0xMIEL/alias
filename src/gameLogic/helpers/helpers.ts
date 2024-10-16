@@ -125,11 +125,12 @@ async function handleGuessMessage({
   wordCheckerService,
   gameRoomService,
   players,
-  username,
+  user,
 }: HandleGuessMessageProps) {
   const gameDifficultyWordThreshold = 90;
   const roomId = gameRoom._id.toString();
   const { currentWord, currentTeam, currentRound } = gameRoom;
+  const { username, _id } = user;
 
   io.to(roomId).emit(SOCKET_EVENT.WORD_GUESS, {
     message: `${username}: ${message}`,
@@ -151,12 +152,12 @@ async function handleGuessMessage({
   }
 
   const updatedGameRoom = await handleCorrectGuess({
-    currentTeam,
     difficulty: gameRoom.difficulty,
     gameRoomService,
     io,
     message,
     roomId,
+    userId: _id.toString(),
     wordCheckerService,
   });
 
@@ -166,13 +167,13 @@ async function handleGuessMessage({
 async function handleCorrectGuess({
   gameRoomService,
   roomId,
-  currentTeam,
   wordCheckerService,
   message,
   io,
   difficulty,
+  userId,
 }: HandleCorrectGuessProps) {
-  await gameRoomService.updateScoreByOne(roomId, currentTeam);
+  await gameRoomService.updateScoreByOne(roomId, userId);
 
   const newWord = await getRandomWord(difficulty, wordCheckerService);
 

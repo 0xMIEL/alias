@@ -154,7 +154,16 @@ export class GameRoomService {
     ).lean();
   }
 
-  async updateScoreByOne(roomId: string, team: number) {
+  async updateScoreByOne(roomId: string, userId: string) {
+    const gameRoom = await this.getOne(roomId);
+    let team = 2;
+
+    gameRoom.team1.players.forEach((player) => {
+      if (player._id.toString() === userId) {
+        team = 1;
+      }
+    });
+
     const scoreField = `team${team}.score`;
 
     return await this.GameRoom.findByIdAndUpdate(

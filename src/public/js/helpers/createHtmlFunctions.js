@@ -38,8 +38,8 @@ function createGameLobbyPlayersLists(game) {
   const team1HTML = game.team1.players
     .map(
       (player) => `
-      <li class='team1__list__item' id='${player}'>
-        ${player}
+      <li class='team1__list__item' id='${player._id}'>
+        ${player.username}
       </li>
     `,
     )
@@ -48,8 +48,8 @@ function createGameLobbyPlayersLists(game) {
   const team2HTML = game.team2.players
     .map(
       (player) => `
-      <li class='team2__list__item' id='${player}'>
-        ${player}
+      <li class='team2__list__item' id='${player._id}'>
+        ${player.username}
       </li>
     `,
     )
@@ -58,8 +58,8 @@ function createGameLobbyPlayersLists(game) {
   const waitingHTML = waitingPlayers
     .map(
       (player) => `
-      <li class='game-lobby__waiting__item' id='${player}'>
-        ${player}
+      <li class='game-lobby__waiting__item' id='${player._id}'>
+        ${player.username}
       </li>
     `,
     )

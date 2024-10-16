@@ -4,6 +4,7 @@ import { PlayersMap } from '../game';
 import { WordCheckerService } from '../../entities/word/wordCheckerService';
 import { GameRoomService } from '../../entities/gameRooms/GameRoomService';
 import { GameDifficulty } from '../../constants/constants';
+import { IUser } from '../../entities/users/types/userTypes';
 
 export type EmitSecretWordProps = {
   gameRoom: IGameRoom;
@@ -23,6 +24,7 @@ export type HandleExplanationMessageProps = {
   gameRoom: IGameRoom;
   wordCheckerService: WordCheckerService;
   message: string;
+  username: string;
 };
 
 export type HandleGuessMessageProps = {
@@ -32,6 +34,7 @@ export type HandleGuessMessageProps = {
   wordCheckerService: WordCheckerService;
   gameRoomService: GameRoomService;
   players: PlayersMap;
+  user: IUser;
 };
 
 export type HandleIncorrectGuessProps = {
@@ -43,9 +46,9 @@ export type HandleIncorrectGuessProps = {
 export type HandleCorrectGuessProps = {
   gameRoomService: GameRoomService;
   roomId: string;
-  currentTeam: number;
   wordCheckerService: WordCheckerService;
   message: string;
   io: Server;
   difficulty: GameDifficulty;
+  userId: string;
 };

@@ -74,7 +74,11 @@ export class GameRoomService {
       { _id: roomId },
       { $addToSet: { playerJoined: userObjectId } },
       { new: true },
-    ).lean();
+    )
+      .populate({ path: 'playerJoined', select: 'username' })
+      .populate({ path: 'team1.players', select: 'username' })
+      .populate({ path: 'team2.players', select: 'username' })
+      .lean();
 
     return updatedRoom;
   }
@@ -103,7 +107,11 @@ export class GameRoomService {
         $pull: { playerJoined: userObjectId },
       },
       { new: true },
-    ).lean();
+    )
+      .populate({ path: 'playerJoined', select: 'username' })
+      .populate({ path: 'team1.players', select: 'username' })
+      .populate({ path: 'team2.players', select: 'username' })
+      .lean();
 
     if (!updatedRoom) {
       throw new AppError('Player already exists in the one of the team');
@@ -135,7 +143,11 @@ export class GameRoomService {
         },
       },
       { new: true },
-    ).lean();
+    )
+      .populate({ path: 'playerJoined', select: 'username' })
+      .populate({ path: 'team1.players', select: 'username' })
+      .populate({ path: 'team2.players', select: 'username' })
+      .lean();
 
     if (!updatedRoom) {
       throw new AppError(
@@ -154,7 +166,16 @@ export class GameRoomService {
     ).lean();
   }
 
-  async updateScoreByOne(roomId: string, team: number) {
+  async updateScoreByOne(roomId: string, userId: string) {
+    const gameRoom = await this.getOne(roomId);
+    let team = 2;
+
+    gameRoom.team1.players.forEach((player) => {
+      if (player._id.toString() === userId) {
+        team = 1;
+      }
+    });
+
     const scoreField = `team${team}.score`;
 
     return await this.GameRoom.findByIdAndUpdate(

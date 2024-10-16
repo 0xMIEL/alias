@@ -4,7 +4,7 @@ import { GAME_DIFFICULTY, GAME_OPTIONS } from '../../constants/constants';
 
 const gameRoomeSchema = new Schema<IGameRoom>(
   {
-    currentExplanaitor: { type: Schema.Types.ObjectId },
+    currentExplanaitor: { ref: 'User', type: Schema.Types.ObjectId },
     currentRound: {
       default: 0,
       type: Number,
@@ -23,11 +23,13 @@ const gameRoomeSchema = new Schema<IGameRoom>(
       type: String,
     },
     hostUserId: {
+      ref: 'User',
       required: true,
       type: Schema.Types.ObjectId,
     },
     playerJoined: {
       default: [],
+      ref: 'User',
       type: [Schema.Types.ObjectId],
     },
     roundsTotal: {
@@ -45,6 +47,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     team1: {
       players: {
         default: [],
+        ref: 'User',
         type: [Schema.Types.ObjectId],
       },
       score: {
@@ -55,6 +58,7 @@ const gameRoomeSchema = new Schema<IGameRoom>(
     team2: {
       players: {
         default: [],
+        ref: 'User',
         type: [Schema.Types.ObjectId],
       },
       score: {

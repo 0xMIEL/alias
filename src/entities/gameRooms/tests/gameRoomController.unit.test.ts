@@ -245,6 +245,7 @@ describe('GameRoomController', () => {
       expect(mockIo.emit).toHaveBeenCalledWith(SOCKET_EVENT.JOIN_TEAM, {
         message: `New player ${mockUsername} joined team: ${mockReq.body.team}`,
         updatedRoom: mockServiceReturnValue,
+        username: mockUsername,
       });
       expect(mockIo.in).toHaveBeenCalledWith(mockReq.params!.roomId);
     });

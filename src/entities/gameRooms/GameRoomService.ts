@@ -74,7 +74,11 @@ export class GameRoomService {
       { _id: roomId },
       { $addToSet: { playerJoined: userObjectId } },
       { new: true },
-    ).lean();
+    )
+      .populate({ path: 'playerJoined', select: 'username' })
+      .populate({ path: 'team1.players', select: 'username' })
+      .populate({ path: 'team2.players', select: 'username' })
+      .lean();
 
     return updatedRoom;
   }
@@ -103,7 +107,11 @@ export class GameRoomService {
         $pull: { playerJoined: userObjectId },
       },
       { new: true },
-    ).lean();
+    )
+      .populate({ path: 'playerJoined', select: 'username' })
+      .populate({ path: 'team1.players', select: 'username' })
+      .populate({ path: 'team2.players', select: 'username' })
+      .lean();
 
     if (!updatedRoom) {
       throw new AppError('Player already exists in the one of the team');
@@ -135,7 +143,11 @@ export class GameRoomService {
         },
       },
       { new: true },
-    ).lean();
+    )
+      .populate({ path: 'playerJoined', select: 'username' })
+      .populate({ path: 'team1.players', select: 'username' })
+      .populate({ path: 'team2.players', select: 'username' })
+      .lean();
 
     if (!updatedRoom) {
       throw new AppError(

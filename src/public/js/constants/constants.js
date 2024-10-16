@@ -21,6 +21,7 @@ export const SOCKET_EVENT = {
   SHOW_SECRET: 'showSecret',
   FULL_LOBBY: 'fullLobby',
   NOT_FULL_LOBBY: 'notFullLobby',
+  GAME_SUMMARY: 'gameSummary',
 };
 
 export const CHAT = {

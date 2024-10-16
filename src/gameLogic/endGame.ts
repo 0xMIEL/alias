@@ -34,6 +34,8 @@ async function endGame({
 
   saveUsersGameData(gameRoom, userService);
 
+  io.in(gameRoomId).emit(SOCKET_EVENT.GAME_SUMMARY, gameRoom);
+
   players.delete(gameRoomId);
 }
 export { endGame };

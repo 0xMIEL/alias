@@ -52,6 +52,12 @@ function registerGameSocketListeners(roomId) {
     insertSecretWord(secret);
   });
 
+  socket.on(SOCKET_EVENT.GAME_SUMMARY, (gameRoom) => {
+    const id = gameRoom._id.toString();
+
+    window.location.href = `/history/${id}`;
+  });
+
   document.addEventListener('DOMContentLoaded', () => {
     joinGameWithSocket(roomId);
   });

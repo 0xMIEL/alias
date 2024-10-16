@@ -51,7 +51,7 @@ function emitSecretWord({ gameRoom, players, io }: EmitSecretWordProps) {
   const roomId = gameRoom._id.toString();
   const currentExplanaitor = gameRoom.currentExplanaitor.toString();
 
-  const playersInGame = players.get(roomId);
+  const playersInGame = players.get(roomId)?.players;
   const explanatorPlayer = playersInGame?.find(
     (el) => el.userId === currentExplanaitor,
   );
@@ -70,14 +70,14 @@ function addPlayerToRoom({
 }: AddPlayerToRoomProps) {
   const player = { socket: socketId, userId };
   const room = players.get(roomId);
-  const playerInRoom = room?.find((user) => user.userId === userId);
+  const playerInRoom = room?.players.find((user) => user.userId === userId);
 
   if (playerInRoom) {
     playerInRoom.socket = socketId;
     return true;
   }
 
-  room!.push(player);
+  room!.players.push(player);
 }
 
 function isUserExplanator(userId: string, currentExplanaitor: string) {
@@ -151,11 +151,19 @@ async function handleGuessMessage({
     return handleIncorrectGuess({ io, message, roomId });
   }
 
+  const words = players.get(roomId)?.guesses;
+  if (!words?.has(currentWord)) {
+    words?.add(currentWord);
+  } else {
+    return;
+  }
+
   const updatedGameRoom = await handleCorrectGuess({
     difficulty: gameRoom.difficulty,
     gameRoomService,
     io,
     message,
+    players,
     roomId,
     userId: _id.toString(),
     wordCheckerService,
@@ -172,10 +180,16 @@ async function handleCorrectGuess({
   io,
   difficulty,
   userId,
+  players,
 }: HandleCorrectGuessProps) {
   await gameRoomService.updateScoreByOne(roomId, userId);
 
-  const newWord = await getRandomWord(difficulty, wordCheckerService);
+  const newWord = await getRandomWord(
+    difficulty,
+    wordCheckerService,
+    players,
+    roomId,
+  );
 
   const updatedGameRoom = await gameRoomService.update(
     { currentWord: newWord },
@@ -206,7 +220,7 @@ function isAllPlayersJoined(gameRoom: IGameRoom, players: PlayersMap) {
   const roomId = gameRoom._id.toString();
 
   return (
-    players.get(roomId)!.length >=
+    players.get(roomId)!.players.length >=
     gameRoom.team1.players.length + gameRoom.team2.players.length
   );
 }

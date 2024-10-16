@@ -20,7 +20,10 @@ type Player = {
   userId: string;
 };
 
-export type PlayersMap = Map<string, Player[]>;
+export type PlayersMap = Map<
+  string,
+  { players: Player[]; words: Set<string>; guesses: Set<string> }
+>;
 const players: PlayersMap = new Map();
 
 export function mountGameEvents(socket: Socket, io: Server) {
@@ -32,7 +35,11 @@ export function mountGameEvents(socket: Socket, io: Server) {
       socket.join(roomId);
 
       if (!players.has(roomId)) {
-        players.set(roomId, []);
+        players.set(roomId, {
+          guesses: new Set(),
+          players: [],
+          words: new Set(),
+        });
       }
 
       const userId = socket.user!._id.toString();

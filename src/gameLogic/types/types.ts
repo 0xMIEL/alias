@@ -51,4 +51,5 @@ export type HandleCorrectGuessProps = {
   io: Server;
   difficulty: GameDifficulty;
   userId: string;
+  players: PlayersMap;
 };
